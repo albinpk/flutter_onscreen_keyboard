@@ -1,0 +1,12 @@
+name: OnscreenKeyboardWorkspace
+
+packages:
+  - packages/*
+
+sdkPath: .fvm/flutter_sdk
+
+command:
+  version:
+    hooks:
+      # Update the version in readme
+      preCommit: bash -c "$(curl -s https://raw.githubusercontent.com/albinpk/flutter_cora/refs/heads/dev/scripts/preVersion.sh)"

@@ -1,4 +1,25 @@
-## 0.0.1
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## 2025-06-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.0.1`](#flutter_onscreen_keyboard---v001)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.0.1`
 
  - **FEAT**: implement onscreen keyboard layout and functionality
  - **DOCS**: enhance README with comprehensive usage instructions and features.
@@ -13,3 +34,5 @@
  - **CHORE**: add pull request template for consistent contributions
  - **CHORE**: update issue templates
  - **CHORE**: create CODE_OF_CONDUCT.md
+
+

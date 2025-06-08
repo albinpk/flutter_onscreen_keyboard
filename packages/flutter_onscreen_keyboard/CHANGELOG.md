@@ -1,3 +1,7 @@
+## 0.0.1+1
+
+ - **DOCS**: add deploy workflow and update package description. ([8a4b57b1](https://github.com/albinpk/flutter_onscreen_keyboard/commit/8a4b57b1f689f6a62f650e93800a787ef313383f))
+
 ## 0.0.1
 
  - **FEAT**: implement onscreen keyboard layout and functionality

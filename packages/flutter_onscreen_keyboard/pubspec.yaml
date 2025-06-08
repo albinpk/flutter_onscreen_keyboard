@@ -3,7 +3,7 @@ description: >
   A customizable and extensible virtual keyboard widget
   for Flutter desktop and touchscreen apps.
 
-version: 0.0.1
+version: 0.0.1+1
 
 homepage: https://github.com/albinpk/flutter_onscreen_keyboard
 repository: https://github.com/albinpk/flutter_onscreen_keyboard/tree/main/packages/onscreen_keyboard

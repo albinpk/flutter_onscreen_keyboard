@@ -1,6 +1,11 @@
 import 'dart:developer' as dev;
+import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
+import 'package:flutter/cupertino.dart' show CupertinoThemeData;
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:onscreen_keyboard/src/layouts/desktop_layout.dart';
 import 'package:onscreen_keyboard/src/models/keys.dart';
 import 'package:onscreen_keyboard/src/raw_onscreen_keyboard.dart';
@@ -93,8 +98,10 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
       case ActionKeyType.tab:
         controller.text += '\t';
 
-      case ActionKeyType.capslock:
       case ActionKeyType.enter:
+        controller.text += '\n';
+
+      case ActionKeyType.capslock:
       case ActionKeyType.shift:
     }
 

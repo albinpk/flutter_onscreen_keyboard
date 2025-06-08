@@ -33,19 +33,25 @@ class OnscreenKeyboard extends StatefulWidget {
   static TransitionBuilder builder({
     OnscreenKeyboardThemeData? theme,
     WidthGetter? width,
+  }) => (BuildContext context, Widget? child) {
+    return wrap(theme: theme, width: width, child: child!);
+  };
+
+  static Widget wrap({
+    required Widget child,
+    OnscreenKeyboardThemeData? theme,
+    WidthGetter? width,
   }) {
-    return (BuildContext context, Widget? child) {
-      return Overlay(
-        initialEntries: [
-          OverlayEntry(
-            builder: (context) => OnscreenKeyboardTheme(
-              data: theme ?? const OnscreenKeyboardThemeData(),
-              child: OnscreenKeyboard(width: width, child: child!),
-            ),
+    return Overlay(
+      initialEntries: [
+        OverlayEntry(
+          builder: (context) => OnscreenKeyboardTheme(
+            data: theme ?? const OnscreenKeyboardThemeData(),
+            child: OnscreenKeyboard(width: width, child: child),
           ),
-        ],
-      );
-    };
+        ),
+      ],
+    );
   }
 
   static OnscreenKeyboardController of(BuildContext context) {
@@ -236,10 +242,22 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
                     decoration: BoxDecoration(
                       color: theme.color,
                       borderRadius: borderRadius,
+                      gradient: theme.gradient,
+                      boxShadow:
+                          theme.boxShadow ??
+                          [
+                            BoxShadow(
+                              color: colors.shadow.fade(0.05),
+                              spreadRadius: 5,
+                              blurRadius: 5,
+                            ),
+                          ],
                     ),
                     foregroundDecoration: BoxDecoration(
                       borderRadius: borderRadius,
-                      border: theme.border ?? Border.all(color: colors.outline),
+                      border:
+                          theme.border ??
+                          Border.all(color: colors.outline.fade()),
                     ),
 
                     // ??
@@ -278,41 +296,45 @@ class _ControlBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButtonTheme(
-      data: IconButtonThemeData(style: IconButton.styleFrom(iconSize: 16)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Flexible(
-            child: FittedBox(
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      OnscreenKeyboard.of(context).moveToBottom();
-                    },
-                    icon: const Icon(Icons.arrow_downward_rounded),
-                    tooltip: 'Move to bottom',
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      OnscreenKeyboard.of(context).moveToTop();
-                    },
-                    icon: const Icon(Icons.arrow_upward_rounded),
-                    tooltip: 'Move to top',
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      OnscreenKeyboard.of(context).close();
-                    },
-                    icon: const Icon(Icons.close_rounded),
-                    tooltip: 'Close',
-                  ),
-                ],
+    final colors = Theme.of(context).colorScheme;
+    return Material(
+      color: colors.surfaceContainer,
+      child: IconButtonTheme(
+        data: IconButtonThemeData(style: IconButton.styleFrom(iconSize: 16)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Flexible(
+              child: FittedBox(
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        OnscreenKeyboard.of(context).moveToBottom();
+                      },
+                      icon: const Icon(Icons.arrow_downward_rounded),
+                      tooltip: 'Move to bottom',
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        OnscreenKeyboard.of(context).moveToTop();
+                      },
+                      icon: const Icon(Icons.arrow_upward_rounded),
+                      tooltip: 'Move to top',
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        OnscreenKeyboard.of(context).close();
+                      },
+                      icon: const Icon(Icons.close_rounded),
+                      tooltip: 'Close',
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

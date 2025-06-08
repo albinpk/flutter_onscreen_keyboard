@@ -69,7 +69,7 @@ class ActionKeyWidget extends StatelessWidget {
       decoration:
           keyTheme.decoration ??
           BoxDecoration(
-            color: pressed ? colors.primary : colors.surfaceContainerHighest,
+            color: pressed ? colors.primary : colors.surfaceContainer,
           ),
       child: Material(
         type: MaterialType.transparency,

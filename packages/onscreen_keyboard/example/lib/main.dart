@@ -46,7 +46,9 @@ class HomeScreen extends StatelessWidget {
                 ),
 
                 const OnscreenKeyboardTextField(),
-                const OnscreenKeyboardTextField(),
+                const OnscreenKeyboardTextField(
+                  enableOnscreenKeyboard: false,
+                ),
                 const OnscreenKeyboardTextField(maxLines: null),
               ],
             ),

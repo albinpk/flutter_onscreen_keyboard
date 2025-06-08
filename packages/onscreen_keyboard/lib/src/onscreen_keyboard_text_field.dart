@@ -4,6 +4,7 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   const OnscreenKeyboardTextField({
     super.key,
     this.groupId = EditableText,
+    this.enableOnscreenKeyboard = true,
     this.controller,
     this.focusNode,
     this.undoController,
@@ -82,6 +83,22 @@ class OnscreenKeyboardTextField extends StatefulWidget {
     this.magnifierConfiguration,
   });
 
+  final bool enableOnscreenKeyboard;
+
+  /// The configuration for the magnifier of this text field.
+  ///
+  /// By default, builds a [CupertinoTextMagnifier] on iOS and [TextMagnifier]
+  /// on Android, and builds nothing on all other platforms. To suppress the
+  /// magnifier, consider passing [TextMagnifierConfiguration.disabled].
+  ///
+  /// {@macro flutter.widgets.magnifier.intro}
+  ///
+  /// {@tool dartpad}
+  /// This sample demonstrates how to customize the magnifier
+  /// that this text field uses.
+  ///
+  /// ** See code in examples/api/lib/widgets/text_magnifier/text_magnifier.0.dart **
+  /// {@end-tool}
   final TextMagnifierConfiguration? magnifierConfiguration;
 
   /// {@macro flutter.widgets.editableText.groupId}
@@ -630,9 +647,15 @@ class OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField> {
 
   void _onFocusChanged() {
     if (effectiveFocusNode.hasPrimaryFocus) {
-      keyboard
-        ..attachTextField(this)
-        ..open();
+      if (widget.enableOnscreenKeyboard) {
+        keyboard
+          ..attachTextField(this)
+          ..open();
+      } else {
+        keyboard
+          ..detachTextField()
+          ..close();
+      }
     }
   }
 

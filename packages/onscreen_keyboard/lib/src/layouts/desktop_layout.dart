@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onscreen_keyboard/src/models/keys.dart';
 import 'package:onscreen_keyboard/src/models/layout.dart';
 
-class DesktopLayout extends KeyboardLayout {
+class DesktopKeyboardLayout extends KeyboardLayout {
   @override
   List<KeyboardRow> get rows => [
     const KeyboardRow(

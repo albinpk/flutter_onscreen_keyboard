@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:onscreen_keyboard/src/layouts/desktop_layout.dart';
 import 'package:onscreen_keyboard/src/models/keys.dart';
 import 'package:onscreen_keyboard/src/raw_onscreen_keyboard.dart';
+import 'package:onscreen_keyboard/src/theme/onscreen_keyboard_theme.dart';
+import 'package:onscreen_keyboard/src/theme/onscreen_keyboard_theme_data.dart';
 import 'package:onscreen_keyboard/src/utils/extensions.dart';
-import 'package:onscreen_keyboard/src/widgets/onscreen_keyboard_theme.dart';
 
 part 'onscreen_keyboard_controller.dart';
 part 'onscreen_keyboard_text_field.dart';
@@ -110,7 +111,7 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
     });
   }
 
-  bool _visible = !false;
+  bool _visible = false;
 
   @override
   void open() => setState(() => _visible = true);
@@ -224,7 +225,7 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
                         RawOnscreenKeyboard(
                           onKeyDown: _onKeyDown,
                           onKeyUp: _onKeyUp,
-                          layout: DesktopLayout(),
+                          layout: DesktopKeyboardLayout(),
                           pressedActionKeys: _pressedActionKeys,
                           showSecondary: _showSecondary,
                         ),

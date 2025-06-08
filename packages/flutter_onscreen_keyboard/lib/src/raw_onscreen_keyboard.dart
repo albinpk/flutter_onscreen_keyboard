@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:onscreen_keyboard/src/models/keys.dart';
-import 'package:onscreen_keyboard/src/models/layout.dart';
-import 'package:onscreen_keyboard/src/widgets/keys.dart';
+import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
+import 'package:flutter_onscreen_keyboard/src/widgets/keys.dart';
 
 class RawOnscreenKeyboard extends StatelessWidget {
   const RawOnscreenKeyboard({

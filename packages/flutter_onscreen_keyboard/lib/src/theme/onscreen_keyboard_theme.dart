@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:onscreen_keyboard/src/theme/onscreen_keyboard_theme_data.dart';
+import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 
 class OnscreenKeyboardTheme extends InheritedWidget {
   const OnscreenKeyboardTheme({

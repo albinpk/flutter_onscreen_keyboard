@@ -1,4 +1,4 @@
-import 'package:onscreen_keyboard/src/models/keys.dart';
+import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 
 abstract class KeyboardLayout {
   const KeyboardLayout();

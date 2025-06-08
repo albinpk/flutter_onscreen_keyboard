@@ -1,4 +1,4 @@
-name: onscreen_keyboard_workspace
+name: flutter_onscreen_keyboard_workspace
 
 environment:
   sdk: ">=3.8.1 <4.0.0"

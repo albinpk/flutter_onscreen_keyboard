@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:onscreen_keyboard/onscreen_keyboard.dart';
+import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 
 void main() {
   runApp(const App());

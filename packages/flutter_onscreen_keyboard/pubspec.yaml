@@ -1,11 +1,11 @@
-name: onscreen_keyboard
+name: flutter_onscreen_keyboard
 description: "Onscreen keyboard for Flutter applications"
 
 version: 0.0.1
 
-homepage: https://github.com/albinpk/onscreen_keyboard
-repository: https://github.com/albinpk/onscreen_keyboard/tree/main/packages/onscreen_keyboard
-issue_tracker: https://github.com/albinpk/onscreen_keyboard/issues
+homepage: https://github.com/albinpk/flutter_onscreen_keyboard
+repository: https://github.com/albinpk/flutter_onscreen_keyboard/tree/main/packages/onscreen_keyboard
+issue_tracker: https://github.com/albinpk/flutter_onscreen_keyboard/issues
 
 environment:
   sdk: ^3.8.1

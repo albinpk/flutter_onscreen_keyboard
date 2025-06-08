@@ -54,6 +54,12 @@ class TextKey extends OnscreenKeyboardKey {
 
   String getText({bool secondary = false}) =>
       secondary ? this.secondary ?? primary.toUpperCase() : primary;
+
+  @override
+  String toString() =>
+      'TextKey('
+      '"$primary", '
+      'secondary: ${secondary != null ? '"$secondary"' : null})';
 }
 
 class ActionKey extends OnscreenKeyboardKey {
@@ -72,4 +78,7 @@ class ActionKey extends OnscreenKeyboardKey {
   final String? label;
   final Widget? child;
   final bool canHold;
+
+  @override
+  String toString() => 'ActionKey($name)';
 }

@@ -24,6 +24,8 @@ void _l(Object? object, [String prefix = ' ']) {
 
 typedef WidthGetter = double Function(BuildContext context);
 
+typedef OnscreenKeyboardListener = void Function(OnscreenKeyboardKey key);
+
 class OnscreenKeyboard extends StatefulWidget {
   const OnscreenKeyboard({required this.child, this.width, super.key});
 
@@ -78,6 +80,10 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
         _handleTexTextKeyDown(key);
       case ActionKey():
         _handleActionKeyDown(key);
+    }
+
+    for (final listener in _rawKeyDownListeners) {
+      listener(key);
     }
   }
 
@@ -214,6 +220,18 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
   final _activeTextField = ValueNotifier<OnscreenKeyboardTextFieldState?>(null);
 
   OnscreenKeyboardTextFieldState? get activeTextField => _activeTextField.value;
+
+  final _rawKeyDownListeners = ObserverList<OnscreenKeyboardListener>();
+
+  @override
+  void addRawKeyDownListener(OnscreenKeyboardListener listener) {
+    _rawKeyDownListeners.add(listener);
+  }
+
+  @override
+  void removeRawKeyDownListener(OnscreenKeyboardListener listener) {
+    _rawKeyDownListeners.remove(listener);
+  }
 
   @override
   Widget build(BuildContext context) {

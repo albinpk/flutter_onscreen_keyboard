@@ -9,16 +9,20 @@ abstract interface class OnscreenKeyboardController {
 
   void moveToBottom();
 
+  void attachTextField(OnscreenKeyboardTextFieldState state);
+
+  void detachTextField([OnscreenKeyboardTextFieldState? state]);
+
+  void addRawKeyDownListener(OnscreenKeyboardListener listener);
+
+  void removeRawKeyDownListener(OnscreenKeyboardListener listener);
+
   void attachTextController(
     TextEditingController controller, {
     FocusNode? focusNode,
   });
 
   void detachTextController();
-
-  void attachTextField(OnscreenKeyboardTextFieldState state);
-
-  void detachTextField([OnscreenKeyboardTextFieldState? state]);
 
   // private
 

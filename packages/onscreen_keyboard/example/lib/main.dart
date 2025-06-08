@@ -1,18 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:onscreen_keyboard/onscreen_keyboard.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const App());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+    return MaterialApp(
+      builder: OnscreenKeyboard.builder(),
+      home: const HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: SizedBox(
+          width: 300,
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
+              TextButton(
+                onPressed: () {
+                  OnscreenKeyboard.of(context).open();
+                },
+                child: const Text('Open'),
+              ),
+              TextButton(
+                onPressed: () {
+                  OnscreenKeyboard.of(context).close();
+                },
+                child: const Text('Close'),
+              ),
+
+              const OnscreenKeyboardTextField(),
+              const OnscreenKeyboardTextField(),
+              const OnscreenKeyboardTextField(),
+            ],
+          ),
         ),
       ),
     );

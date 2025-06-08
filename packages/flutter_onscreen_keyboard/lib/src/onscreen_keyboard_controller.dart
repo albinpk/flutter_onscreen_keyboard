@@ -26,7 +26,7 @@ abstract interface class OnscreenKeyboardController {
 
   // private
 
-  ValueNotifier<TextEditingController?> get _activeTextController;
+  // ValueNotifier<TextEditingController?> get _activeTextController;
 
   ValueNotifier<OnscreenKeyboardTextFieldState?> get _activeTextField;
 }

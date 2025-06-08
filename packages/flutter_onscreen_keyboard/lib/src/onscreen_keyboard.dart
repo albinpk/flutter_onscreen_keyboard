@@ -208,11 +208,11 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
     }
   }
 
-  @override
-  final _activeTextController = ValueNotifier<TextEditingController?>(null);
+  // @override
+  // final _activeTextController = ValueNotifier<TextEditingController?>(null);
 
-  TextEditingController? get activeTextController =>
-      _activeTextController.value;
+  // TextEditingController? get activeTextController =>
+  //     _activeTextController.value;
 
   @override
   final _activeTextField = ValueNotifier<OnscreenKeyboardTextFieldState?>(null);

@@ -564,6 +564,7 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// {@macro flutter.widgets.editableText.stylusHandwritingEnabled}
   final bool stylusHandwritingEnabled;
 
+  // ignore: lines_longer_than_80_chars
   /// {@macro flutter.services.TextInputConfiguration.enableIMEPersonalizedLearning}
   final bool enableIMEPersonalizedLearning;
 
@@ -745,7 +746,9 @@ class OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField> {
           selectionWidthStyle: widget.selectionWidthStyle,
           statesController: widget.statesController,
           stylusHandwritingEnabled: widget.stylusHandwritingEnabled,
+          // ignore: deprecated_member_use, deprecated_member_use_from_same_package
           scribbleEnabled: widget.scribbleEnabled,
+          // ignore: deprecated_member_use, deprecated_member_use_from_same_package
           toolbarOptions: widget.toolbarOptions,
         );
       },

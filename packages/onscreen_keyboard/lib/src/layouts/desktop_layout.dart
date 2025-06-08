@@ -22,7 +22,7 @@ class DesktopKeyboardLayout extends KeyboardLayout {
         OnscreenKeyboardKey.text(primary: '=', secondary: '+'),
         OnscreenKeyboardKey.action(
           name: ActionKeyType.backspace,
-          child: Icon(Icons.backspace_rounded),
+          child: Icon(Icons.backspace_outlined),
           flex: 25,
         ),
       ],

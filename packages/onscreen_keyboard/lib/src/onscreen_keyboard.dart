@@ -12,23 +12,38 @@ import 'package:onscreen_keyboard/src/raw_onscreen_keyboard.dart';
 import 'package:onscreen_keyboard/src/theme/onscreen_keyboard_theme.dart';
 import 'package:onscreen_keyboard/src/theme/onscreen_keyboard_theme_data.dart';
 import 'package:onscreen_keyboard/src/utils/extensions.dart';
+import 'package:onscreen_keyboard/src/widgets/post_frame_value_listenable_builder.dart';
 
 part 'onscreen_keyboard_controller.dart';
 part 'onscreen_keyboard_text_field.dart';
 
-void _l(Object? object, [String prefix = '']) =>
-    dev.log('$prefix$object', name: 'onscreen_keyboard');
+void _l(Object? object, [String prefix = ' ']) {
+  if (!OnscreenKeyboard._enableLogs) return;
+  dev.log('$prefix$object', name: 'onscreen_keyboard');
+}
+
+typedef WidthGetter = double Function(BuildContext context);
 
 class OnscreenKeyboard extends StatefulWidget {
-  const OnscreenKeyboard({required this.child, super.key});
+  const OnscreenKeyboard({required this.child, this.width, super.key});
 
   final Widget child;
+  final WidthGetter? width;
 
-  static TransitionBuilder builder({OnscreenKeyboardThemeData? theme}) {
+  static TransitionBuilder builder({
+    OnscreenKeyboardThemeData? theme,
+    WidthGetter? width,
+  }) {
     return (BuildContext context, Widget? child) {
-      return OnscreenKeyboardTheme(
-        data: theme ?? const OnscreenKeyboardThemeData(),
-        child: OnscreenKeyboard(child: child!),
+      return Overlay(
+        initialEntries: [
+          OverlayEntry(
+            builder: (context) => OnscreenKeyboardTheme(
+              data: theme ?? const OnscreenKeyboardThemeData(),
+              child: OnscreenKeyboard(width: width, child: child!),
+            ),
+          ),
+        ],
       );
     };
   }
@@ -36,6 +51,8 @@ class OnscreenKeyboard extends StatefulWidget {
   static OnscreenKeyboardController of(BuildContext context) {
     return context.findAncestorStateOfType<OnscreenKeyboardState>()!;
   }
+
+  static const bool _enableLogs = !false && kDebugMode;
 
   @override
   State<OnscreenKeyboard> createState() => OnscreenKeyboardState();
@@ -81,6 +98,7 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
     }
 
     if (activeTextField == null && _activeController == null) return;
+    final isTextField = activeTextField != null;
     final controller =
         activeTextField?.effectiveController ?? _activeController!.controller;
     // final f =
@@ -99,7 +117,13 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
         controller.text += '\t';
 
       case ActionKeyType.enter:
-        controller.text += '\n';
+        if (isTextField) {
+          if (activeTextField!.widget.maxLines == 1) {
+            detachTextField();
+          } else {
+            controller.text += '\n';
+          }
+        }
 
       case ActionKeyType.capslock:
       case ActionKeyType.shift:
@@ -206,6 +230,7 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
                 return Material(
                   type: MaterialType.transparency,
                   child: Container(
+                    width: widget.width?.call(context),
                     margin: theme.margin,
                     clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
@@ -228,7 +253,6 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const _ControlBar(),
-                        // RawOnscreenKeyboard(onKeyPressed: _onKeyPressed),
                         RawOnscreenKeyboard(
                           onKeyDown: _onKeyDown,
                           onKeyUp: _onKeyUp,
@@ -259,17 +283,34 @@ class _ControlBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          IconButton(
-            onPressed: () => OnscreenKeyboard.of(context).moveToBottom(),
-            icon: const Icon(Icons.arrow_downward_rounded),
-          ),
-          IconButton(
-            onPressed: () => OnscreenKeyboard.of(context).moveToTop(),
-            icon: const Icon(Icons.arrow_upward_rounded),
-          ),
-          IconButton(
-            onPressed: () => OnscreenKeyboard.of(context).close(),
-            icon: const Icon(Icons.close_rounded),
+          Flexible(
+            child: FittedBox(
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      OnscreenKeyboard.of(context).moveToBottom();
+                    },
+                    icon: const Icon(Icons.arrow_downward_rounded),
+                    tooltip: 'Move to bottom',
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      OnscreenKeyboard.of(context).moveToTop();
+                    },
+                    icon: const Icon(Icons.arrow_upward_rounded),
+                    tooltip: 'Move to top',
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      OnscreenKeyboard.of(context).close();
+                    },
+                    icon: const Icon(Icons.close_rounded),
+                    tooltip: 'Close',
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

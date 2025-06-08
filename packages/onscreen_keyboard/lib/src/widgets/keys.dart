@@ -30,20 +30,14 @@ class TextKeyWidget extends StatelessWidget {
           onTapCancel: onTapUp,
           child: FittedBox(
             child: Padding(
-              padding: const EdgeInsets.all(6),
+              padding: const EdgeInsets.all(10),
               child: switch (textKey.child) {
                 Icon() => Padding(
                   padding: const EdgeInsets.all(28),
                   child: textKey.child,
                 ),
                 Widget() => textKey.child,
-                null => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(''),
-                    Text(textKey.getText(secondary: showSecondary)),
-                  ],
-                ),
+                null => Text(textKey.getText(secondary: showSecondary)),
               },
             ),
           ),
@@ -83,15 +77,20 @@ class ActionKeyWidget extends StatelessWidget {
           onTapDown: (_) => onTapDown(),
           onTapUp: (_) => onTapUp(),
           onTapCancel: onTapUp,
-          child: FittedBox(
-            child: switch (actionKey.child) {
-              Icon() => Padding(
-                padding: const EdgeInsets.all(28),
-                child: actionKey.child,
-              ),
-              Widget() => actionKey.child,
-              null => Text(actionKey.label ?? actionKey.name),
-            },
+          child: IconTheme(
+            data: IconThemeData(
+              color: pressed ? colors.onPrimary : colors.onSurface,
+            ),
+            child: FittedBox(
+              child: switch (actionKey.child) {
+                Icon() => Padding(
+                  padding: const EdgeInsets.all(28),
+                  child: actionKey.child,
+                ),
+                Widget() => actionKey.child,
+                null => Text(actionKey.label ?? actionKey.name),
+              },
+            ),
           ),
         ),
       ),

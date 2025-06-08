@@ -638,9 +638,9 @@ class OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: OnscreenKeyboard.of(context)._activeTextField,
-      builder: (context, value, c) {
+    return PostFrameValueListenableBuilder(
+      valueListenable: keyboard._activeTextField,
+      builder: (context, value, _) {
         final theme = Theme.of(context);
         final border = value == this
             ? widget.decoration?.focusedBorder ??

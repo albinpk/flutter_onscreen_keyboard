@@ -1,0 +1,13 @@
+name: deploy
+
+on:
+  push:
+    tags:
+      - "flutter_onscreen_keyboard-v[0-9]+.[0-9]+.[0-9]+*"
+
+jobs:
+  publish:
+    uses: albinpk/flutter_cora/.github/workflows/publish.yml@2d68be9d00bf47973408313078b16322ed07cb73
+    secrets: inherit
+    with:
+      working-directory: packages/flutter_onscreen_keyboard

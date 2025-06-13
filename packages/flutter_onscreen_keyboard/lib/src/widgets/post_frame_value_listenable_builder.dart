@@ -1,7 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
+/// A widget that rebuilds when the given [ValueListenable] changes,
+/// but ensures the rebuild happens in a post-frame callback.
+///
+/// This is useful when you want to delay the rebuild until
+/// after the current frame, avoiding layout-related exceptions or
+/// flickering issues during widget updates.
 class PostFrameValueListenableBuilder<T> extends StatefulWidget {
+  /// Creates a [PostFrameValueListenableBuilder] widget.
   const PostFrameValueListenableBuilder({
     required this.valueListenable,
     required this.builder,
@@ -9,10 +16,21 @@ class PostFrameValueListenableBuilder<T> extends StatefulWidget {
     this.child,
   });
 
+  /// The listenable object to which this widget subscribes.
+  ///
+  /// Whenever the value changes, the builder will be called
+  /// in a post-frame callback.
   final ValueListenable<T> valueListenable;
 
+  /// Called whenever the [valueListenable] changes.
+  ///
+  /// The builder is provided with the current context, the latest value,
+  /// and an optional child widget.
   final ValueWidgetBuilder<T> builder;
 
+  /// A constant child widget that does not depend on the [valueListenable].
+  ///
+  /// This child is passed back to the [builder] and helps optimize performance.
   final Widget? child;
 
   @override
@@ -47,6 +65,8 @@ class _PostFrameValueListenableBuilderState<T>
     super.dispose();
   }
 
+  /// Handles updates from the [ValueListenable] by scheduling a
+  /// rebuild using [WidgetsBinding.addPostFrameCallback].
   void _valueChanged() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {

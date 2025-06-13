@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 
+/// A complete QWERTY desktop keyboard layout excluding the number pad.
+///
+/// This layout includes rows of alphabetic keys, number keys, symbols,
+/// and common action keys like backspace, tab, capslock, enter, and shift.
+///
+/// Use this layout with [OnscreenKeyboard] for a desktop-style experience.
 class DesktopKeyboardLayout extends KeyboardLayout {
   @override
   List<KeyboardRow> get rows => [
@@ -40,7 +46,6 @@ class DesktopKeyboardLayout extends KeyboardLayout {
         const OnscreenKeyboardKey.text(primary: r'\', secondary: '|'),
       ],
     ),
-
     KeyboardRow(
       keys: [
         const OnscreenKeyboardKey.action(
@@ -55,7 +60,6 @@ class DesktopKeyboardLayout extends KeyboardLayout {
         const OnscreenKeyboardKey.text(primary: "'", secondary: '"'),
         const OnscreenKeyboardKey.action(
           name: ActionKeyType.enter,
-
           child: Icon(Icons.keyboard_return_rounded),
           flex: 30,
         ),
@@ -91,10 +95,23 @@ class DesktopKeyboardLayout extends KeyboardLayout {
   ];
 }
 
+/// Defines action key type constants used in [ActionKey] widgets.
+///
+/// These strings are used to uniquely identify action buttons
+/// such as "backspace", "enter", and "shift" within the keyboard logic.
 abstract class ActionKeyType {
+  /// Identifier for the Backspace or Delete key.
   static const backspace = 'backspace';
+
+  /// Identifier for the Tab key.
   static const tab = 'tab';
+
+  /// Identifier for the Caps Lock key.
   static const capslock = 'capslock';
+
+  /// Identifier for the Enter or Return key.
   static const enter = 'enter';
+
+  /// Identifier for the Shift key.
   static const shift = 'shift';
 }

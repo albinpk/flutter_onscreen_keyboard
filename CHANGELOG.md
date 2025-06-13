@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.0.3`](#flutter_onscreen_keyboard---v003)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.0.3`
+
+ - **FEAT**: add text selection support ([#2](https://github.com/albinpk/flutter_onscreen_keyboard/issues/2)). ([60a0b8b8](https://github.com/albinpk/flutter_onscreen_keyboard/commit/60a0b8b8d88cc54bc94927d818d231bb299d2c95))
+
+
 ## 2025-06-13
 
 ### Changes

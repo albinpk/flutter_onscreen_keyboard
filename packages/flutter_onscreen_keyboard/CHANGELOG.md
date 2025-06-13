@@ -1,3 +1,7 @@
+## 0.0.3
+
+ - **FEAT**: add text selection support ([#2](https://github.com/albinpk/flutter_onscreen_keyboard/issues/2)). ([60a0b8b8](https://github.com/albinpk/flutter_onscreen_keyboard/commit/60a0b8b8d88cc54bc94927d818d231bb299d2c95))
+
 ## 0.0.2
 
  - **FEAT**: draggable keyboard widget. ([b7a87595](https://github.com/albinpk/flutter_onscreen_keyboard/commit/b7a87595b670ccb4ea2ee39bfb84e3588fd8c424))

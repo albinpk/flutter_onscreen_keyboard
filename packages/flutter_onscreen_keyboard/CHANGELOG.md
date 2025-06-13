@@ -1,3 +1,7 @@
+## 0.0.2
+
+ - **FEAT**: draggable keyboard widget. ([b7a87595](https://github.com/albinpk/flutter_onscreen_keyboard/commit/b7a87595b670ccb4ea2ee39bfb84e3588fd8c424))
+
 ## 0.0.1+1
 
  - **DOCS**: add deploy workflow and update package description. ([8a4b57b1](https://github.com/albinpk/flutter_onscreen_keyboard/commit/8a4b57b1f689f6a62f650e93800a787ef313383f))

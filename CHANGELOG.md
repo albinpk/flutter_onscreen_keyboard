@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.0.2`](#flutter_onscreen_keyboard---v002)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.0.2`
+
+ - **FEAT**: draggable keyboard widget. ([b7a87595](https://github.com/albinpk/flutter_onscreen_keyboard/commit/b7a87595b670ccb4ea2ee39bfb84e3588fd8c424))
+
+
 ## 2025-06-08
 
 ### Changes

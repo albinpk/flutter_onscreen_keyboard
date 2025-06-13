@@ -5,6 +5,8 @@ abstract interface class OnscreenKeyboardController {
 
   void close();
 
+  void setAlignment(Alignment alignment);
+
   void moveToTop();
 
   void moveToBottom();

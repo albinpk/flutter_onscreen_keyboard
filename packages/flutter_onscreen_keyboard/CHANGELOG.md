@@ -1,3 +1,7 @@
+## 0.0.3+1
+
+ - **DOCS**: add documentation for all APIs ([#3](https://github.com/albinpk/flutter_onscreen_keyboard/issues/3)). ([abe6af23](https://github.com/albinpk/flutter_onscreen_keyboard/commit/abe6af233aeca5d1ecfadcc0f6f2d324916be33b))
+
 ## 0.0.3
 
  - **FEAT**: add text selection support ([#2](https://github.com/albinpk/flutter_onscreen_keyboard/issues/2)). ([60a0b8b8](https://github.com/albinpk/flutter_onscreen_keyboard/commit/60a0b8b8d88cc54bc94927d818d231bb299d2c95))

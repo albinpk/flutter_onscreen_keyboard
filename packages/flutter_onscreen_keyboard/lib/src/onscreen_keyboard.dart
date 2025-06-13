@@ -111,11 +111,24 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
     }
   }
 
+  int _position = 0;
+
   void _handleTexTextKeyDown(TextKey key) {
     if (activeTextField == null && _activeController == null) return;
-    (activeTextField?.effectiveController ?? _activeController!.controller)
-        .text += key.getText(
-      secondary: _showSecondary,
+
+    final controller =
+        activeTextField?.effectiveController ?? _activeController!.controller;
+    var text = controller.text;
+    if (controller.selection.isValid) {
+      _position = controller.selection.start;
+      if (!controller.selection.isCollapsed) {
+        text = text.replaceRange(_position, controller.selection.end, '');
+      }
+    }
+    controller.text = text.replaceRange(
+      _position,
+      _position++, // update position
+      key.getText(secondary: _showSecondary),
     );
   }
 
@@ -133,22 +146,60 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
 
     switch (key.name) {
       case ActionKeyType.backspace:
-        if (controller.text.isNotEmpty) {
-          controller.text = controller.text.substring(
-            0,
-            controller.text.length - 1,
+        if (controller.text.isEmpty) return;
+        final selection = controller.selection;
+        if (selection.isValid) _position = selection.start;
+        if (!selection.isCollapsed) {
+          controller.text = controller.text.replaceRange(
+            _position,
+            selection.end,
+            '',
+          );
+        } else if (_position > 0) {
+          controller.text = controller.text.replaceRange(
+            _position - 1,
+            _position--, // update position
+            '',
           );
         }
 
       case ActionKeyType.tab:
-        controller.text += '\t';
+        final selection = controller.selection;
+        if (selection.isValid) _position = selection.start;
+        if (!selection.isCollapsed) {
+          controller.text = controller.text.replaceRange(
+            _position,
+            selection.end,
+            '\t',
+          );
+        } else {
+          controller.text = controller.text.replaceRange(
+            _position,
+            _position++, // update position
+            '\t',
+          );
+        }
 
       case ActionKeyType.enter:
         if (isTextField) {
           if (activeTextField!.widget.maxLines == 1) {
             detachTextField();
           } else {
-            controller.text += '\n';
+            final selection = controller.selection;
+            if (selection.isValid) _position = selection.start;
+            if (!selection.isCollapsed) {
+              controller.text = controller.text.replaceRange(
+                _position++, // update position
+                selection.end,
+                '\n',
+              );
+            } else {
+              controller.text = controller.text.replaceRange(
+                _position,
+                _position++, // update position
+                '\n',
+              );
+            }
           }
         }
 

@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 import 'package:flutter_onscreen_keyboard/src/widgets/keys.dart';
 
+/// A low-level on-screen keyboard widget that displays keys
+/// based on the given [KeyboardLayout].
+///
+/// It handles key rendering, layout structure, and interaction callbacks
+/// for key presses. This widget is useful for embedding the keyboard UI
+/// inside another widget and controlling its behavior externally.
 class RawOnscreenKeyboard extends StatelessWidget {
+  /// Creates a [RawOnscreenKeyboard] widget.
   const RawOnscreenKeyboard({
     required this.onKeyDown,
     required this.onKeyUp,
@@ -12,10 +19,21 @@ class RawOnscreenKeyboard extends StatelessWidget {
     this.pressedActionKeys = const {},
   });
 
+  /// Callback when a key is pressed down.
   final ValueChanged<OnscreenKeyboardKey> onKeyDown;
+
+  /// Callback when a key is released.
   final ValueChanged<OnscreenKeyboardKey> onKeyUp;
+
+  /// The keyboard layout that defines rows and keys to render.
   final KeyboardLayout layout;
+
+  /// A set of currently pressed action key names (e.g., shift, capslock).
+  ///
+  /// Used to visually indicate active keys like modifiers.
   final Set<String> pressedActionKeys;
+
+  /// Whether to show the secondary value for each [TextKey] (e.g., uppercase).
   final bool showSecondary;
 
   @override

@@ -20,11 +20,20 @@ void _l(Object? object, [String prefix = ' ']) {
   dev.log('$prefix$object', name: 'onscreen_keyboard');
 }
 
+/// A function that returns the desired width for the keyboard widget.
 typedef WidthGetter = double Function(BuildContext context);
 
+/// Signature for a listener function that responds to keyboard key events.
+///
+/// Called when a key is pressed on the on-screen keyboard.
 typedef OnscreenKeyboardListener = void Function(OnscreenKeyboardKey key);
 
+/// A customizable on-screen keyboard widget.
+///
+/// Wrap your application with this widget to enable the
+/// on-screen keyboard functionality.
 class OnscreenKeyboard extends StatefulWidget {
+  /// Creates an [OnscreenKeyboard].
   const OnscreenKeyboard({
     required this.child,
     super.key,
@@ -32,10 +41,24 @@ class OnscreenKeyboard extends StatefulWidget {
     this.dragHandle,
   });
 
+  /// The main application child widget.
   final Widget child;
+
+  /// An optional width configuration function for the keyboard.
   final WidthGetter? width;
+
+  /// A widget displayed as a drag handle to move the keyboard.
   final Widget? dragHandle;
 
+  /// A builder to wrap the app with [OnscreenKeyboard].
+  ///
+  /// Usage:
+  /// ```dart
+  /// MaterialApp(
+  ///   builder: OnscreenKeyboard.builder(),
+  ///   home: const HomeScreen(),
+  /// );
+  /// ```
   static TransitionBuilder builder({
     OnscreenKeyboardThemeData? theme,
     WidthGetter? width,
@@ -49,6 +72,20 @@ class OnscreenKeyboard extends StatefulWidget {
     );
   };
 
+  /// Wraps a given widget with the on-screen keyboard overlay.
+  ///
+  /// Usage:
+  /// ```dart
+  /// MaterialApp(
+  ///  builder: (context, child) {
+  ///    // your other codes
+  ///    child = Builder(builder: (context) => child!);
+  ///    // wrap with OnscreenKeyboard.wrap
+  ///    return OnscreenKeyboard.wrap(child: child);
+  ///  },
+  ///  home: const HomeScreen(),
+  /// );
+  /// ```
   static Widget wrap({
     required Widget child,
     OnscreenKeyboardThemeData? theme,
@@ -71,18 +108,21 @@ class OnscreenKeyboard extends StatefulWidget {
     );
   }
 
+  /// Gets the nearest [OnscreenKeyboardController] from the widget tree.
   static OnscreenKeyboardController of(BuildContext context) {
-    return context.findAncestorStateOfType<OnscreenKeyboardState>()!;
+    return context.findAncestorStateOfType<_OnscreenKeyboardState>()!;
   }
 
+  /// Enables logs in debug mode.
   static const bool _enableLogs = !false && kDebugMode;
 
   @override
-  State<OnscreenKeyboard> createState() => OnscreenKeyboardState();
+  State<OnscreenKeyboard> createState() => _OnscreenKeyboardState();
 }
 
-class OnscreenKeyboardState extends State<OnscreenKeyboard>
+class _OnscreenKeyboardState extends State<OnscreenKeyboard>
     implements OnscreenKeyboardController {
+  /// Whether to show the secondary keys.
   bool get _showSecondary =>
       _pressedActionKeys.contains(ActionKeyType.capslock) ^
       _pressedActionKeys.contains(ActionKeyType.shift);
@@ -111,6 +151,7 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
     }
   }
 
+  /// Text selection position.
   int _position = 0;
 
   void _handleTexTextKeyDown(TextKey key) {
@@ -220,6 +261,7 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
     });
   }
 
+  /// Whether the keyboard is currently visible.
   bool _visible = false;
 
   @override
@@ -290,6 +332,7 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
 
   OnscreenKeyboardTextFieldState? get activeTextField => _activeTextField.value;
 
+  /// List of raw key down listeners.
   final _rawKeyDownListeners = ObserverList<OnscreenKeyboardListener>();
 
   @override
@@ -304,7 +347,10 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
 
   final GlobalKey _keyboardKey = GlobalKey();
 
+  /// Alignment of the keyboard
   final ValueNotifier<(double, double)> _alignListener = ValueNotifier((.5, 1));
+
+  /// Whether the keyboard is currently being dragged.
   final ValueNotifier<bool> _draggingListener = ValueNotifier(false);
 
   @override
@@ -438,6 +484,7 @@ class OnscreenKeyboardState extends State<OnscreenKeyboard>
   }
 }
 
+/// Control bar of the on-screen keyboard.
 class _ControlBar extends StatelessWidget {
   const _ControlBar({required this.dragHandle});
 

@@ -1,10 +1,36 @@
 part of 'onscreen_keyboard.dart';
 
+/// A specialized [TextField] widget that integrates with an [OnscreenKeyboard].
+///
+/// This widget behaves like a regular Flutter [TextField], but
+/// includes additional features to automatically attach and
+/// interact with an onscreen keyboard widget.
+///
+/// ### Additional Features:
+/// - Automatically opens the [OnscreenKeyboard] when this field gains focus,
+///   and closes it when it loses focus (if [enableOnscreenKeyboard] is true).
+/// - Registers itself with the [OnscreenKeyboardController] so key presses
+///   are directly applied to this input.
+/// - Provides optional [TextEditingController] and [FocusNode] management
+/// if none are supplied.
+/// - Visually highlights the field when it is the active
+/// onscreen keyboard target.
+///
+/// ### Usage
+/// ```dart
+/// const OnscreenKeyboardTextField(
+///   decoration: InputDecoration(labelText: 'Enter Name'),
+/// );
+/// ```
+///
+/// > Note: If [enableOnscreenKeyboard] is set to false, this widget
+/// will function as a regular [TextField].
 class OnscreenKeyboardTextField extends StatefulWidget {
+  /// Creates a new [OnscreenKeyboardTextField] widget.
   const OnscreenKeyboardTextField({
     super.key,
-    this.groupId = EditableText,
     this.enableOnscreenKeyboard = true,
+    this.groupId = EditableText,
     this.controller,
     this.focusNode,
     this.undoController,
@@ -83,6 +109,13 @@ class OnscreenKeyboardTextField extends StatefulWidget {
     this.magnifierConfiguration,
   });
 
+  /// Enables or disables the automatic onscreen keyboard behavior.
+  ///
+  /// When true, focusing this field will attach it to the
+  /// onscreen keyboard and open it.
+  ///
+  /// If set to false, this widget will function as a regular [TextField].
+  /// Defaults to `true`.
   final bool enableOnscreenKeyboard;
 
   /// The configuration for the magnifier of this text field.
@@ -619,15 +652,19 @@ class OnscreenKeyboardTextField extends StatefulWidget {
       OnscreenKeyboardTextFieldState();
 }
 
+/// State for [OnscreenKeyboardTextField].
 class OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField> {
-  TextEditingController? _controller;
+  /// The [TextEditingController] for the text field.
   TextEditingController get effectiveController =>
       widget.controller ?? (_controller ??= TextEditingController());
+  TextEditingController? _controller;
 
-  FocusNode? _focusNode;
+  /// The [FocusNode] for the text field.
   FocusNode get effectiveFocusNode =>
       widget.focusNode ?? (_focusNode ??= FocusNode());
+  FocusNode? _focusNode;
 
+  /// The [OnscreenKeyboardController] for the text field.
   late final OnscreenKeyboardController keyboard;
 
   @override

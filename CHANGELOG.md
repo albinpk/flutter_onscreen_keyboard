@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_onscreen_keyboard` - `v0.0.4+1`](#flutter_onscreen_keyboard---v0041)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.0.4+1`
+
+ - **DOCS**: update docs directory. ([3e1611a8](https://github.com/albinpk/flutter_onscreen_keyboard/commit/3e1611a82c1ef49b12322d4562c8a1688ee42e06))
+
+
+## 2025-06-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_onscreen_keyboard` - `v0.0.4`](#flutter_onscreen_keyboard---v004)
 
 ---

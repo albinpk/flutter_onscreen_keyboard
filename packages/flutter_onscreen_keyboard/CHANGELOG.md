@@ -1,3 +1,7 @@
+## 0.0.4+1
+
+ - **DOCS**: update docs directory. ([3e1611a8](https://github.com/albinpk/flutter_onscreen_keyboard/commit/3e1611a82c1ef49b12322d4562c8a1688ee42e06))
+
 ## 0.0.4
 
  - **FEAT**: customizable control bar actions ([#6](https://github.com/albinpk/flutter_onscreen_keyboard/issues/6)). ([ba0d842d](https://github.com/albinpk/flutter_onscreen_keyboard/commit/ba0d842d61e3100c20d506cab627334abf566330))

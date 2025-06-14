@@ -2,17 +2,26 @@
 
 A customizable and extensible on-screen virtual keyboard for Flutter applications. Ideal for desktop and touchscreen environments where physical keyboards are unavailable or limited.
 
+[![deploy](https://github.com/albinpk/flutter_onscreen_keyboard/actions/workflows/deploy.yml/badge.svg)](https://github.com/albinpk/flutter_onscreen_keyboard/actions/workflows/deploy.yml)
 [![Pub Version](https://img.shields.io/pub/v/flutter_onscreen_keyboard.svg)](https://pub.dev/packages/flutter_onscreen_keyboard)
+![Pub Points](https://img.shields.io/pub/points/flutter_onscreen_keyboard)
+![GitHub License](https://img.shields.io/github/license/albinpk/flutter_onscreen_keyboard)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-albinpk/flutter_onscreen_keyboard-blue?logo=github)](https://github.com/albinpk/flutter_onscreen_keyboard)
+[![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg)](https://github.com/invertase/melos)
 
 ---
+
+![Demo - flutter_onscreen_keyboard](https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/packages/flutter_onscreen_keyboard/docs/demo.gif?raw=true)
 
 ## ✨ Features
 
 - 🧩 **Customizable Layouts** – Tailor the keyboard layout and style to suit your UI.
+- 🎨 **Theming Support** – Easily style the keyboard using `OnscreenKeyboardThemeData`.
 - 🛠️ **Extensible Architecture** – Add custom keys or override behavior easily.
 - 💻 **Full Desktop Keyboard** – Complete support for alphabetic, numeric, symbol, and function keys.
 - 🔤 **Integrated Text Field** – Comes with a dedicated `OnscreenKeyboardTextField` widget to easily handle user input.
+- 🖱️ **Drag & Align** – Move and align the keyboard anywhere on screen, including top or bottom alignment.
+- 🔌 **Controller API** – Programmatically control keyboard visibility and alignment.
 - 🖥️ **Designed for Desktop and Touch Devices** – Ideal for touchscreen setups like POS systems.
 
 ---
@@ -45,7 +54,7 @@ return MaterialApp(
 );
 ```
 
-- Using `OnscreenKeyboard.wrap`.
+- Or using `OnscreenKeyboard.wrap`.
 
 ```dart
 return MaterialApp(

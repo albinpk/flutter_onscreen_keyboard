@@ -28,6 +28,17 @@ class App extends StatelessWidget {
       //   return OnscreenKeyboard.wrap(child: child);
       // },
       home: const HomeScreen(),
+      theme: ThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+          border: const OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 2,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -72,8 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SizedBox(
             width: 300,
             child: Column(
+              spacing: 20,
               children: [
-                const SizedBox(height: 40),
+                const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
                     // open the keyboard from anywhere using
@@ -92,15 +104,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 // TextField that opens the keyboard on focus
                 const OnscreenKeyboardTextField(
                   // enableOnscreenKeyboard: false,
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                  ),
                 ),
 
                 // you can disable the keyboard if you want
                 const OnscreenKeyboardTextField(
                   enableOnscreenKeyboard: false,
+                  decoration: InputDecoration(
+                    labelText: 'Email (keyboard disabled)',
+                  ),
                 ),
 
                 // a multiline TextField
-                const OnscreenKeyboardTextField(maxLines: null),
+                const OnscreenKeyboardTextField(
+                  decoration: InputDecoration(
+                    labelText: 'Address',
+                  ),
+                  maxLines: null,
+                ),
               ],
             ),
           ),

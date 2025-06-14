@@ -1,4 +1,3 @@
-import 'dart:developer' as dev;
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
 import 'package:flutter/cupertino.dart';
@@ -14,11 +13,6 @@ import 'package:flutter_onscreen_keyboard/src/widgets/post_frame_value_listenabl
 
 part 'onscreen_keyboard_controller.dart';
 part 'onscreen_keyboard_text_field.dart';
-
-void _l(Object? object, [String prefix = ' ']) {
-  if (!OnscreenKeyboard._enableLogs) return;
-  dev.log('$prefix$object', name: 'onscreen_keyboard');
-}
 
 /// A function that returns the desired width for the keyboard widget.
 typedef WidthGetter = double Function(BuildContext context);
@@ -112,9 +106,6 @@ class OnscreenKeyboard extends StatefulWidget {
   static OnscreenKeyboardController of(BuildContext context) {
     return context.findAncestorStateOfType<_OnscreenKeyboardState>()!;
   }
-
-  /// Enables logs in debug mode.
-  static const bool _enableLogs = !false && kDebugMode;
 
   @override
   State<OnscreenKeyboard> createState() => _OnscreenKeyboardState();
@@ -294,30 +285,25 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   }) {
     detachTextField();
     _activeController = (controller: controller, focusNode: focusNode);
-    _l('controller attached');
   }
 
   @override
   void detachTextController() {
     _activeController = null;
-    _l('controller detached');
   }
 
   @override
   void attachTextField(OnscreenKeyboardTextFieldState state) {
     detachTextController();
     _activeTextField.value = state;
-    _l('textfield attached');
   }
 
   @override
   void detachTextField([OnscreenKeyboardTextFieldState? state]) {
     if (state == null) {
       _activeTextField.value = null;
-      _l('textfield detached');
     } else if (state == _activeTextField.value) {
       _activeTextField.value = null;
-      _l('textfield detached');
     }
   }
 

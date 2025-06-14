@@ -8,19 +8,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 import 'package:flutter_onscreen_keyboard/src/layouts/desktop_layout.dart';
 import 'package:flutter_onscreen_keyboard/src/theme/onscreen_keyboard_theme.dart';
+import 'package:flutter_onscreen_keyboard/src/types.dart';
 import 'package:flutter_onscreen_keyboard/src/utils/extensions.dart';
 import 'package:flutter_onscreen_keyboard/src/widgets/post_frame_value_listenable_builder.dart';
 
 part 'onscreen_keyboard_controller.dart';
 part 'onscreen_keyboard_text_field.dart';
-
-/// A function that returns the desired width for the keyboard widget.
-typedef WidthGetter = double Function(BuildContext context);
-
-/// Signature for a listener function that responds to keyboard key events.
-///
-/// Called when a key is pressed on the on-screen keyboard.
-typedef OnscreenKeyboardListener = void Function(OnscreenKeyboardKey key);
 
 /// A customizable on-screen keyboard widget.
 ///
@@ -34,6 +27,7 @@ class OnscreenKeyboard extends StatefulWidget {
     this.width,
     this.dragHandle,
     this.aspectRatio,
+    this.buildControlBarActions,
   });
 
   /// The main application child widget.
@@ -47,6 +41,9 @@ class OnscreenKeyboard extends StatefulWidget {
 
   /// {@macro keyboardLayout.aspectRatio}
   final double? aspectRatio;
+
+  /// {@macro controlBar.actions}
+  final ActionsBuilder? buildControlBarActions;
 
   /// A builder to wrap the app with [OnscreenKeyboard].
   ///
@@ -62,12 +59,14 @@ class OnscreenKeyboard extends StatefulWidget {
     WidthGetter? width,
     Widget? dragHandle,
     double? aspectRatio,
+    ActionsBuilder? buildControlBarActions,
   }) => (BuildContext context, Widget? child) {
     return wrap(
       theme: theme,
       width: width,
       dragHandle: dragHandle,
       aspectRatio: aspectRatio,
+      buildControlBarActions: buildControlBarActions,
       child: child!,
     );
   };
@@ -92,6 +91,7 @@ class OnscreenKeyboard extends StatefulWidget {
     WidthGetter? width,
     Widget? dragHandle,
     double? aspectRatio,
+    ActionsBuilder? buildControlBarActions,
   }) {
     return Overlay(
       initialEntries: [
@@ -102,6 +102,7 @@ class OnscreenKeyboard extends StatefulWidget {
               width: width,
               dragHandle: dragHandle,
               aspectRatio: aspectRatio,
+              buildControlBarActions: buildControlBarActions,
               child: child,
             ),
           ),
@@ -442,7 +443,12 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          _ControlBar(dragHandle: dragHandle),
+                          _ControlBar(
+                            dragHandle: dragHandle,
+                            actions: widget.buildControlBarActions?.call(
+                              context,
+                            ),
+                          ),
                           RawOnscreenKeyboard(
                             aspectRatio: widget.aspectRatio,
                             onKeyDown: _onKeyDown,
@@ -479,15 +485,71 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   }
 }
 
-/// Control bar of the on-screen keyboard.
+/// Default control bar widget used in the on-screen keyboard.
+///
+/// This bar typically appears at the top of the keyboard and provides:
 class _ControlBar extends StatelessWidget {
-  const _ControlBar({required this.dragHandle});
+  /// Creates a control bar for the on-screen keyboard.
+  const _ControlBar({
+    required this.dragHandle,
+    this.actions,
+  });
 
+  /// A widget used for dragging the keyboard.
   final Widget dragHandle;
+
+  /// {@template controlBar.actions}
+  /// Optional custom action widgets shown on the right side of the control bar.
+  ///
+  /// If not provided or is empty, default actions are shown:
+  /// - Move to bottom
+  /// - Move to top
+  /// - Close keyboard
+  /// {@endtemplate}
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+
+    final Widget trailing;
+    if (actions != null && actions!.isNotEmpty) {
+      trailing = Row(
+        mainAxisSize: MainAxisSize.min,
+        children: actions!,
+      );
+    } else {
+      trailing = Flexible(
+        child: FittedBox(
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  OnscreenKeyboard.of(context).moveToBottom();
+                },
+                icon: const Icon(Icons.arrow_downward_rounded),
+                tooltip: 'Move to bottom',
+              ),
+              IconButton(
+                onPressed: () {
+                  OnscreenKeyboard.of(context).moveToTop();
+                },
+                icon: const Icon(Icons.arrow_upward_rounded),
+                tooltip: 'Move to top',
+              ),
+              IconButton(
+                onPressed: () {
+                  OnscreenKeyboard.of(context).close();
+                },
+                icon: const Icon(Icons.close_rounded),
+                tooltip: 'Close',
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Material(
       color: colors.surfaceContainer,
       child: IconButtonTheme(
@@ -496,35 +558,7 @@ class _ControlBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             dragHandle,
-            Flexible(
-              child: FittedBox(
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        OnscreenKeyboard.of(context).moveToBottom();
-                      },
-                      icon: const Icon(Icons.arrow_downward_rounded),
-                      tooltip: 'Move to bottom',
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        OnscreenKeyboard.of(context).moveToTop();
-                      },
-                      icon: const Icon(Icons.arrow_upward_rounded),
-                      tooltip: 'Move to top',
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        OnscreenKeyboard.of(context).close();
-                      },
-                      icon: const Icon(Icons.close_rounded),
-                      tooltip: 'Close',
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            trailing,
           ],
         ),
       ),

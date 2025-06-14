@@ -15,6 +15,29 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_onscreen_keyboard` - `v0.0.4`](#flutter_onscreen_keyboard---v004)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.0.4`
+
+ - **FEAT**: customizable control bar actions ([#6](https://github.com/albinpk/flutter_onscreen_keyboard/issues/6)). ([ba0d842d](https://github.com/albinpk/flutter_onscreen_keyboard/commit/ba0d842d61e3100c20d506cab627334abf566330))
+ - **FEAT**: customizable keyboard aspect ratio ([#5](https://github.com/albinpk/flutter_onscreen_keyboard/issues/5)). ([658ded00](https://github.com/albinpk/flutter_onscreen_keyboard/commit/658ded00eb80a78d0818ac2b73dd1735181f3a84))
+ - **DOCS**: update readme with a short demo ([#4](https://github.com/albinpk/flutter_onscreen_keyboard/issues/4)). ([bc167e86](https://github.com/albinpk/flutter_onscreen_keyboard/commit/bc167e86a0a775a4e2560b66302c28889ffce04d))
+
+
+## 2025-06-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_onscreen_keyboard` - `v0.0.3+1`](#flutter_onscreen_keyboard---v0031)
 
 ---

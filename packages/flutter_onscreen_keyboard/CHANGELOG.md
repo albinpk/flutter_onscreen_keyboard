@@ -1,3 +1,9 @@
+## 0.0.4
+
+ - **FEAT**: customizable control bar actions ([#6](https://github.com/albinpk/flutter_onscreen_keyboard/issues/6)). ([ba0d842d](https://github.com/albinpk/flutter_onscreen_keyboard/commit/ba0d842d61e3100c20d506cab627334abf566330))
+ - **FEAT**: customizable keyboard aspect ratio ([#5](https://github.com/albinpk/flutter_onscreen_keyboard/issues/5)). ([658ded00](https://github.com/albinpk/flutter_onscreen_keyboard/commit/658ded00eb80a78d0818ac2b73dd1735181f3a84))
+ - **DOCS**: update readme with a short demo ([#4](https://github.com/albinpk/flutter_onscreen_keyboard/issues/4)). ([bc167e86](https://github.com/albinpk/flutter_onscreen_keyboard/commit/bc167e86a0a775a4e2560b66302c28889ffce04d))
+
 ## 0.0.3+1
 
  - **DOCS**: add documentation for all APIs ([#3](https://github.com/albinpk/flutter_onscreen_keyboard/issues/3)). ([abe6af23](https://github.com/albinpk/flutter_onscreen_keyboard/commit/abe6af233aeca5d1ecfadcc0f6f2d324916be33b))

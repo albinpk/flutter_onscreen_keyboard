@@ -23,9 +23,10 @@ class App extends StatelessWidget {
 
       // builder: (context, child) {
       //   // your other codes
-      //   child = Builder(builder: (context) => child!);
-      //   // wrap with OnscreenKeyboard.wrap
-      //   return OnscreenKeyboard.wrap(child: child);
+      //   // child = ...;
+
+      //   // wrap with OnscreenKeyboard
+      //   return OnscreenKeyboard(child: child!);
       // },
       home: const HomeScreen(),
       theme: ThemeData(

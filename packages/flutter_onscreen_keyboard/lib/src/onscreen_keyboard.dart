@@ -24,52 +24,12 @@ class OnscreenKeyboard extends StatefulWidget {
   const OnscreenKeyboard({
     required this.child,
     super.key,
+    this.theme,
     this.width,
     this.dragHandle,
     this.aspectRatio,
     this.buildControlBarActions,
   });
-
-  /// The main application child widget.
-  final Widget child;
-
-  /// An optional width configuration function for the keyboard.
-  final WidthGetter? width;
-
-  /// A widget displayed as a drag handle to move the keyboard.
-  final Widget? dragHandle;
-
-  /// {@macro keyboardLayout.aspectRatio}
-  final double? aspectRatio;
-
-  /// {@macro controlBar.actions}
-  final ActionsBuilder? buildControlBarActions;
-
-  /// A builder to wrap the app with [OnscreenKeyboard].
-  ///
-  /// Usage:
-  /// ```dart
-  /// MaterialApp(
-  ///   builder: OnscreenKeyboard.builder(),
-  ///   home: const HomeScreen(),
-  /// );
-  /// ```
-  static TransitionBuilder builder({
-    OnscreenKeyboardThemeData? theme,
-    WidthGetter? width,
-    Widget? dragHandle,
-    double? aspectRatio,
-    ActionsBuilder? buildControlBarActions,
-  }) => (BuildContext context, Widget? child) {
-    return wrap(
-      theme: theme,
-      width: width,
-      dragHandle: dragHandle,
-      aspectRatio: aspectRatio,
-      buildControlBarActions: buildControlBarActions,
-      child: child!,
-    );
-  };
 
   /// Wraps a given widget with the on-screen keyboard overlay.
   ///
@@ -85,35 +45,102 @@ class OnscreenKeyboard extends StatefulWidget {
   ///  home: const HomeScreen(),
   /// );
   /// ```
-  static Widget wrap({
+  @Deprecated('Use "OnscreenKeyboard" instead')
+  const factory OnscreenKeyboard.wrap({
     required Widget child,
     OnscreenKeyboardThemeData? theme,
     WidthGetter? width,
     Widget? dragHandle,
     double? aspectRatio,
     ActionsBuilder? buildControlBarActions,
-  }) {
-    return Overlay(
-      initialEntries: [
-        OverlayEntry(
-          builder: (context) => OnscreenKeyboardTheme(
-            data: theme ?? const OnscreenKeyboardThemeData(),
-            child: OnscreenKeyboard(
-              width: width,
-              dragHandle: dragHandle,
-              aspectRatio: aspectRatio,
-              buildControlBarActions: buildControlBarActions,
-              child: child,
-            ),
-          ),
-        ),
-      ],
+  }) = OnscreenKeyboard;
+
+  /// The main application child widget.
+  final Widget child;
+
+  /// Custom theme for the on-screen keyboard UI.
+  ///
+  /// If not provided, a default theme based on
+  /// the current [ThemeData] will be used.
+  final OnscreenKeyboardThemeData? theme;
+
+  /// An optional width configuration function for the keyboard.
+  final WidthGetter? width;
+
+  /// A widget displayed as a drag handle to move the keyboard.
+  final Widget? dragHandle;
+
+  /// {@macro keyboardLayout.aspectRatio}
+  final double? aspectRatio;
+
+  /// {@macro controlBar.actions}
+  final ActionsBuilder? buildControlBarActions;
+
+  /// A builder to wrap the app with [OnscreenKeyboard].
+  ///
+  /// This provides a convenient way to globally integrate the
+  /// on-screen keyboard into your app by setting it as the
+  /// `builder` of your [MaterialApp] or [WidgetsApp].
+  ///
+  /// ### Example
+  /// ```dart
+  /// MaterialApp(
+  ///   builder: OnscreenKeyboard.builder(
+  ///     width: (context) => 600,
+  ///     aspectRatio: 5 / 2,
+  ///     // ...more options
+  ///   ),
+  ///   home: const HomeScreen(),
+  /// );
+  /// ```
+  ///
+  /// - [theme]: Custom theme configuration for the keyboard, such as color,
+  ///   shadow, border, margin, and shape. If null, defaults will be applied.
+  /// - [width]: A function that returns the keyboard's width.
+  /// - [dragHandle]: A widget to show as the drag handle above the keyboard.
+  ///   If null, a default handle is shown.
+  /// - [aspectRatio]: Determines the width-to-height ratio of the
+  ///   keyboard widget.
+  /// - [buildControlBarActions]: A callback that builds trailing action widgets
+  ///   (e.g., move, close) in the keyboard's control bar. If omitted, default
+  ///   actions are shown.
+  ///
+  /// Returns a [TransitionBuilder] to be passed to [MaterialApp.builder].
+  ///
+  /// See also:
+  ///  - [OnscreenKeyboard.new], which creates an [OnscreenKeyboard] widget.
+  static TransitionBuilder builder({
+    OnscreenKeyboardThemeData? theme,
+    WidthGetter? width,
+    Widget? dragHandle,
+    double? aspectRatio,
+    ActionsBuilder? buildControlBarActions,
+  }) => (BuildContext context, Widget? child) {
+    return OnscreenKeyboard(
+      theme: theme,
+      width: width,
+      dragHandle: dragHandle,
+      aspectRatio: aspectRatio,
+      buildControlBarActions: buildControlBarActions,
+      child: child!,
     );
-  }
+  };
 
   /// Gets the nearest [OnscreenKeyboardController] from the widget tree.
   static OnscreenKeyboardController of(BuildContext context) {
-    return context.findAncestorStateOfType<_OnscreenKeyboardState>()!;
+    final state = context.findAncestorStateOfType<_OnscreenKeyboardState>();
+    assert(
+      state != null,
+      '''
+No OnscreenKeyboard found in context. Did you wrap your app with OnscreenKeyboard?
+
+    MaterialApp(
+      builder: OnscreenKeyboard.builder(),  // <- add this line
+      home: const App(),
+    )
+    ''',
+    );
+    return state!;
   }
 
   @override
@@ -357,127 +384,138 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
 
   @override
   Widget build(BuildContext context) {
-    if (!_visible) return widget.child;
+    return Overlay(
+      initialEntries: [
+        OverlayEntry(
+          builder: (context) => OnscreenKeyboardTheme(
+            data: widget.theme ?? const OnscreenKeyboardThemeData(),
+            child: Stack(
+              children: [
+                // the app widget
+                widget.child,
 
-    return Stack(
-      children: [
-        widget.child,
+                // keyboard
+                if (_visible)
+                  Positioned.fill(
+                    child: Builder(
+                      builder: (context) {
+                        // drag handle keyboard widget
+                        final dragHandle = GestureDetector(
+                          onPanStart: (_) => _draggingListener.value = true,
+                          onPanCancel: () => _draggingListener.value = false,
+                          onPanDown: (_) => _draggingListener.value = true,
+                          onPanEnd: (_) => _draggingListener.value = false,
+                          onPanUpdate: (details) {
+                            final keyboardSize =
+                                _keyboardKey.currentContext!.size!;
+                            _alignListener.value = (
+                              (_alignListener.value.$1 +
+                                      details.delta.dx /
+                                          (context.size!.width -
+                                              keyboardSize.width))
+                                  .clamp(0.0, 1.0),
+                              (_alignListener.value.$2 +
+                                      details.delta.dy /
+                                          (context.size!.height -
+                                              keyboardSize.height))
+                                  .clamp(0.0, 1.0),
+                            );
+                          },
+                          child: ValueListenableBuilder(
+                            valueListenable: _draggingListener,
+                            builder: (context, value, child) {
+                              // user defined drag handle
+                              if (child != null) return child;
+                              return IconButton(
+                                mouseCursor: value
+                                    ? SystemMouseCursors.grabbing
+                                    : SystemMouseCursors.grab,
+                                onPressed: null,
+                                icon: Icon(
+                                  Icons.drag_handle_rounded,
+                                  color: Theme.of(context).iconTheme.color,
+                                ),
+                              );
+                            },
+                            child: widget.dragHandle,
+                          ),
+                        );
 
-        // keyboard
-        Positioned.fill(
-          child: Builder(
-            builder: (context) {
-              // drag handle keyboard widget
-              final dragHandle = GestureDetector(
-                onPanStart: (_) => _draggingListener.value = true,
-                onPanCancel: () => _draggingListener.value = false,
-                onPanDown: (_) => _draggingListener.value = true,
-                onPanEnd: (_) => _draggingListener.value = false,
-                onPanUpdate: (details) {
-                  final keyboardSize = _keyboardKey.currentContext!.size!;
-                  _alignListener.value = (
-                    (_alignListener.value.$1 +
-                            details.delta.dx /
-                                (context.size!.width - keyboardSize.width))
-                        .clamp(0.0, 1.0),
-                    (_alignListener.value.$2 +
-                            details.delta.dy /
-                                (context.size!.height - keyboardSize.height))
-                        .clamp(0.0, 1.0),
-                  );
-                },
-                child: ValueListenableBuilder(
-                  valueListenable: _draggingListener,
-                  builder: (context, value, child) {
-                    // user defined drag handle
-                    if (child != null) return child;
-                    return IconButton(
-                      mouseCursor: value
-                          ? SystemMouseCursors.grabbing
-                          : SystemMouseCursors.grab,
-                      onPressed: null,
-                      icon: Icon(
-                        Icons.drag_handle_rounded,
-                        color: Theme.of(context).iconTheme.color,
-                      ),
-                    );
-                  },
-                  child: widget.dragHandle,
-                ),
-              );
-
-              // keyboard widget
-              final keyboard = Builder(
-                key: _keyboardKey,
-                builder: (context) {
-                  final colors = Theme.of(context).colorScheme;
-                  final theme = context.theme;
-                  final borderRadius =
-                      theme.borderRadius ?? BorderRadius.circular(6);
-                  return Material(
-                    type: MaterialType.transparency,
-                    child: Container(
-                      width: widget.width?.call(context),
-                      margin: theme.margin,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        color: theme.color,
-                        borderRadius: borderRadius,
-                        gradient: theme.gradient,
-                        boxShadow:
-                            theme.boxShadow ??
-                            [
-                              BoxShadow(
-                                color: colors.shadow.fade(0.05),
-                                spreadRadius: 5,
-                                blurRadius: 5,
+                        // keyboard widget
+                        final keyboard = Builder(
+                          key: _keyboardKey,
+                          builder: (context) {
+                            final colors = Theme.of(context).colorScheme;
+                            final theme = context.theme;
+                            final borderRadius =
+                                theme.borderRadius ?? BorderRadius.circular(6);
+                            return Material(
+                              type: MaterialType.transparency,
+                              child: Container(
+                                width: widget.width?.call(context),
+                                margin: theme.margin,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                  color: theme.color,
+                                  borderRadius: borderRadius,
+                                  gradient: theme.gradient,
+                                  boxShadow:
+                                      theme.boxShadow ??
+                                      [
+                                        BoxShadow(
+                                          color: colors.shadow.fade(0.05),
+                                          spreadRadius: 5,
+                                          blurRadius: 5,
+                                        ),
+                                      ],
+                                ),
+                                foregroundDecoration: BoxDecoration(
+                                  borderRadius: borderRadius,
+                                  border:
+                                      theme.border ??
+                                      Border.all(color: colors.outline.fade()),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    _ControlBar(
+                                      dragHandle: dragHandle,
+                                      actions: widget.buildControlBarActions
+                                          ?.call(context),
+                                    ),
+                                    RawOnscreenKeyboard(
+                                      aspectRatio: widget.aspectRatio,
+                                      onKeyDown: _onKeyDown,
+                                      onKeyUp: _onKeyUp,
+                                      layout: DesktopKeyboardLayout(),
+                                      pressedActionKeys: _pressedActionKeys,
+                                      showSecondary: _showSecondary,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
-                      ),
-                      foregroundDecoration: BoxDecoration(
-                        borderRadius: borderRadius,
-                        border:
-                            theme.border ??
-                            Border.all(color: colors.outline.fade()),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          _ControlBar(
-                            dragHandle: dragHandle,
-                            actions: widget.buildControlBarActions?.call(
-                              context,
-                            ),
-                          ),
-                          RawOnscreenKeyboard(
-                            aspectRatio: widget.aspectRatio,
-                            onKeyDown: _onKeyDown,
-                            onKeyUp: _onKeyUp,
-                            layout: DesktopKeyboardLayout(),
-                            pressedActionKeys: _pressedActionKeys,
-                            showSecondary: _showSecondary,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
+                            );
+                          },
+                        );
 
-              return AnimatedBuilder(
-                animation: _alignListener,
-                builder: (context, child) {
-                  return Align(
-                    alignment: Alignment(
-                      _alignListener.value.$1 * 2 - 1,
-                      _alignListener.value.$2 * 2 - 1,
+                        return AnimatedBuilder(
+                          animation: _alignListener,
+                          builder: (context, child) {
+                            return Align(
+                              alignment: Alignment(
+                                _alignListener.value.$1 * 2 - 1,
+                                _alignListener.value.$2 * 2 - 1,
+                              ),
+                              child: child,
+                            );
+                          },
+                          child: keyboard,
+                        );
+                      },
                     ),
-                    child: child,
-                  );
-                },
-                child: keyboard,
-              );
-            },
+                  ),
+              ],
+            ),
           ),
         ),
       ],

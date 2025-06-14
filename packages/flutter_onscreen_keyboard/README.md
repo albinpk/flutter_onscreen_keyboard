@@ -11,14 +11,17 @@ A customizable and extensible on-screen virtual keyboard for Flutter application
 
 ---
 
-![Demo - flutter_onscreen_keyboard](docs/demo.gif)
+![Demo - flutter_onscreen_keyboard](https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/packages/flutter_onscreen_keyboard/docs/demo.gif?raw=true)
 
 ## ✨ Features
 
 - 🧩 **Customizable Layouts** – Tailor the keyboard layout and style to suit your UI.
+- 🎨 **Theming Support** – Easily style the keyboard using `OnscreenKeyboardThemeData`.
 - 🛠️ **Extensible Architecture** – Add custom keys or override behavior easily.
 - 💻 **Full Desktop Keyboard** – Complete support for alphabetic, numeric, symbol, and function keys.
 - 🔤 **Integrated Text Field** – Comes with a dedicated `OnscreenKeyboardTextField` widget to easily handle user input.
+- 🖱️ **Drag & Align** – Move and align the keyboard anywhere on screen, including top or bottom alignment.
+- 🔌 **Controller API** – Programmatically control keyboard visibility and alignment.
 - 🖥️ **Designed for Desktop and Touch Devices** – Ideal for touchscreen setups like POS systems.
 
 ---
@@ -51,7 +54,7 @@ return MaterialApp(
 );
 ```
 
-- Using `OnscreenKeyboard.wrap`.
+- Or using `OnscreenKeyboard.wrap`.
 
 ```dart
 return MaterialApp(

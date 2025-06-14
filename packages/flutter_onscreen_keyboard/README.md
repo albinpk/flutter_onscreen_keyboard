@@ -4,8 +4,8 @@ A customizable and extensible on-screen virtual keyboard for Flutter application
 
 [![deploy](https://github.com/albinpk/flutter_onscreen_keyboard/actions/workflows/deploy.yml/badge.svg)](https://github.com/albinpk/flutter_onscreen_keyboard/actions/workflows/deploy.yml)
 [![Pub Version](https://img.shields.io/pub/v/flutter_onscreen_keyboard.svg)](https://pub.dev/packages/flutter_onscreen_keyboard)
-![Pub Points](https://img.shields.io/pub/points/flutter_onscreen_keyboard)
-![GitHub License](https://img.shields.io/github/license/albinpk/flutter_onscreen_keyboard)
+[![Pub Points](https://img.shields.io/pub/points/flutter_onscreen_keyboard)](https://pub.dev/packages/flutter_onscreen_keyboard/score)
+[![GitHub License](https://img.shields.io/github/license/albinpk/flutter_onscreen_keyboard)](https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/LICENSE)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-albinpk/flutter_onscreen_keyboard-blue?logo=github)](https://github.com/albinpk/flutter_onscreen_keyboard)
 [![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg)](https://github.com/invertase/melos)
 
@@ -60,10 +60,10 @@ return MaterialApp(
 return MaterialApp(
   builder: (context, child) {
     // your other codes
-    // child = OtherWidgets(child: child!);
+    // child = ...
 
-    // wrap with OnscreenKeyboard.wrap
-    return OnscreenKeyboard.wrap(child: child);
+    // wrap with OnscreenKeyboard
+    return OnscreenKeyboard(child: child);
   },
   home: const HomeScreen(),
 );

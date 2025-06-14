@@ -1,3 +1,7 @@
+## 0.0.4+2
+
+ - **DOCS**: update README for badge links and usage instructions. ([8d75e6fc](https://github.com/albinpk/flutter_onscreen_keyboard/commit/8d75e6fc040b38a5fa6ebd01b870e73853f63421))
+
 ## 0.0.4+1
 
  - **DOCS**: update docs directory. ([3e1611a8](https://github.com/albinpk/flutter_onscreen_keyboard/commit/3e1611a82c1ef49b12322d4562c8a1688ee42e06))

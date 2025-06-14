@@ -9,6 +9,13 @@ abstract class KeyboardLayout {
   /// Creates a keyboard layout.
   const KeyboardLayout();
 
+  /// {@template keyboardLayout.aspectRatio}
+  /// The aspect ratio of the keyboard layout.
+  ///
+  /// For example, a 16:9 width:height aspect ratio would have a value of 16.0/9.0.
+  /// {@endtemplate}
+  abstract final double aspectRatio;
+
   /// The rows of keys that define the layout structure.
   ///
   /// Each [KeyboardRow] represents a horizontal group of keys,

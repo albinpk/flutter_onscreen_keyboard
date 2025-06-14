@@ -9,6 +9,9 @@ import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 /// Use this layout with [OnscreenKeyboard] for a desktop-style experience.
 class DesktopKeyboardLayout extends KeyboardLayout {
   @override
+  final double aspectRatio = 5 / 2;
+
+  @override
   List<KeyboardRow> get rows => [
     const KeyboardRow(
       keys: [

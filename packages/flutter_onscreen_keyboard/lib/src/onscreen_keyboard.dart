@@ -33,6 +33,7 @@ class OnscreenKeyboard extends StatefulWidget {
     super.key,
     this.width,
     this.dragHandle,
+    this.aspectRatio,
   });
 
   /// The main application child widget.
@@ -43,6 +44,9 @@ class OnscreenKeyboard extends StatefulWidget {
 
   /// A widget displayed as a drag handle to move the keyboard.
   final Widget? dragHandle;
+
+  /// {@macro keyboardLayout.aspectRatio}
+  final double? aspectRatio;
 
   /// A builder to wrap the app with [OnscreenKeyboard].
   ///
@@ -57,11 +61,13 @@ class OnscreenKeyboard extends StatefulWidget {
     OnscreenKeyboardThemeData? theme,
     WidthGetter? width,
     Widget? dragHandle,
+    double? aspectRatio,
   }) => (BuildContext context, Widget? child) {
     return wrap(
       theme: theme,
       width: width,
       dragHandle: dragHandle,
+      aspectRatio: aspectRatio,
       child: child!,
     );
   };
@@ -85,6 +91,7 @@ class OnscreenKeyboard extends StatefulWidget {
     OnscreenKeyboardThemeData? theme,
     WidthGetter? width,
     Widget? dragHandle,
+    double? aspectRatio,
   }) {
     return Overlay(
       initialEntries: [
@@ -94,6 +101,7 @@ class OnscreenKeyboard extends StatefulWidget {
             child: OnscreenKeyboard(
               width: width,
               dragHandle: dragHandle,
+              aspectRatio: aspectRatio,
               child: child,
             ),
           ),
@@ -436,6 +444,7 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
                         children: [
                           _ControlBar(dragHandle: dragHandle),
                           RawOnscreenKeyboard(
+                            aspectRatio: widget.aspectRatio,
                             onKeyDown: _onKeyDown,
                             onKeyUp: _onKeyUp,
                             layout: DesktopKeyboardLayout(),

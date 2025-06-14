@@ -11,22 +11,28 @@ import 'package:flutter_onscreen_keyboard/src/widgets/keys.dart';
 class RawOnscreenKeyboard extends StatelessWidget {
   /// Creates a [RawOnscreenKeyboard] widget.
   const RawOnscreenKeyboard({
+    required this.layout,
     required this.onKeyDown,
     required this.onKeyUp,
-    required this.layout,
-    this.showSecondary = false,
     super.key,
+    this.aspectRatio,
     this.pressedActionKeys = const {},
+    this.showSecondary = false,
   });
+
+  /// The keyboard layout that defines rows and keys to render.
+  final KeyboardLayout layout;
+
+  /// {@macro keyboardLayout.aspectRatio}
+  ///
+  /// Defaults to the aspect ratio of [layout].
+  final double? aspectRatio;
 
   /// Callback when a key is pressed down.
   final ValueChanged<OnscreenKeyboardKey> onKeyDown;
 
   /// Callback when a key is released.
   final ValueChanged<OnscreenKeyboardKey> onKeyUp;
-
-  /// The keyboard layout that defines rows and keys to render.
-  final KeyboardLayout layout;
 
   /// A set of currently pressed action key names (e.g., shift, capslock).
   ///
@@ -39,7 +45,7 @@ class RawOnscreenKeyboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 5 / 2,
+      aspectRatio: aspectRatio ?? layout.aspectRatio,
       child: Material(
         type: MaterialType.transparency,
         child: Column(

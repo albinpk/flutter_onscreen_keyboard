@@ -11,7 +11,7 @@ A customizable and extensible on-screen virtual keyboard for Flutter application
 
 ---
 
-![Demo - flutter_onscreen_keyboard](https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/packages/flutter_onscreen_keyboard/docs/demo.gif?raw=true)
+![Demo - flutter_onscreen_keyboard](https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/docs/demo.gif?raw=true)
 
 ## ✨ Features
 

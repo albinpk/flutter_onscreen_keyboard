@@ -27,8 +27,8 @@ class App extends StatelessWidget {
             textStyle: TextStyle(
               fontSize: 20,
               color: Colors.black,
-              //fontFamily: 'Courier New',
-              //fontWeight: FontWeight.bold,
+              fontFamily: 'Courier New',
+              fontWeight: FontWeight.bold,
             ),
           ),
           color: Theme.of(context).colorScheme.surface,

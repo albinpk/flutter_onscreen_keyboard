@@ -18,7 +18,6 @@ class App extends StatelessWidget {
         width: (context) => MediaQuery.sizeOf(context).width / 2,
         // ...more options
         theme: OnscreenKeyboardThemeData(
-          margin: const EdgeInsetsGeometry.all(12),
           textKeyThemeData: const TextKeyThemeData(
             decoration: BoxDecoration(
               color: Colors.white,

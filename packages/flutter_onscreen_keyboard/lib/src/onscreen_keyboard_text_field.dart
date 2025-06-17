@@ -684,16 +684,13 @@ class OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField> {
   }
 
   void _onFocusChanged() {
+    if (!widget.enableOnscreenKeyboard) return;
     if (effectiveFocusNode.hasPrimaryFocus) {
-      if (widget.enableOnscreenKeyboard) {
-        keyboard
-          ..attachTextField(this)
-          ..open();
-      } else {
-        keyboard
-          ..detachTextField()
-          ..close();
-      }
+      keyboard
+        ..attachTextField(this)
+        ..open();
+    } else {
+      keyboard.close();
     }
   }
 

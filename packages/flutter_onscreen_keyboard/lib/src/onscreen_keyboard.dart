@@ -368,9 +368,7 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
 
   @override
   void detachTextField([OnscreenKeyboardTextFieldState? state]) {
-    if (state == null) {
-      _activeTextField.value = null;
-    } else if (state == _activeTextField.value) {
+    if (state == null || state == activeTextField) {
       _activeTextField.value = null;
     }
   }

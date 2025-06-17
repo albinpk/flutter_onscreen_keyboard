@@ -10,7 +10,6 @@ import 'package:flutter_onscreen_keyboard/src/layouts/desktop_layout.dart';
 import 'package:flutter_onscreen_keyboard/src/theme/onscreen_keyboard_theme.dart';
 import 'package:flutter_onscreen_keyboard/src/types.dart';
 import 'package:flutter_onscreen_keyboard/src/utils/extensions.dart';
-import 'package:flutter_onscreen_keyboard/src/widgets/post_frame_value_listenable_builder.dart';
 
 part 'onscreen_keyboard_controller.dart';
 part 'onscreen_keyboard_text_field.dart';
@@ -193,10 +192,14 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
         text = text.replaceRange(_position, controller.selection.end, '');
       }
     }
-    controller.text = text.replaceRange(
+    final newText = text.replaceRange(
       _position,
       _position++, // update position
       key.getText(secondary: _showSecondary),
+    );
+    controller.value = TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: _position),
     );
   }
 
@@ -217,57 +220,81 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
         if (controller.text.isEmpty) return;
         final selection = controller.selection;
         if (selection.isValid) _position = selection.start;
+        String? newText;
         if (!selection.isCollapsed) {
-          controller.text = controller.text.replaceRange(
+          newText = controller.text.replaceRange(
             _position,
             selection.end,
             '',
           );
         } else if (_position > 0) {
-          controller.text = controller.text.replaceRange(
+          newText = controller.text.replaceRange(
             _position - 1,
             _position--, // update position
             '',
+          );
+        }
+        if (newText != null) {
+          controller.value = TextEditingValue(
+            text: newText,
+            selection: TextSelection.collapsed(offset: _position),
           );
         }
 
       case ActionKeyType.tab:
         final selection = controller.selection;
         if (selection.isValid) _position = selection.start;
-        if (!selection.isCollapsed) {
-          controller.text = controller.text.replaceRange(
-            _position,
-            selection.end,
-            '\t',
-          );
-        } else {
-          controller.text = controller.text.replaceRange(
+        final String newText;
+        if (selection.isCollapsed) {
+          newText = controller.text.replaceRange(
             _position,
             _position++, // update position
             '\t',
           );
+        } else {
+          newText = controller.text.replaceRange(
+            _position++,
+            selection.end,
+            '\t',
+          );
         }
+        controller.value = TextEditingValue(
+          text: newText,
+          selection: TextSelection.collapsed(offset: _position),
+        );
 
       case ActionKeyType.enter:
+        // Currently, only "OnscreenKeyboardTextField" handles the Enter key.
+        // In TextEditingController mode (see "attachTextController"),
+        // we can't determine if the associated text field is single-line or
+        // multi-line, so Enter key behavior is not applied there.
         if (isTextField) {
           if (activeTextField!.widget.maxLines == 1) {
-            detachTextField();
+            // if a single line field
+            activeTextField!.effectiveFocusNode.unfocus();
+            close();
           } else {
+            // if a multi line field
             final selection = controller.selection;
             if (selection.isValid) _position = selection.start;
-            if (!selection.isCollapsed) {
-              controller.text = controller.text.replaceRange(
-                _position++, // update position
-                selection.end,
-                '\n',
-              );
-            } else {
-              controller.text = controller.text.replaceRange(
+            final String newText;
+            if (selection.isCollapsed) {
+              newText = controller.text.replaceRange(
                 _position,
                 _position++, // update position
                 '\n',
               );
+            } else {
+              newText = controller.text.replaceRange(
+                _position++, // update position
+                selection.end,
+                '\n',
+              );
             }
+            controller.value = TextEditingValue(
+              text: newText,
+              selection: TextSelection.collapsed(offset: _position),
+            );
           }
         }
 
@@ -279,13 +306,18 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   }
 
   void _handleActionKeyUp(ActionKey key) {
-    setState(() {
+    _safeSetState(() {
       if (key.canHold && !_pressedActionKeys.contains(key.name)) {
         _pressedActionKeys.add(key.name);
       } else {
         _pressedActionKeys.remove(key.name);
       }
     });
+  }
+
+  /// Safely call [setState] after the current frame.
+  void _safeSetState(VoidCallback fn) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(fn));
   }
 
   /// Whether the keyboard is currently visible.
@@ -442,60 +474,65 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
                         );
 
                         // keyboard widget
-                        final keyboard = Builder(
-                          key: _keyboardKey,
-                          builder: (context) {
-                            final colors = Theme.of(context).colorScheme;
-                            final theme = context.theme;
-                            final borderRadius =
-                                theme.borderRadius ?? BorderRadius.circular(6);
-                            return Material(
-                              type: MaterialType.transparency,
-                              child: Container(
-                                width: widget.width?.call(context),
-                                margin: theme.margin,
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                  color: theme.color,
-                                  borderRadius: borderRadius,
-                                  gradient: theme.gradient,
-                                  boxShadow:
-                                      theme.boxShadow ??
-                                      [
-                                        BoxShadow(
-                                          color: colors.shadow.fade(0.05),
-                                          spreadRadius: 5,
-                                          blurRadius: 5,
+                        final keyboard = TextFieldTapRegion(
+                          child: Builder(
+                            key: _keyboardKey,
+                            builder: (context) {
+                              final colors = Theme.of(context).colorScheme;
+                              final theme = context.theme;
+                              final borderRadius =
+                                  theme.borderRadius ??
+                                  BorderRadius.circular(6);
+                              return Material(
+                                type: MaterialType.transparency,
+                                child: Container(
+                                  width: widget.width?.call(context),
+                                  margin: theme.margin,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    color: theme.color,
+                                    borderRadius: borderRadius,
+                                    gradient: theme.gradient,
+                                    boxShadow:
+                                        theme.boxShadow ??
+                                        [
+                                          BoxShadow(
+                                            color: colors.shadow.fade(0.05),
+                                            spreadRadius: 5,
+                                            blurRadius: 5,
+                                          ),
+                                        ],
+                                  ),
+                                  foregroundDecoration: BoxDecoration(
+                                    borderRadius: borderRadius,
+                                    border:
+                                        theme.border ??
+                                        Border.all(
+                                          color: colors.outline.fade(),
                                         ),
-                                      ],
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      _ControlBar(
+                                        dragHandle: dragHandle,
+                                        actions: widget.buildControlBarActions
+                                            ?.call(context),
+                                      ),
+                                      RawOnscreenKeyboard(
+                                        aspectRatio: widget.aspectRatio,
+                                        onKeyDown: _onKeyDown,
+                                        onKeyUp: _onKeyUp,
+                                        layout: DesktopKeyboardLayout(),
+                                        pressedActionKeys: _pressedActionKeys,
+                                        showSecondary: _showSecondary,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                foregroundDecoration: BoxDecoration(
-                                  borderRadius: borderRadius,
-                                  border:
-                                      theme.border ??
-                                      Border.all(color: colors.outline.fade()),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    _ControlBar(
-                                      dragHandle: dragHandle,
-                                      actions: widget.buildControlBarActions
-                                          ?.call(context),
-                                    ),
-                                    RawOnscreenKeyboard(
-                                      aspectRatio: widget.aspectRatio,
-                                      onKeyDown: _onKeyDown,
-                                      onKeyUp: _onKeyUp,
-                                      layout: DesktopKeyboardLayout(),
-                                      pressedActionKeys: _pressedActionKeys,
-                                      showSecondary: _showSecondary,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         );
 
                         return AnimatedBuilder(

@@ -7,8 +7,10 @@ import 'package:flutter/widgets.dart';
 /// This is useful when you want to delay the rebuild until
 /// after the current frame, avoiding layout-related exceptions or
 /// flickering issues during widget updates.
+@Deprecated('Currently not used')
 class PostFrameValueListenableBuilder<T> extends StatefulWidget {
   /// Creates a [PostFrameValueListenableBuilder] widget.
+  @Deprecated('Currently not used')
   const PostFrameValueListenableBuilder({
     required this.valueListenable,
     required this.builder,

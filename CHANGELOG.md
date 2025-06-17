@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.0.5`](#flutter_onscreen_keyboard---v005)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.0.5`
+
+ - **FIX**: better and simplified focus management ([#10](https://github.com/albinpk/flutter_onscreen_keyboard/issues/10)). ([206cc114](https://github.com/albinpk/flutter_onscreen_keyboard/commit/206cc1149905a7ddd2b8fc8421cd7a5b5fdc8dae))
+ - **FEAT**: automatically show/hide keyboard when input gains or loses focus. ([76a34553](https://github.com/albinpk/flutter_onscreen_keyboard/commit/76a3455384de036085afc31824a9c8989a1168bb))
+
+
 ## 2025-06-14
 
 ### Changes

@@ -154,16 +154,47 @@ class _AppState extends State<App> {
 - **Behaviors:** Override key presses and implement custom actions.
 
 ```dart
-return MaterialApp(
-  builder: OnscreenKeyboard.builder(
-    theme: const OnscreenKeyboardThemeData(
-      textKeyThemeData: TextKeyThemeData(
-        decoration: BoxDecoration(
-          color: Colors.red,
-        ),
-      ),
+final theme = OnscreenKeyboardThemeData(
+  border: Border.all(color: Colors.white),
+  margin: const EdgeInsets.all(40),
+  borderRadius: BorderRadius.circular(20),
+  boxShadow: [
+    const BoxShadow(
+      blurRadius: 5,
+      spreadRadius: 5,
+      color: Colors.black12,
     ),
-    // ...more options
+  ],
+  // color: ..,
+  gradient: const LinearGradient(
+    colors: [Colors.indigo, Colors.indigoAccent],
+  ),
+  textKeyThemeData: TextKeyThemeData(
+    backgroundColor: Colors.blue,
+    foregroundColor: Colors.white,
+    borderRadius: BorderRadius.circular(20),
+    margin: const EdgeInsets.all(1),
+    boxShadow: [
+      const BoxShadow(blurRadius: 2, color: Colors.black26),
+    ],
+    // padding: ..,
+    // textStyle: ..,
+    // gradient: ...,
+    // border: ..,
+  ),
+  actionKeyThemeData: ActionKeyThemeData(
+    backgroundColor: Colors.blue,
+    foregroundColor: Colors.white54,
+    pressedBackgroundColor: Colors.indigo,
+    pressedForegroundColor: Colors.white,
+    borderRadius: BorderRadius.circular(20),
+    boxShadow: [const BoxShadow()],
+    margin: const EdgeInsets.all(1),
+    iconSize: 20,
+    fitChild: false,
+    // border: ..,
+    // gradient: ..,
+    // padding: ..,
   ),
 );
 ```

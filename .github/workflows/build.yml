@@ -6,7 +6,6 @@ on:
     branches:
       - workflow
 
-
 jobs:
   build:
     runs-on: ubuntu-latest

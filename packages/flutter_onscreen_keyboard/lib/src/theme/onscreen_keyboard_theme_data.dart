@@ -44,33 +44,121 @@ class OnscreenKeyboardThemeData {
   final ActionKeyThemeData actionKeyThemeData;
 }
 
-/// Theme customization for [TextKey] widgets.
+/// Base class for customizing the visual appearance and layout of keys.
 ///
-/// Use this class to customize the appearance of alphanumeric and symbol keys.
-class TextKeyThemeData {
+/// This abstract class defines common styling properties shared by both
+/// [TextKeyThemeData] and [ActionKeyThemeData]. Use it to control padding,
+/// margins, colors, borders, and other visual aspects of key widgets.
+///
+/// If [decoration] is provided, it overrides most of the other styling
+/// properties. However, using the more granular individual fields is preferred
+/// for consistency and flexibility.
+///
+/// See also:
+/// - [TextKeyThemeData] for styling alphanumeric and symbol keys.
+/// - [ActionKeyThemeData] for styling functional keys like Enter, Tab, etc.
+abstract class KeyThemeData {
+  /// Creates a base key theme configuration.
+  const KeyThemeData({
+    @Deprecated('Use individual styling properties instead') this.decoration,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.margin,
+    this.padding,
+    this.fitChild = true,
+    this.borderRadius,
+    this.border,
+    this.iconSize,
+    this.boxShadow,
+    this.gradient,
+  });
+
+  /// A complete [BoxDecoration] applied directly to the key background.
+  ///
+  /// **Deprecated**: Prefer using the more specific properties like
+  /// [backgroundColor], [border], and [gradient] for better flexibility.
+  @Deprecated('Use individual styling properties instead')
+  final BoxDecoration? decoration;
+
+  /// Background color of the key when not pressed.
+  final Color? backgroundColor;
+
+  /// Text or icon color of the key when not pressed.
+  final Color? foregroundColor;
+
+  /// Outer margin around the key.
+  final EdgeInsetsGeometry? margin;
+
+  /// Inner padding inside the key.
+  final EdgeInsetsGeometry? padding;
+
+  /// Whether the child widget should shrink to fit the available space.
+  ///
+  /// Defaults to `true`.
+  final bool fitChild;
+
+  /// Border radius to round the corners of the key.
+  final BorderRadiusGeometry? borderRadius;
+
+  /// Border applied to the key.
+  final BoxBorder? border;
+
+  /// Icon size used inside the key, if applicable.
+  final double? iconSize;
+
+  /// A list of shadows to apply behind the key.
+  final List<BoxShadow>? boxShadow;
+
+  /// A gradient to use as the key’s background.
+  ///
+  /// If provided, this takes precedence over [backgroundColor].
+  final Gradient? gradient;
+}
+
+/// Theme customization for [TextKey] widgets.
+class TextKeyThemeData extends KeyThemeData {
   /// Creates an instance of [TextKeyThemeData].
   const TextKeyThemeData({
-    this.decoration,
+    @Deprecated('Use individual styling properties instead') super.decoration,
+    super.backgroundColor,
+    super.foregroundColor,
+    super.margin,
+    super.padding,
+    super.fitChild = true,
+    super.borderRadius,
+    super.border,
+    super.iconSize,
+    super.boxShadow,
+    super.gradient,
     this.textStyle,
   });
 
-  /// The [BoxDecoration] applied to each text key.
-  final BoxDecoration? decoration;
-
-  /// The [TextStyle] applied to the text within each key.
+  /// The text style used for rendering key labels.
   final TextStyle? textStyle;
 }
 
 /// Theme customization for [ActionKey] widgets.
-///
-/// Use this class to customize the appearance of functional keys
-/// like Enter, Backspace, Tab, Shift, etc.
-class ActionKeyThemeData {
+class ActionKeyThemeData extends KeyThemeData {
   /// Creates an instance of [ActionKeyThemeData].
   const ActionKeyThemeData({
-    this.decoration,
+    @Deprecated('Use individual styling properties instead') super.decoration,
+    super.backgroundColor,
+    this.pressedBackgroundColor,
+    super.foregroundColor,
+    this.pressedForegroundColor,
+    super.margin,
+    super.padding,
+    super.fitChild = true,
+    super.borderRadius,
+    super.border,
+    super.iconSize,
+    super.boxShadow,
+    super.gradient,
   });
 
-  /// The [BoxDecoration] applied to each action key.
-  final BoxDecoration? decoration;
+  /// Background color of the key when pressed.
+  final Color? pressedBackgroundColor;
+
+  /// Text or icon color of the key when pressed.
+  final Color? pressedForegroundColor;
 }

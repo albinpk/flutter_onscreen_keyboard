@@ -34,30 +34,59 @@ class TextKeyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final keyTheme = context.theme.textKeyThemeData;
-    return DecoratedBox(
-      decoration: keyTheme.decoration ?? BoxDecoration(color: colors.surface),
+    final theme = context.theme.textKeyThemeData;
+
+    Widget child = switch (textKey.child) {
+      Icon() => Padding(
+        padding:
+            theme.padding ??
+            (theme.fitChild ? const EdgeInsets.all(28) : EdgeInsets.zero),
+        child: textKey.child,
+      ),
+      Widget() => Padding(
+        padding: theme.padding ?? const EdgeInsets.all(10),
+        child: textKey.child,
+      ),
+      null => Padding(
+        padding: theme.padding ?? const EdgeInsets.all(10),
+        child: Text(
+          textKey.getText(secondary: showSecondary),
+          style: theme.textStyle ?? TextStyle(color: theme.foregroundColor),
+        ),
+      ),
+    };
+
+    if (theme.fitChild) {
+      child = FittedBox(child: child);
+    }
+
+    return Container(
+      margin: theme.margin,
+      padding: theme.padding,
+      clipBehavior: Clip.hardEdge,
+      decoration:
+          theme.decoration ??
+          BoxDecoration(
+            borderRadius: theme.borderRadius,
+            border: theme.border,
+            boxShadow: theme.boxShadow,
+            gradient: theme.gradient,
+            color: theme.backgroundColor ?? colors.surface,
+          ),
       child: Material(
         type: MaterialType.transparency,
+        borderRadius: theme.borderRadius,
+        clipBehavior: Clip.hardEdge,
         child: InkWell(
           onTapDown: (_) => onTapDown(),
           onTapUp: (_) => onTapUp(),
           onTapCancel: onTapUp,
-          child: FittedBox(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: switch (textKey.child) {
-                Icon() => Padding(
-                  padding: const EdgeInsets.all(28),
-                  child: textKey.child,
-                ),
-                Widget() => textKey.child,
-                null => Text(
-                  textKey.getText(secondary: showSecondary),
-                  style: keyTheme.textStyle,
-                ),
-              },
+          child: IconTheme(
+            data: IconThemeData(
+              size: theme.iconSize,
+              color: theme.foregroundColor ?? colors.onSurface,
             ),
+            child: child,
           ),
         ),
       ),
@@ -94,33 +123,60 @@ class ActionKeyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final keyTheme = context.theme.actionKeyThemeData;
-    return DecoratedBox(
+    final theme = context.theme.actionKeyThemeData;
+
+    Widget child = switch (actionKey.child) {
+      Icon() => Padding(
+        padding:
+            theme.padding ??
+            (theme.fitChild ? const EdgeInsets.all(28) : EdgeInsets.zero),
+        child: actionKey.child,
+      ),
+      Widget() => Padding(
+        padding: theme.padding ?? EdgeInsets.zero,
+        child: actionKey.child,
+      ),
+      null => Padding(
+        padding: theme.padding ?? EdgeInsets.zero,
+        child: Text(actionKey.label ?? actionKey.name),
+      ),
+    };
+
+    if (theme.fitChild) {
+      child = FittedBox(child: child);
+    }
+
+    return Container(
+      margin: theme.margin,
+      padding: theme.padding,
+      clipBehavior: Clip.hardEdge,
       decoration:
-          keyTheme.decoration ??
+          theme.decoration ??
           BoxDecoration(
-            color: pressed ? colors.primary : colors.surfaceContainer,
+            borderRadius: theme.borderRadius,
+            border: theme.border,
+            boxShadow: theme.boxShadow,
+            gradient: theme.gradient,
+            color: pressed
+                ? theme.pressedBackgroundColor ?? colors.primary
+                : theme.backgroundColor ?? colors.surfaceContainer,
           ),
       child: Material(
         type: MaterialType.transparency,
+        borderRadius: theme.borderRadius,
+        clipBehavior: Clip.hardEdge,
         child: InkWell(
           onTapDown: (_) => onTapDown(),
           onTapUp: (_) => onTapUp(),
           onTapCancel: onTapUp,
           child: IconTheme(
             data: IconThemeData(
-              color: pressed ? colors.onPrimary : colors.onSurface,
+              size: theme.iconSize,
+              color: pressed
+                  ? theme.pressedForegroundColor ?? colors.onPrimary
+                  : theme.foregroundColor ?? colors.onSurface,
             ),
-            child: FittedBox(
-              child: switch (actionKey.child) {
-                Icon() => Padding(
-                  padding: const EdgeInsets.all(28),
-                  child: actionKey.child,
-                ),
-                Widget() => actionKey.child,
-                null => Text(actionKey.label ?? actionKey.name),
-              },
-            ),
+            child: child,
           ),
         ),
       ),

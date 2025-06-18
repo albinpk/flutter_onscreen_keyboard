@@ -2,7 +2,7 @@ name: build
 
 on:
   pull_request:
-    branches: 
+    branches:
       - main
 
 concurrency:
@@ -18,8 +18,8 @@ jobs:
 
       - name: Setup Flutter SDK
         uses: kuhnroyal/flutter-fvm-config-action/setup@v3
-        with:
-          path: packages/flutter_onscreen_keyboard/.fvmrc
+        # with:
+        #   path: packages/flutter_onscreen_keyboard/.fvmrc
 
       - name: Install dependencies
         run: flutter pub get

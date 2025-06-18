@@ -67,5 +67,6 @@ abstract interface class OnscreenKeyboardController {
   /// [OnscreenKeyboardTextFieldState].
   ///
   /// This is intended for internal use.
+  // ignore: unused_element
   ValueNotifier<OnscreenKeyboardTextFieldState?> get _activeTextField;
 }

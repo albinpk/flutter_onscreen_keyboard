@@ -1,0 +1,48 @@
+name: build
+
+on:
+  pull_request:
+    branches: 
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter SDK
+        uses: kuhnroyal/flutter-fvm-config-action/setup@v3
+        with:
+          path: packages/flutter_onscreen_keyboard/.fvmrc
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: packages/flutter_onscreen_keyboard
+
+      - name: Check code format
+        run: dart format --set-exit-if-changed .
+        working-directory: packages/flutter_onscreen_keyboard
+
+      - name: Analyze
+        run: flutter analyze
+        working-directory: packages/flutter_onscreen_keyboard
+
+      #   - name: Flutter test
+      #     run: flutter test --coverage
+      #     working-directory: packages/flutter_onscreen_keyboard
+
+      #   - name: Upload coverage to codecov
+      #     uses: codecov/codecov-action@v4
+      #     with:
+      #       token: ${{ secrets.CODECOV_TOKEN }}
+      #       working-directory: packages/flutter_onscreen_keyboard
+
+      - name: Publish - dry run
+        run: flutter pub publish --dry-run
+        working-directory: packages/flutter_onscreen_keyboard

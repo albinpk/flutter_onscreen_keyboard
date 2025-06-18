@@ -1,3 +1,8 @@
+## 0.0.5
+
+ - **FIX**: better and simplified focus management ([#10](https://github.com/albinpk/flutter_onscreen_keyboard/issues/10)). ([206cc114](https://github.com/albinpk/flutter_onscreen_keyboard/commit/206cc1149905a7ddd2b8fc8421cd7a5b5fdc8dae))
+ - **FEAT**: automatically show/hide keyboard when input gains or loses focus. ([76a34553](https://github.com/albinpk/flutter_onscreen_keyboard/commit/76a3455384de036085afc31824a9c8989a1168bb))
+
 ## 0.0.4+2
 
  - **DOCS**: update README for badge links and usage instructions. ([8d75e6fc](https://github.com/albinpk/flutter_onscreen_keyboard/commit/8d75e6fc040b38a5fa6ebd01b870e73853f63421))

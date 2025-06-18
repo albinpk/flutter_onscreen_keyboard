@@ -3,8 +3,9 @@ include: package:very_good_analysis/analysis_options.yaml
 analyzer:
   errors:
     document_ignores: ignore
-  exclude:
-    - /example
+    deprecated_member_use_from_same_package: ignore
+  # exclude:
+  #   - /example
 
 formatter:
   trailing_commas: preserve

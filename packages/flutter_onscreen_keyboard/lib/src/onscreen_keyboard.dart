@@ -8,8 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 import 'package:flutter_onscreen_keyboard/src/layouts/desktop_layout.dart';
 import 'package:flutter_onscreen_keyboard/src/theme/onscreen_keyboard_theme.dart';
-import 'package:flutter_onscreen_keyboard/src/utils/extensions.dart';
 import 'package:flutter_onscreen_keyboard/src/types.dart';
+import 'package:flutter_onscreen_keyboard/src/utils/extensions.dart';
 
 part 'onscreen_keyboard_controller.dart';
 part 'onscreen_keyboard_text_field.dart';

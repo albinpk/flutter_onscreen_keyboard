@@ -4,8 +4,8 @@ analyzer:
   errors:
     document_ignores: ignore
     deprecated_member_use_from_same_package: ignore
-  exclude:
-    - /example
+  # exclude:
+  #   - /example
 
 formatter:
   trailing_commas: preserve

@@ -51,10 +51,14 @@ class TextKeyThemeData {
   /// Creates an instance of [TextKeyThemeData].
   const TextKeyThemeData({
     this.decoration,
+    this.textStyle,
   });
 
   /// The [BoxDecoration] applied to each text key.
   final BoxDecoration? decoration;
+
+  /// The [TextStyle] applied to the text within each key.
+  final TextStyle? textStyle;
 }
 
 /// Theme customization for [ActionKey] widgets.

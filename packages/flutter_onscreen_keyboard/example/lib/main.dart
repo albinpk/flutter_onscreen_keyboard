@@ -7,7 +7,6 @@ void main() {
   runApp(const App());
 }
 
-
 class App extends StatelessWidget {
   const App();
 

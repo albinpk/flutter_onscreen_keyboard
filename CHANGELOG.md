@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.0.6`](#flutter_onscreen_keyboard---v006)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.0.6`
+
+ - **FEAT**: add more theme customization for keys ([#12](https://github.com/albinpk/flutter_onscreen_keyboard/issues/12)). ([58109c4a](https://github.com/albinpk/flutter_onscreen_keyboard/commit/58109c4a06b91088466bec1e66fc472f2dfe81b8))
+ - **FEAT**: add textstyle TextKeyThemeData ([#11](https://github.com/albinpk/flutter_onscreen_keyboard/issues/11)). ([5785d06e](https://github.com/albinpk/flutter_onscreen_keyboard/commit/5785d06e0e89eac1290ee313770e752c3dc5496f))
+ - **DOCS**: update readme with theme configurations ([#13](https://github.com/albinpk/flutter_onscreen_keyboard/issues/13)). ([57364611](https://github.com/albinpk/flutter_onscreen_keyboard/commit/57364611386fba4c7f2d267bb6bb2a2eae906f34))
+
+
 ## 2025-06-17
 
 ### Changes

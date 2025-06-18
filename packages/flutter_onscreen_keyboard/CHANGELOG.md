@@ -1,3 +1,9 @@
+## 0.0.6
+
+ - **FEAT**: add more theme customization for keys ([#12](https://github.com/albinpk/flutter_onscreen_keyboard/issues/12)). ([58109c4a](https://github.com/albinpk/flutter_onscreen_keyboard/commit/58109c4a06b91088466bec1e66fc472f2dfe81b8))
+ - **FEAT**: add textstyle TextKeyThemeData ([#11](https://github.com/albinpk/flutter_onscreen_keyboard/issues/11)). ([5785d06e](https://github.com/albinpk/flutter_onscreen_keyboard/commit/5785d06e0e89eac1290ee313770e752c3dc5496f))
+ - **DOCS**: update readme with theme configurations ([#13](https://github.com/albinpk/flutter_onscreen_keyboard/issues/13)). ([57364611](https://github.com/albinpk/flutter_onscreen_keyboard/commit/57364611386fba4c7f2d267bb6bb2a2eae906f34))
+
 ## 0.0.5
 
  - **FIX**: better and simplified focus management ([#10](https://github.com/albinpk/flutter_onscreen_keyboard/issues/10)). ([206cc114](https://github.com/albinpk/flutter_onscreen_keyboard/commit/206cc1149905a7ddd2b8fc8421cd7a5b5fdc8dae))

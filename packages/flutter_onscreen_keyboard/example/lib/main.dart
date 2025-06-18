@@ -17,26 +17,6 @@ class App extends StatelessWidget {
       builder: OnscreenKeyboard.builder(
         width: (context) => MediaQuery.sizeOf(context).width / 2,
         // ...more options
-        theme: OnscreenKeyboardThemeData(
-          textKeyThemeData: const TextKeyThemeData(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-            ),
-            textStyle: TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-              fontFamily: 'Courier New',
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          color: Theme.of(context).colorScheme.surface,
-          border: Border.all(
-            color: Theme.of(context).colorScheme.primary,
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(12),
-        ),
       ),
 
       // or

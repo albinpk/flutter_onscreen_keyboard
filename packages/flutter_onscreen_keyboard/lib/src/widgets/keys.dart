@@ -52,7 +52,10 @@ class TextKeyWidget extends StatelessWidget {
                   child: textKey.child,
                 ),
                 Widget() => textKey.child,
-                null => Text(textKey.getText(secondary: showSecondary)),
+                null => Text(
+                  textKey.getText(secondary: showSecondary),
+                  style: keyTheme.textStyle,
+                ),
               },
             ),
           ),

@@ -31,31 +31,6 @@ class OnscreenKeyboard extends StatefulWidget {
     this.buildControlBarActions,
   });
 
-  /// Wraps a given widget with the on-screen keyboard overlay.
-  ///
-  /// Usage:
-  /// ```dart
-  /// MaterialApp(
-  ///  builder: (context, child) {
-  ///    // your other codes
-  ///    child = Builder(builder: (context) => child!);
-  ///    // wrap with OnscreenKeyboard.wrap
-  ///    return OnscreenKeyboard.wrap(child: child);
-  ///  },
-  ///  home: const HomeScreen(),
-  /// );
-  /// ```
-  @Deprecated('Use "OnscreenKeyboard" instead')
-  const factory OnscreenKeyboard.wrap({
-    required Widget child,
-    KeyboardLayout? layout,
-    OnscreenKeyboardThemeData? theme,
-    WidthGetter? width,
-    Widget? dragHandle,
-    double? aspectRatio,
-    ActionsBuilder? buildControlBarActions,
-  }) = OnscreenKeyboard;
-
   /// The main application child widget.
   final Widget child;
 

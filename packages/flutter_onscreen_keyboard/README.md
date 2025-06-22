@@ -157,6 +157,7 @@ class _AppState extends State<App> {
 final theme = OnscreenKeyboardThemeData(
   border: Border.all(color: Colors.white),
   margin: const EdgeInsets.all(40),
+  padding: const EdgeInsets.all(10),
   borderRadius: BorderRadius.circular(20),
   boxShadow: [
     const BoxShadow(

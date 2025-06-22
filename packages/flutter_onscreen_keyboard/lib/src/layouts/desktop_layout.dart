@@ -8,11 +8,18 @@ import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 ///
 /// Use this layout with [OnscreenKeyboard] for a desktop-style experience.
 class DesktopKeyboardLayout extends KeyboardLayout {
-  @override
-  final double aspectRatio = 5 / 2;
+  /// Creates a [DesktopKeyboardLayout] instance.
+  const DesktopKeyboardLayout();
 
   @override
-  List<KeyboardRow> get rows => [
+  double get aspectRatio => 5 / 2;
+
+  @override
+  Map<String, List<KeyboardRow>> get modes => {
+    'default': _defaultMode,
+  };
+
+  List<KeyboardRow> get _defaultMode => [
     const KeyboardRow(
       keys: [
         OnscreenKeyboardKey.text(primary: '`', secondary: '~'),

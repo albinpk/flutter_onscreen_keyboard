@@ -14,7 +14,7 @@ class OnscreenKeyboardThemeData {
     this.borderRadius,
     this.boxShadow,
     this.gradient,
-    this.margin = const EdgeInsets.all(12),
+    this.margin,
     this.textKeyThemeData = const TextKeyThemeData(),
     this.actionKeyThemeData = const ActionKeyThemeData(),
   });
@@ -34,8 +34,8 @@ class OnscreenKeyboardThemeData {
   /// The background gradient of the keyboard.
   final Gradient? gradient;
 
-  /// The outer margin around the keyboard. Defaults to `EdgeInsets.all(12)`.
-  final EdgeInsetsGeometry margin;
+  /// The outer margin around the keyboard.
+  final EdgeInsetsGeometry? margin;
 
   /// Theme data for styling individual text keys (e.g., A-Z, 0-9, symbols).
   final TextKeyThemeData textKeyThemeData;

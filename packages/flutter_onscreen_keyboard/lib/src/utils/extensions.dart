@@ -11,6 +11,9 @@ extension ContextExt on BuildContext {
   /// Returns the [OnscreenKeyboardThemeData] from the nearest
   /// [OnscreenKeyboardTheme] ancestor.
   OnscreenKeyboardThemeData get theme => OnscreenKeyboardTheme.of(this);
+
+  /// Returns the [OnscreenKeyboardController] from the [BuildContext].
+  OnscreenKeyboardController get controller => OnscreenKeyboard.of(this);
 }
 
 /// Extension on [Color] to easily adjust opacity.

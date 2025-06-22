@@ -12,3 +12,6 @@ typedef OnscreenKeyboardListener = void Function(OnscreenKeyboardKey key);
 /// Signature for building a list of action widgets for the
 /// keyboard control bar.
 typedef ActionsBuilder = List<Widget> Function(BuildContext context);
+
+/// A callback function that receives the current [BuildContext].
+typedef CallbackWithContext = void Function(BuildContext context);

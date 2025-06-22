@@ -166,8 +166,17 @@ class ActionKeyWidget extends StatelessWidget {
         borderRadius: theme.borderRadius,
         clipBehavior: Clip.hardEdge,
         child: InkWell(
-          onTapDown: (_) => onTapDown(),
-          onTapUp: (_) => onTapUp(),
+          onTap: actionKey.onTap != null
+              ? () => actionKey.onTap!(context)
+              : null,
+          onTapDown: (_) {
+            actionKey.onTapDown?.call(context);
+            onTapDown();
+          },
+          onTapUp: (_) {
+            actionKey.onTapUp?.call(context);
+            onTapUp();
+          },
           onTapCancel: onTapUp,
           child: IconTheme(
             data: IconThemeData(

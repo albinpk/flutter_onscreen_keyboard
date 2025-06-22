@@ -79,53 +79,55 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Center(
-          child: SizedBox(
-            width: 300,
-            child: Column(
-              spacing: 20,
-              children: [
-                const SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {
-                    // open the keyboard from anywhere using
-                    OnscreenKeyboard.of(context).open();
-                  },
-                  child: const Text('Open Keyboard'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    // close the keyboard from anywhere using
-                    OnscreenKeyboard.of(context).close();
-                  },
-                  child: const Text('Close Keyboard'),
-                ),
-
-                // TextField that opens the keyboard on focus
-                const OnscreenKeyboardTextField(
-                  // enableOnscreenKeyboard: false,
-                  decoration: InputDecoration(
-                    labelText: 'Name',
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: SizedBox(
+              width: 300,
+              child: Column(
+                spacing: 20,
+                children: [
+                  const SizedBox(height: 10),
+                  TextButton(
+                    onPressed: () {
+                      // open the keyboard from anywhere using
+                      OnscreenKeyboard.of(context).open();
+                    },
+                    child: const Text('Open Keyboard'),
                   ),
-                ),
-
-                // you can disable the keyboard if you want
-                const OnscreenKeyboardTextField(
-                  enableOnscreenKeyboard: false,
-                  decoration: InputDecoration(
-                    labelText: 'Email (keyboard disabled)',
+                  TextButton(
+                    onPressed: () {
+                      // close the keyboard from anywhere using
+                      OnscreenKeyboard.of(context).close();
+                    },
+                    child: const Text('Close Keyboard'),
                   ),
-                ),
 
-                // a multiline TextField
-                const OnscreenKeyboardTextField(
-                  decoration: InputDecoration(
-                    labelText: 'Address',
+                  // TextField that opens the keyboard on focus
+                  const OnscreenKeyboardTextField(
+                    // enableOnscreenKeyboard: false,
+                    decoration: InputDecoration(
+                      labelText: 'Name',
+                    ),
                   ),
-                  maxLines: null,
-                ),
-              ],
+
+                  // you can disable the keyboard if you want
+                  const OnscreenKeyboardTextField(
+                    enableOnscreenKeyboard: false,
+                    decoration: InputDecoration(
+                      labelText: 'Email (keyboard disabled)',
+                    ),
+                  ),
+
+                  // a multiline TextField
+                  const OnscreenKeyboardTextField(
+                    decoration: InputDecoration(
+                      labelText: 'Address',
+                    ),
+                    maxLines: null,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

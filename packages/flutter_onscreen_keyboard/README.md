@@ -56,7 +56,7 @@ return MaterialApp(
 );
 ```
 
-- Or using `OnscreenKeyboard.wrap`.
+- Or using `OnscreenKeyboard`.
 
 ```dart
 return MaterialApp(

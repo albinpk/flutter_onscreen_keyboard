@@ -531,6 +531,7 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
                                   child: Container(
                                     width: widget.width?.call(context),
                                     margin: theme.margin,
+                                    padding: theme.padding,
                                     clipBehavior: Clip.hardEdge,
                                     decoration: BoxDecoration(
                                       color: theme.color,

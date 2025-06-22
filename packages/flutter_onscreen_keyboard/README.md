@@ -16,6 +16,8 @@ A customizable and extensible on-screen virtual keyboard for Flutter application
 ## ✨ Features
 
 - 🧩 **Customizable Layouts** – Tailor the keyboard layout and style to suit your UI.
+- 🎛️ **Keyboard Modes** – Support for multiple keyboard modes like alphanumeric, symbols, etc., with dynamic switching.
+- 📱 **Mobile & Desktop Layouts** – Comes with built-in layouts for both mobile and desktop platforms.
 - 🎨 **Theming Support** – Easily style the keyboard using `OnscreenKeyboardThemeData`.
 - 🛠️ **Extensible Architecture** – Add custom keys or override behavior easily.
 - 💻 **Full Desktop Keyboard** – Complete support for alphabetic, numeric, symbol, and function keys.
@@ -108,6 +110,36 @@ keyboardController.close(); // close the keyboard
 
 ---
 
+### 🔄 Switch Keyboard Modes
+
+You can define multiple modes in your `KeyboardLayout` (e.g., "alphanumeric", "symbols") and switch between them using the controller:
+
+```dart
+keyboardController.switchMode();
+```
+
+The keyboard will cycle through modes in the order they are defined in your layout.
+
+---
+
+### 🎛 Built-in Mobile and Desktop Layouts
+
+By default, the keyboard selects the appropriate layout based on platform:
+
+- `MobileKeyboardLayout` for Android/iOS/Fuchsia
+- `DesktopKeyboardLayout` for macOS/Windows/Linux
+
+You can also explicitly set a custom layout:
+
+```dart
+OnscreenKeyboard.builder(
+  layout: const MobileKeyboardLayout(), // or your custom layout
+  // ...more options
+),
+```
+
+---
+
 ### 🎹 Listen to Key Events
 
 To respond to key presses globally, use the `addRawKeyDownListener` method.
@@ -150,8 +182,10 @@ class _AppState extends State<App> {
 ## 🎨 Customization
 
 - **Styles:** Customize key colors, shapes, and padding.
-- **Layouts:** Switch between full, numeric, or custom layouts (coming soon).
+- **Layouts:** Use built-in or define your own layouts with multiple modes.
 - **Behaviors:** Override key presses and implement custom actions.
+
+An example of theme customization:
 
 ```dart
 final theme = OnscreenKeyboardThemeData(

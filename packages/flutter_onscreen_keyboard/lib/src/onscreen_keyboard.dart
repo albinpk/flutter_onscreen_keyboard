@@ -433,7 +433,7 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   void switchMode() {
     final modes = _layout.modes.keys.toList();
     final i = modes.indexOf(_mode);
-    setState(() => _mode = modes[(i + 1) % modes.length].logger());
+    setState(() => _mode = modes[(i + 1) % modes.length]);
   }
 
   final GlobalKey _keyboardKey = GlobalKey();

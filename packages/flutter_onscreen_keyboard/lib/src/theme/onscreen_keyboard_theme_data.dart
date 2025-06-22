@@ -54,17 +54,12 @@ class OnscreenKeyboardThemeData {
 /// [TextKeyThemeData] and [ActionKeyThemeData]. Use it to control padding,
 /// margins, colors, borders, and other visual aspects of key widgets.
 ///
-/// If [decoration] is provided, it overrides most of the other styling
-/// properties. However, using the more granular individual fields is preferred
-/// for consistency and flexibility.
-///
 /// See also:
 /// - [TextKeyThemeData] for styling alphanumeric and symbol keys.
 /// - [ActionKeyThemeData] for styling functional keys like Enter, Tab, etc.
 abstract class KeyThemeData {
   /// Creates a base key theme configuration.
   const KeyThemeData({
-    @Deprecated('Use individual styling properties instead') this.decoration,
     this.backgroundColor,
     this.foregroundColor,
     this.margin,
@@ -76,13 +71,6 @@ abstract class KeyThemeData {
     this.boxShadow,
     this.gradient,
   });
-
-  /// A complete [BoxDecoration] applied directly to the key background.
-  ///
-  /// **Deprecated**: Prefer using the more specific properties like
-  /// [backgroundColor], [border], and [gradient] for better flexibility.
-  @Deprecated('Use individual styling properties instead')
-  final BoxDecoration? decoration;
 
   /// Background color of the key when not pressed.
   final Color? backgroundColor;
@@ -123,7 +111,6 @@ abstract class KeyThemeData {
 class TextKeyThemeData extends KeyThemeData {
   /// Creates an instance of [TextKeyThemeData].
   const TextKeyThemeData({
-    @Deprecated('Use individual styling properties instead') super.decoration,
     super.backgroundColor,
     super.foregroundColor,
     super.margin,
@@ -145,7 +132,6 @@ class TextKeyThemeData extends KeyThemeData {
 class ActionKeyThemeData extends KeyThemeData {
   /// Creates an instance of [ActionKeyThemeData].
   const ActionKeyThemeData({
-    @Deprecated('Use individual styling properties instead') super.decoration,
     super.backgroundColor,
     this.pressedBackgroundColor,
     super.foregroundColor,

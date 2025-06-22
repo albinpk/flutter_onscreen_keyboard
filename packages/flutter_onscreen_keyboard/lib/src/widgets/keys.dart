@@ -64,15 +64,13 @@ class TextKeyWidget extends StatelessWidget {
       margin: theme.margin,
       padding: theme.padding,
       clipBehavior: Clip.hardEdge,
-      decoration:
-          theme.decoration ??
-          BoxDecoration(
-            borderRadius: theme.borderRadius,
-            border: theme.border,
-            boxShadow: theme.boxShadow,
-            gradient: theme.gradient,
-            color: theme.backgroundColor ?? colors.surface,
-          ),
+      decoration: BoxDecoration(
+        borderRadius: theme.borderRadius,
+        border: theme.border,
+        boxShadow: theme.boxShadow,
+        gradient: theme.gradient,
+        color: theme.backgroundColor ?? colors.surface,
+      ),
       child: Material(
         type: MaterialType.transparency,
         borderRadius: theme.borderRadius,
@@ -150,17 +148,15 @@ class ActionKeyWidget extends StatelessWidget {
       margin: theme.margin,
       padding: theme.padding,
       clipBehavior: Clip.hardEdge,
-      decoration:
-          theme.decoration ??
-          BoxDecoration(
-            borderRadius: theme.borderRadius,
-            border: theme.border,
-            boxShadow: theme.boxShadow,
-            gradient: theme.gradient,
-            color: pressed
-                ? theme.pressedBackgroundColor ?? colors.primary
-                : theme.backgroundColor ?? colors.surfaceContainer,
-          ),
+      decoration: BoxDecoration(
+        borderRadius: theme.borderRadius,
+        border: theme.border,
+        boxShadow: theme.boxShadow,
+        gradient: theme.gradient,
+        color: pressed
+            ? theme.pressedBackgroundColor ?? colors.primary
+            : theme.backgroundColor ?? colors.surfaceContainer,
+      ),
       child: Material(
         type: MaterialType.transparency,
         borderRadius: theme.borderRadius,

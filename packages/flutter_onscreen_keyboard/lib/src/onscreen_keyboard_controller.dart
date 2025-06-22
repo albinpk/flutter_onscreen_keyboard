@@ -63,6 +63,13 @@ abstract interface class OnscreenKeyboardController {
   /// Detaches the currently attached [TextEditingController], if any.
   void detachTextController();
 
+  /// Cycles to the next keyboard layout mode in the order they are defined.
+  ///
+  /// Keyboard modes are defined in the [KeyboardLayout.modes] map.
+  /// Calling this method switches the current mode to the next one,
+  /// wrapping around to the first mode when the end is reached.
+  void switchMode();
+
   /// Returns a [ValueNotifier] of the currently active
   /// [OnscreenKeyboardTextFieldState].
   ///

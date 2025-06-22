@@ -20,6 +20,7 @@ library;
 import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart'
     show RawOnscreenKeyboard;
 
+export 'src/layouts/layouts.dart';
 export 'src/models/keys.dart';
 export 'src/models/layout.dart';
 export 'src/onscreen_keyboard.dart'

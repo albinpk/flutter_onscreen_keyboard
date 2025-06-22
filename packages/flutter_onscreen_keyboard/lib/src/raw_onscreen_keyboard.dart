@@ -14,6 +14,7 @@ class RawOnscreenKeyboard extends StatelessWidget {
     required this.layout,
     required this.onKeyDown,
     required this.onKeyUp,
+    required this.mode,
     super.key,
     this.aspectRatio,
     this.pressedActionKeys = const {},
@@ -42,6 +43,11 @@ class RawOnscreenKeyboard extends StatelessWidget {
   /// Whether to show the secondary value for each [TextKey] (e.g., uppercase).
   final bool showSecondary;
 
+  /// The currently active keyboard mode to render from the layout.
+  ///
+  /// Must match one of the keys defined in [KeyboardLayout.modes].
+  final String mode;
+
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -50,11 +56,12 @@ class RawOnscreenKeyboard extends StatelessWidget {
         type: MaterialType.transparency,
         child: Column(
           children: [
-            for (final row in layout.rows)
+            for (final row in layout.modes[mode]!)
               Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    ?row.leading,
                     for (final k in row.keys)
                       Expanded(
                         flex: k.flex,
@@ -73,6 +80,7 @@ class RawOnscreenKeyboard extends StatelessWidget {
                           ),
                         },
                       ),
+                    ?row.trailing,
                   ],
                 ),
               ),

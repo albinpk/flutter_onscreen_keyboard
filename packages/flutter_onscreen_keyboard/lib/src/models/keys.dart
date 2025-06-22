@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_onscreen_keyboard/src/types.dart';
 
 /// Base class for keys used in the on-screen keyboard.
 ///
@@ -25,9 +26,9 @@ sealed class OnscreenKeyboardKey {
     String? secondary,
     Widget? child,
     int flex,
-    VoidCallback? onTap,
-    VoidCallback? onTapDown,
-    VoidCallback? onTapUp,
+    CallbackWithContext? onTap,
+    CallbackWithContext? onTapDown,
+    CallbackWithContext? onTapUp,
   }) = TextKey._;
 
   /// Creates an [ActionKey], which represents non-character keys
@@ -42,9 +43,9 @@ sealed class OnscreenKeyboardKey {
     Widget? child,
     bool canHold,
     int flex,
-    VoidCallback? onTap,
-    VoidCallback? onTapDown,
-    VoidCallback? onTapUp,
+    CallbackWithContext? onTap,
+    CallbackWithContext? onTapDown,
+    CallbackWithContext? onTapUp,
   }) = ActionKey._;
 
   /// The default `flex` value for a key.
@@ -57,13 +58,13 @@ sealed class OnscreenKeyboardKey {
   final int flex;
 
   /// Callback when the key is tapped (pressed and released).
-  final VoidCallback? onTap;
+  final CallbackWithContext? onTap;
 
   /// Callback when the key is pressed down.
-  final VoidCallback? onTapDown;
+  final CallbackWithContext? onTapDown;
 
   /// Callback when the key is released.
-  final VoidCallback? onTapUp;
+  final CallbackWithContext? onTapUp;
 }
 
 /// A key representing a text input character, such as letters,

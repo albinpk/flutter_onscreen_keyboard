@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.1.0`](#flutter_onscreen_keyboard---v010)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.1.0`
+
+ - **BREAKING** **FEAT**: add mobile layout and support for multiple keyboard modes ([#17](https://github.com/albinpk/flutter_onscreen_keyboard/issues/17)). ([ba97977e](https://github.com/albinpk/flutter_onscreen_keyboard/commit/ba97977ed9cebe3c4aac4eccf3bb1ffd2b193814))
+
+
 ## 2025-06-18
 
 ### Changes

@@ -1,3 +1,9 @@
+## 0.1.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: add mobile layout and support for multiple keyboard modes ([#17](https://github.com/albinpk/flutter_onscreen_keyboard/issues/17)). ([ba97977e](https://github.com/albinpk/flutter_onscreen_keyboard/commit/ba97977ed9cebe3c4aac4eccf3bb1ffd2b193814))
+
 ## 0.0.6
 
  - **FEAT**: add more theme customization for keys ([#12](https://github.com/albinpk/flutter_onscreen_keyboard/issues/12)). ([58109c4a](https://github.com/albinpk/flutter_onscreen_keyboard/commit/58109c4a06b91088466bec1e66fc472f2dfe81b8))

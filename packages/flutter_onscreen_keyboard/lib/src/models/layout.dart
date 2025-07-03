@@ -50,10 +50,14 @@ class KeyboardMode {
   /// [rows] defines the visual layout of the keyboard for this mode.
   const KeyboardMode({
     required this.rows,
+    this.verticalSpacing = 0,
   });
 
   /// The rows of keys displayed in this mode.
   final List<KeyboardRow> rows;
+
+  /// The vertical spacing between rows.
+  final double verticalSpacing;
 }
 
 /// Represents a single row in a keyboard layout.

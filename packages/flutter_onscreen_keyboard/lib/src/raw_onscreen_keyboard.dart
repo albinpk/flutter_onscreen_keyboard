@@ -56,6 +56,7 @@ class RawOnscreenKeyboard extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: Column(
+          spacing: activeMode.verticalSpacing,
           children: [
             for (final row in activeMode.rows)
               Expanded(

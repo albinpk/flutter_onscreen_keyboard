@@ -20,7 +20,7 @@ class MobileKeyboardLayout extends KeyboardLayout {
   Map<String, KeyboardMode> get modes {
     return {
       'alphabets': KeyboardMode(rows: _alphabetsMode),
-      'symbols': KeyboardMode(rows: _symbolsMode),
+      'symbols': KeyboardMode(rows: _symbolsMode, verticalSpacing: 20),
     };
   }
 

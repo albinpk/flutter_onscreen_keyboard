@@ -114,6 +114,8 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// When true, focusing this field will attach it to the
   /// onscreen keyboard and open it.
   ///
+  /// When true, the [keyboardType] will be ignored.
+  ///
   /// If set to false, this widget will function as a regular [TextField].
   /// Defaults to `true`.
   final bool enableOnscreenKeyboard;
@@ -193,6 +195,8 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   final InputDecoration? decoration;
 
   /// {@macro flutter.widgets.editableText.keyboardType}
+  ///
+  /// IMPORTANT: This will be ignored if [enableOnscreenKeyboard] is true.
   final TextInputType? keyboardType;
 
   /// {@template flutter.widgets.TextField.textInputAction}
@@ -718,7 +722,10 @@ class OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField> {
       inputFormatters: widget.inputFormatters,
       keyboardAppearance: widget.keyboardAppearance,
       canRequestFocus: widget.canRequestFocus,
-      keyboardType: widget.keyboardType,
+      // prevent the keyboard from opening
+      keyboardType: widget.enableOnscreenKeyboard
+          ? TextInputType.none
+          : widget.keyboardType,
       maxLines: widget.maxLines,
       maxLength: widget.maxLength,
       minLines: widget.minLines,

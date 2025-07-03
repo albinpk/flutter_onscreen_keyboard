@@ -1,3 +1,9 @@
+## 0.2.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **REFACTOR**: migrate to `KeyboardMode` for layout modes ([#19](https://github.com/albinpk/flutter_onscreen_keyboard/issues/19)). ([436ffd1b](https://github.com/albinpk/flutter_onscreen_keyboard/commit/436ffd1bf342c18f6efbea8281e1d473de3e704a))
+
 ## 0.1.1
 
  - **FIX**: disable system keyboard for `OnscreenKeyboardTextField`.

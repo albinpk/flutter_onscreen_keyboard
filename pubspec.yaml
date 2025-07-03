@@ -1,7 +1,12 @@
 name: flutter_onscreen_keyboard_workspace
 
+publish_to: none
+
 environment:
-  sdk: ">=3.8.1 <4.0.0"
+  sdk: ^3.8.1
+
+workspace:
+  - packages/flutter_onscreen_keyboard
 
 dev_dependencies:
-  melos: ^6.3.3
+  melos: 7.0.0-dev.9

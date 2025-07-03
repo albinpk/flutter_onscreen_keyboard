@@ -19,10 +19,10 @@ abstract class KeyboardLayout {
   /// [aspectRatio] controls the width-to-height ratio of the keyboard.
   ///
   /// [modes] is a map of layout modes (like 'letters', 'symbols', etc.)
-  /// to their corresponding rows.
+  /// to their corresponding [KeyboardMode]s.
   const factory KeyboardLayout.custom({
     required double aspectRatio,
-    required Map<String, List<KeyboardRow>> modes,
+    required Map<String, KeyboardMode> modes,
   }) = _CustomKeyboardLayout;
 
   /// {@template keyboardLayout.aspectRatio}
@@ -32,14 +32,32 @@ abstract class KeyboardLayout {
   /// {@endtemplate}
   double get aspectRatio;
 
-  /// A map of layout modes to their rows.
+  /// A map of layout modes to their corresponding [KeyboardMode]s.
   ///
-  /// Each mode (e.g., `'letters'`, `'symbols'`, `'numbers'`) contains a list
-  /// of rows that define what keys should be shown.
+  /// Each mode (e.g., `'letters'`, `'symbols'`, `'numbers'`) defines the
+  /// structure of the keyboard when that mode is active.
+  Map<String, KeyboardMode> get modes;
+}
+
+/// Represents a single layout mode in the keyboard.
+///
+/// A mode is a group of [KeyboardRow]s rendered together.
+/// This allows the keyboard to switch between different input styles,
+/// such as letters, symbols, numbers, etc.
+class KeyboardMode {
+  /// Creates a keyboard mode.
   ///
-  /// This is especially useful for mobile keyboards where pressing keys like
-  /// Shift or Symbol toggles the layout.
-  Map<String, List<KeyboardRow>> get modes;
+  /// [rows] defines the visual layout of the keyboard for this mode.
+  const KeyboardMode({
+    required this.rows,
+    this.verticalSpacing = 0,
+  });
+
+  /// The rows of keys displayed in this mode.
+  final List<KeyboardRow> rows;
+
+  /// The vertical spacing between rows.
+  final double verticalSpacing;
 }
 
 /// Represents a single row in a keyboard layout.
@@ -80,5 +98,5 @@ class _CustomKeyboardLayout extends KeyboardLayout {
   final double aspectRatio;
 
   @override
-  final Map<String, List<KeyboardRow>> modes;
+  final Map<String, KeyboardMode> modes;
 }

@@ -10,3 +10,12 @@ workspace:
 
 dev_dependencies:
   melos: 7.0.0-dev.9
+
+melos:
+  repository: https://github.com/albinpk/flutter_onscreen_keyboard
+  sdkPath: .fvm/flutter_sdk
+  command:
+    version:
+      hooks:
+        # Update the version in readme
+        preCommit: bash -c "$(curl -s https://raw.githubusercontent.com/albinpk/flutter_cora/refs/heads/dev/scripts/preVersion.sh)"

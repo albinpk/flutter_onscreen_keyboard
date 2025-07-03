@@ -1,4 +1,6 @@
-import 'package:flutter/widgets.dart';
+// ignore_for_file: sort_constructors_first
+
+import 'package:flutter/material.dart';
 import 'package:flutter_onscreen_keyboard/src/models/keys.dart';
 
 /// Defines the visual styling for the onscreen keyboard widget.
@@ -18,6 +20,7 @@ class OnscreenKeyboardThemeData {
     this.padding,
     this.textKeyThemeData = const TextKeyThemeData(),
     this.actionKeyThemeData = const ActionKeyThemeData(),
+    this.controlBarColor,
   });
 
   /// The background color of the keyboard.
@@ -46,6 +49,70 @@ class OnscreenKeyboardThemeData {
 
   /// Theme data for styling action keys (e.g., Enter, Backspace, Shift).
   final ActionKeyThemeData actionKeyThemeData;
+
+  /// The background color of the control bar.
+  final Color? controlBarColor;
+
+  // predefined themes
+
+  /// Google Gboard theme.
+  factory OnscreenKeyboardThemeData.gBoard({Color? primary}) {
+    final color = primary ?? Colors.blue;
+    return OnscreenKeyboardThemeData(
+      color: Color.lerp(color, Colors.white, 0.8),
+      controlBarColor: Color.lerp(color, Colors.white, 0.8),
+      padding: const EdgeInsets.all(4),
+      borderRadius: BorderRadius.zero,
+      textKeyThemeData: TextKeyThemeData(
+        backgroundColor: Colors.white,
+        margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      actionKeyThemeData: ActionKeyThemeData(
+        backgroundColor: Color.lerp(color, Colors.white, 0.5),
+        pressedBackgroundColor: color,
+        margin: const EdgeInsets.symmetric(
+          horizontal: 2,
+          vertical: 4,
+        ),
+        borderRadius: BorderRadius.circular(6),
+      ),
+    );
+  }
+
+  /// iOS theme data.
+  factory OnscreenKeyboardThemeData.ios() {
+    return OnscreenKeyboardThemeData(
+      color: const Color(0xFFD3D3D3),
+      controlBarColor: const Color(0xFFD3D3D3),
+      padding: const EdgeInsets.all(4),
+      borderRadius: BorderRadius.zero,
+      textKeyThemeData: TextKeyThemeData(
+        backgroundColor: Colors.white,
+        boxShadow: [
+          const BoxShadow(
+            offset: Offset(1, 1),
+            blurRadius: 0.2,
+            color: Colors.black45,
+          ),
+        ],
+        margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      actionKeyThemeData: ActionKeyThemeData(
+        backgroundColor: const Color(0xFFADADAD),
+        boxShadow: [
+          const BoxShadow(
+            offset: Offset(1, 1),
+            blurRadius: 0.2,
+            color: Colors.black45,
+          ),
+        ],
+        margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
+        borderRadius: BorderRadius.circular(6),
+      ),
+    );
+  }
 }
 
 /// Base class for customizing the visual appearance and layout of keys.

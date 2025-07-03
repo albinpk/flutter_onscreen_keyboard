@@ -607,6 +607,7 @@ class _ControlBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final theme = context.theme;
 
     final Widget trailing;
     if (actions != null && actions!.isNotEmpty) {
@@ -647,7 +648,7 @@ class _ControlBar extends StatelessWidget {
     }
 
     return Material(
-      color: colors.surfaceContainer,
+      color: theme.controlBarColor ?? colors.surfaceContainer,
       child: IconButtonTheme(
         data: IconButtonThemeData(style: IconButton.styleFrom(iconSize: 16)),
         child: Row(

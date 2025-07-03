@@ -185,6 +185,23 @@ class _AppState extends State<App> {
 - **Layouts:** Use built-in or define your own layouts with multiple modes.
 - **Behaviors:** Override key presses and implement custom actions.
 
+### Predefined Themes
+
+Easily apply built-in keyboard styles like **Gboard** or **iOS** using predefined factory constructors:
+
+```dart
+OnscreenKeyboard.builder(
+  theme: OnscreenKeyboardThemeData.gBoard(),
+)
+```
+
+#### Available Themes:
+
+- `OnscreenKeyboardThemeData.gBoard()`
+- `OnscreenKeyboardThemeData.ios()`
+
+### Custom Theme
+
 An example of theme customization:
 
 ```dart

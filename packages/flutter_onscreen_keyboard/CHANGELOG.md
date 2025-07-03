@@ -1,3 +1,8 @@
+## 0.1.1
+
+ - **FIX**: disable system keyboard for `OnscreenKeyboardTextField`.
+ - **FEAT**: add predefined themes (Gboard, iOS) for easy styling (#18).
+
 ## 0.1.0
 
 > Note: This release has breaking changes.

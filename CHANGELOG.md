@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.1.1`](#flutter_onscreen_keyboard---v011)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.1.1`
+
+ - **FIX**: disable system keyboard for `OnscreenKeyboardTextField`.
+ - **FEAT**: add predefined themes (Gboard, iOS) for easy styling (#18).
+
+
 ## 2025-06-23
 
 ### Changes

@@ -82,7 +82,7 @@ class MobileKeyboardLayout extends KeyboardLayout {
           onTap: (context) => context.controller.switchMode(),
           flex: 30,
         ),
-        const OnscreenKeyboardKey.text(primary: ','),
+        const OnscreenKeyboardKey.text(primary: '/'),
         const OnscreenKeyboardKey.text(
           primary: ' ',
           child: Icon(Icons.space_bar_rounded),

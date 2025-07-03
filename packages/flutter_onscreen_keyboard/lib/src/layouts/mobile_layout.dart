@@ -17,10 +17,10 @@ class MobileKeyboardLayout extends KeyboardLayout {
   double get aspectRatio => 4 / 3;
 
   @override
-  Map<String, List<KeyboardRow>> get modes {
+  Map<String, KeyboardMode> get modes {
     return {
-      'alphabets': _alphabetsMode,
-      'symbols': _symbolsMode,
+      'alphabets': KeyboardMode(rows: _alphabetsMode),
+      'symbols': KeyboardMode(rows: _symbolsMode),
     };
   }
 

@@ -16,8 +16,8 @@ class DesktopKeyboardLayout extends KeyboardLayout {
   double get aspectRatio => 5 / 2;
 
   @override
-  Map<String, List<KeyboardRow>> get modes => {
-    'default': _defaultMode,
+  Map<String, KeyboardMode> get modes => {
+    'default': KeyboardMode(rows: _defaultMode),
   };
 
   List<KeyboardRow> get _defaultMode => [

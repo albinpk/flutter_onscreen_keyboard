@@ -50,13 +50,14 @@ class RawOnscreenKeyboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final activeMode = layout.modes[mode]!;
     return AspectRatio(
       aspectRatio: aspectRatio ?? layout.aspectRatio,
       child: Material(
         type: MaterialType.transparency,
         child: Column(
           children: [
-            for (final row in layout.modes[mode]!)
+            for (final row in activeMode.rows)
               Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

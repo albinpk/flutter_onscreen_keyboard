@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.2.0+1`](#flutter_onscreen_keyboard---v0201)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.2.0+1`
+
+ - **PERF**: use `InheritedWidget` for providing `OnscreenKeyboardController`. ([46f92914](https://github.com/albinpk/flutter_onscreen_keyboard/commit/46f92914ba6f0ed7a4f6397c07af93f04b7980f2))
+
+
 ## 2025-07-03
 
 ### Changes

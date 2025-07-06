@@ -1,3 +1,7 @@
+## 0.2.0+1
+
+ - **PERF**: use `InheritedWidget` for providing `OnscreenKeyboardController`. ([46f92914](https://github.com/albinpk/flutter_onscreen_keyboard/commit/46f92914ba6f0ed7a4f6397c07af93f04b7980f2))
+
 ## 0.2.0
 
 > Note: This release has breaking changes.

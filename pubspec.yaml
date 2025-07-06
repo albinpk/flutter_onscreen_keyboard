@@ -19,3 +19,4 @@ melos:
       hooks:
         # Update the version in readme
         preCommit: bash -c "$(curl -s https://raw.githubusercontent.com/albinpk/flutter_cora/refs/heads/dev/scripts/preVersion.sh)"
+        post: flutter pub publish --dry-run --directory=packages/flutter_onscreen_keyboard

@@ -7,18 +7,23 @@
 /// Features:
 /// - Text and action keys with customizable layout
 /// - Shift/CapsLock support with smart secondary character switching
-/// - TextField and controller attachment with cursor and selection handling
+/// - Dedicated [OnscreenKeyboardTextField] for ease of use
 /// - Movable/floating keyboard with drag support
 /// - Theming and layout customization
 ///
 /// Ideal for POS interfaces, desktop apps, or accessibility tools.
 ///
 /// See also:
-/// - [RawOnscreenKeyboard]
+/// - [RawOnscreenKeyboard] - a low-level keyboard widget
+/// - [OnscreenKeyboardTextField] - dedicated text field widget
+/// - [OnscreenKeyboardController] - interface for controlling the keyboard
 library;
 
 import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart'
-    show RawOnscreenKeyboard;
+    show
+        OnscreenKeyboardController,
+        OnscreenKeyboardTextField,
+        RawOnscreenKeyboard;
 
 export 'src/layouts/layouts.dart';
 export 'src/models/keys.dart';

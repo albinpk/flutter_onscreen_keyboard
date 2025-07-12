@@ -180,10 +180,9 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   int _position = 0;
 
   void _handleTexTextKeyDown(TextKey key) {
-    if (activeTextField == null && _activeController == null) return;
+    if (activeTextField == null) return;
 
-    final controller =
-        activeTextField?.effectiveController ?? _activeController!.controller;
+    final controller = activeTextField!.effectiveController;
     var text = controller.text;
     if (controller.selection.isValid) {
       _position = controller.selection.start;
@@ -207,12 +206,8 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
       setState(() => _pressedActionKeys.add(key.name));
     }
 
-    if (activeTextField == null && _activeController == null) return;
-    final isTextField = activeTextField != null;
-    final controller =
-        activeTextField?.effectiveController ?? _activeController!.controller;
-    // final f =
-    //     activeTextField?.effectiveFocusNode ?? _activeController!.focusNode;
+    if (activeTextField == null) return;
+    final controller = activeTextField!.effectiveController;
 
     switch (key.name) {
       case ActionKeyType.backspace:
@@ -263,45 +258,39 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
         );
 
       case ActionKeyType.enter:
-        // Currently, only "OnscreenKeyboardTextField" handles the Enter key.
-        // In TextEditingController mode (see "attachTextController"),
-        // we can't determine if the associated text field is single-line or
-        // multi-line, so Enter key behavior is not applied there.
-        if (isTextField) {
-          if (activeTextField!.widget.maxLines == 1) {
-            // if a single line field
-            activeTextField!.effectiveFocusNode.unfocus();
-            close();
+        if (activeTextField!.widget.maxLines == 1) {
+          // if a single line field
+          activeTextField!.effectiveFocusNode.unfocus();
+          close();
+        } else {
+          // if a multi line field
+          final selection = controller.selection;
+          if (selection.isValid) _position = selection.start;
+          final String newText;
+          if (selection.isCollapsed) {
+            newText = controller.text.replaceRange(
+              _position,
+              _position++, // update position
+              '\n',
+            );
           } else {
-            // if a multi line field
-            final selection = controller.selection;
-            if (selection.isValid) _position = selection.start;
-            final String newText;
-            if (selection.isCollapsed) {
-              newText = controller.text.replaceRange(
-                _position,
-                _position++, // update position
-                '\n',
-              );
-            } else {
-              newText = controller.text.replaceRange(
-                _position++, // update position
-                selection.end,
-                '\n',
-              );
-            }
-            controller.value = TextEditingValue(
-              text: newText,
-              selection: TextSelection.collapsed(offset: _position),
+            newText = controller.text.replaceRange(
+              _position++, // update position
+              selection.end,
+              '\n',
             );
           }
+          controller.value = TextEditingValue(
+            text: newText,
+            selection: TextSelection.collapsed(offset: _position),
+          );
         }
 
       case ActionKeyType.capslock:
+        break;
       case ActionKeyType.shift:
+        break;
     }
-
-    // f?.requestFocus();
   }
 
   void _handleActionKeyUp(ActionKey key) {
@@ -328,7 +317,6 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   @override
   void close() {
     detachTextField();
-    detachTextController();
     setState(() => _visible = false);
   }
 
@@ -343,25 +331,8 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   @override
   void moveToBottom() => setAlignment(Alignment.bottomCenter);
 
-  ({TextEditingController controller, FocusNode? focusNode})? _activeController;
-
-  @override
-  void attachTextController(
-    TextEditingController controller, {
-    FocusNode? focusNode,
-  }) {
-    detachTextField();
-    _activeController = (controller: controller, focusNode: focusNode);
-  }
-
-  @override
-  void detachTextController() {
-    _activeController = null;
-  }
-
   @override
   void attachTextField(OnscreenKeyboardTextFieldState state) {
-    detachTextController();
     _activeTextField.value = state;
   }
 
@@ -372,13 +343,6 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
     }
   }
 
-  // @override
-  // final _activeTextController = ValueNotifier<TextEditingController?>(null);
-
-  // TextEditingController? get activeTextController =>
-  //     _activeTextController.value;
-
-  @override
   final _activeTextField = ValueNotifier<OnscreenKeyboardTextFieldState?>(null);
 
   OnscreenKeyboardTextFieldState? get activeTextField => _activeTextField.value;

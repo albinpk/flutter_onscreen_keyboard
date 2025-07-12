@@ -5,11 +5,6 @@ part of 'onscreen_keyboard.dart';
 /// This allows opening and closing the keyboard, changing its alignment,
 /// managing focus and text input sources, and adding listeners
 /// for raw key events.
-///
-/// > **Note:** Only one input source can be active at a time.
-/// Either use [attachTextField] for a custom [OnscreenKeyboardTextField], or
-/// [attachTextController] for a standard [TextEditingController]-based input.
-/// Using both simultaneously is not supported.
 abstract interface class OnscreenKeyboardController {
   /// Opens the onscreen keyboard.
   void open();
@@ -31,8 +26,8 @@ abstract interface class OnscreenKeyboardController {
   /// Attaches an [OnscreenKeyboardTextFieldState] to the keyboard,
   /// making it the active input field for text input.
   ///
-  /// > This will automatically detach any previously attached
-  /// [TextEditingController] or [OnscreenKeyboardTextField].
+  /// > This will automatically detach any previously
+  /// attached [OnscreenKeyboardTextField].
   void attachTextField(OnscreenKeyboardTextFieldState state);
 
   /// Detaches a previously attached [OnscreenKeyboardTextFieldState].
@@ -48,32 +43,10 @@ abstract interface class OnscreenKeyboardController {
   /// Removes a previously added raw key down listener.
   void removeRawKeyDownListener(OnscreenKeyboardListener listener);
 
-  /// Attaches a [TextEditingController] (and optional [FocusNode]) to
-  /// the keyboard.
-  ///
-  /// This enables text input for standard Flutter text fields.
-  ///
-  /// > This will automatically detach any previously attached
-  /// [OnscreenKeyboardTextField] or [TextEditingController].
-  void attachTextController(
-    TextEditingController controller, {
-    FocusNode? focusNode,
-  });
-
-  /// Detaches the currently attached [TextEditingController], if any.
-  void detachTextController();
-
   /// Cycles to the next keyboard layout mode in the order they are defined.
   ///
   /// Keyboard modes are defined in the [KeyboardLayout.modes] map.
   /// Calling this method switches the current mode to the next one,
   /// wrapping around to the first mode when the end is reached.
   void switchMode();
-
-  /// Returns a [ValueNotifier] of the currently active
-  /// [OnscreenKeyboardTextFieldState].
-  ///
-  /// This is intended for internal use.
-  // ignore: unused_element
-  ValueNotifier<OnscreenKeyboardTextFieldState?> get _activeTextField;
 }

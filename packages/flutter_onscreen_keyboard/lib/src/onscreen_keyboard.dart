@@ -176,29 +176,19 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
     }
   }
 
-  /// Text selection position.
-  int _position = 0;
-
   void _handleTexTextKeyDown(TextKey key) {
-    if (activeTextField == null) return;
-
-    final controller = activeTextField!.effectiveController;
-    var text = controller.text;
-    if (controller.selection.isValid) {
-      _position = controller.selection.start;
-      if (!controller.selection.isCollapsed) {
-        text = text.replaceRange(_position, controller.selection.end, '');
-      }
+    if (activeTextField?.effectiveController case final controller?
+        when controller.selection.isValid) {
+      final newText = controller.text.replaceRange(
+        controller.start,
+        controller.end,
+        key.getText(secondary: _showSecondary),
+      );
+      controller.value = TextEditingValue(
+        text: newText,
+        selection: TextSelection.collapsed(offset: controller.start + 1),
+      );
     }
-    final newText = text.replaceRange(
-      _position,
-      _position++, // update position
-      key.getText(secondary: _showSecondary),
-    );
-    controller.value = TextEditingValue(
-      text: newText,
-      selection: TextSelection.collapsed(offset: _position),
-    );
   }
 
   void _handleActionKeyDown(ActionKey key) {
@@ -206,90 +196,72 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
       setState(() => _pressedActionKeys.add(key.name));
     }
 
-    if (activeTextField == null) return;
-    final controller = activeTextField!.effectiveController;
-
-    switch (key.name) {
-      case ActionKeyType.backspace:
-        if (controller.text.isEmpty) return;
-        final selection = controller.selection;
-        if (selection.isValid) _position = selection.start;
-        String? newText;
-        if (!selection.isCollapsed) {
-          newText = controller.text.replaceRange(
-            _position,
-            selection.end,
-            '',
-          );
-        } else if (_position > 0) {
-          newText = controller.text.replaceRange(
-            _position - 1,
-            _position--, // update position
-            '',
-          );
-        }
-        if (newText != null) {
-          controller.value = TextEditingValue(
-            text: newText,
-            selection: TextSelection.collapsed(offset: _position),
-          );
-        }
-
-      case ActionKeyType.tab:
-        final selection = controller.selection;
-        if (selection.isValid) _position = selection.start;
-        final String newText;
-        if (selection.isCollapsed) {
-          newText = controller.text.replaceRange(
-            _position,
-            _position++, // update position
-            '\t',
-          );
-        } else {
-          newText = controller.text.replaceRange(
-            _position++,
-            selection.end,
-            '\t',
-          );
-        }
-        controller.value = TextEditingValue(
-          text: newText,
-          selection: TextSelection.collapsed(offset: _position),
-        );
-
-      case ActionKeyType.enter:
-        if (activeTextField!.widget.maxLines == 1) {
-          // if a single line field
-          activeTextField!.effectiveFocusNode.unfocus();
-          close();
-        } else {
-          // if a multi line field
-          final selection = controller.selection;
-          if (selection.isValid) _position = selection.start;
-          final String newText;
-          if (selection.isCollapsed) {
+    if (activeTextField?.effectiveController case final controller?
+        when controller.selection.isValid) {
+      switch (key.name) {
+        case ActionKeyType.backspace:
+          if (controller.text.isEmpty) return;
+          String? newText;
+          if (!controller.isCollapsed) {
             newText = controller.text.replaceRange(
-              _position,
-              _position++, // update position
-              '\n',
+              controller.start,
+              controller.end,
+              '',
             );
-          } else {
+          } else if (controller.start > 0) {
             newText = controller.text.replaceRange(
-              _position++, // update position
-              selection.end,
-              '\n',
+              controller.start - 1,
+              controller.start,
+              '',
             );
           }
+          if (newText != null) {
+            controller.value = TextEditingValue(
+              text: newText,
+              selection: TextSelection.collapsed(
+                offset: controller.isCollapsed
+                    ? controller.start - 1
+                    : controller.start,
+              ),
+            );
+          }
+
+        case ActionKeyType.tab:
+          if (!controller.selection.isValid) return;
+          final newText = controller.text.replaceRange(
+            controller.start,
+            controller.end,
+            '\t',
+          );
           controller.value = TextEditingValue(
             text: newText,
-            selection: TextSelection.collapsed(offset: _position),
+            selection: TextSelection.collapsed(offset: controller.start + 1),
           );
-        }
 
-      case ActionKeyType.capslock:
-        break;
-      case ActionKeyType.shift:
-        break;
+        case ActionKeyType.enter:
+          if (!controller.selection.isValid) return;
+          if (activeTextField!.widget.maxLines == 1) {
+            // if a single line field
+            activeTextField!.effectiveFocusNode.unfocus();
+            // close();
+          } else {
+            // if a multi line field
+            final newText = controller.text.replaceRange(
+              controller.start,
+              controller.end,
+              '\n',
+            );
+            controller.value = TextEditingValue(
+              text: newText,
+              selection: TextSelection.collapsed(offset: controller.start + 1),
+            );
+          }
+
+        case ActionKeyType.capslock:
+          break;
+        case ActionKeyType.shift:
+          break;
+      }
     }
   }
 
@@ -658,4 +630,10 @@ class _OnscreenKeyboardProvider extends InheritedWidget {
   @override
   bool updateShouldNotify(_OnscreenKeyboardProvider oldWidget) =>
       oldWidget.state != state;
+}
+
+extension on TextEditingController {
+  int get start => selection.start;
+  int get end => selection.end;
+  bool get isCollapsed => selection.isCollapsed;
 }

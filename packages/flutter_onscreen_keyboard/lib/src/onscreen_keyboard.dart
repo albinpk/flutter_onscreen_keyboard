@@ -28,6 +28,7 @@ class OnscreenKeyboard extends StatefulWidget {
     this.width,
     this.dragHandle,
     this.aspectRatio,
+    this.showControlBar = true,
     this.buildControlBarActions,
   });
 
@@ -57,6 +58,10 @@ class OnscreenKeyboard extends StatefulWidget {
   /// {@macro keyboardLayout.aspectRatio}
   final double? aspectRatio;
 
+  /// Whether to show the control bar at the top of the keyboard.
+  /// Defaults to `true`.
+  final bool showControlBar;
+
   /// {@macro controlBar.actions}
   final ActionsBuilder? buildControlBarActions;
 
@@ -83,6 +88,8 @@ class OnscreenKeyboard extends StatefulWidget {
   /// - [layout]: Keyboard layout to render. Falls back to default layout
   ///   if not set.
   /// - [width]: A function that returns the keyboard's width.
+  /// - [showControlBar]: Whether to show the control bar at the top of the
+  ///   keyboard. Defaults to `true`.
   /// - [dragHandle]: A widget to show as the drag handle above the keyboard.
   ///   If null, a default handle is shown.
   /// - [aspectRatio]: Determines the width-to-height ratio of the
@@ -99,6 +106,7 @@ class OnscreenKeyboard extends StatefulWidget {
     OnscreenKeyboardThemeData? theme,
     KeyboardLayout? layout,
     WidthGetter? width,
+    bool showControlBar = true,
     Widget? dragHandle,
     double? aspectRatio,
     ActionsBuilder? buildControlBarActions,
@@ -107,6 +115,7 @@ class OnscreenKeyboard extends StatefulWidget {
       theme: theme,
       layout: layout,
       width: width,
+      showControlBar: showControlBar,
       dragHandle: dragHandle,
       aspectRatio: aspectRatio,
       buildControlBarActions: buildControlBarActions,
@@ -537,12 +546,13 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          _ControlBar(
-                                            dragHandle: dragHandle,
-                                            actions: widget
-                                                .buildControlBarActions
-                                                ?.call(context),
-                                          ),
+                                          if (widget.showControlBar)
+                                            _ControlBar(
+                                              dragHandle: dragHandle,
+                                              actions: widget
+                                                  .buildControlBarActions
+                                                  ?.call(context),
+                                            ),
                                           RawOnscreenKeyboard(
                                             aspectRatio: widget.aspectRatio,
                                             onKeyDown: _onKeyDown,

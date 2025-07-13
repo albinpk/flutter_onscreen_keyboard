@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.3.0`](#flutter_onscreen_keyboard---v030)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.3.0`
+
+ - **REFACTOR**: simplify text handling in keyboard input methods. ([e3e8edd9](https://github.com/albinpk/flutter_onscreen_keyboard/commit/e3e8edd995006270960e763fca57b5cdf963fe97))
+ - **FIX**: gboard and ios themes. ([6a6bfade](https://github.com/albinpk/flutter_onscreen_keyboard/commit/6a6bfadee84837f47289853f3f5bcc04100a3a02))
+ - **FEAT**: add emoji mode for default mobile layout. ([a9414077](https://github.com/albinpk/flutter_onscreen_keyboard/commit/a9414077895ebc4d539cabd73c27f14d5dd59996))
+ - **FEAT**: add option to show/hide control bar in `OnscreenKeyboard`. ([7b9147f4](https://github.com/albinpk/flutter_onscreen_keyboard/commit/7b9147f44c94fdf3610e99cb52d092258d8aa2ac))
+ - **DOCS**: update `README.md` with more screenshots. ([79310704](https://github.com/albinpk/flutter_onscreen_keyboard/commit/7931070410aa150665beabe0ec1c9b46cc508944))
+ - **BREAKING** **REFACTOR**: remove `attachTextController` and related implementations. ([0d44c91c](https://github.com/albinpk/flutter_onscreen_keyboard/commit/0d44c91c1387ad93c0ac8738bb7d35d9d79f9ca1))
+
+
 ## 2025-07-06
 
 ### Changes

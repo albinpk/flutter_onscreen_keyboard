@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const OnscreenKeyboardTextField(
                     enableOnscreenKeyboard: false,
                     decoration: InputDecoration(
-                      labelText: 'Email (keyboard disabled)',
+                      labelText: 'Email (normal keyboard)',
                     ),
                   ),
 

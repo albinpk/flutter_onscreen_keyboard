@@ -11,7 +11,32 @@ A customizable and extensible on-screen virtual keyboard for Flutter application
 
 ---
 
-![Demo - flutter_onscreen_keyboard](https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/docs/demo.gif?raw=true)
+![Desktop demo - flutter_onscreen_keyboard](https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/docs/demo.gif?raw=true)
+
+<table>
+    <tr>
+        <td>
+            <img alt="Gboard blue alphabets - flutter_onscreen_keyboard"
+                src="https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/docs/gboard-blue-alphabets.jpeg?raw=true"
+                width="220">
+        </td>
+        <td>
+            <img alt="Gboard blue emoji - flutter_onscreen_keyboard"
+                src="https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/docs/gboard-blue-emoji.jpeg?raw=true"
+                width="220">
+        </td>
+        <td>
+            <img alt="ios default alphabets - flutter_onscreen_keyboard"
+                src="https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/docs/ios-default-alphabets.png?raw=true"
+                width="220">
+        </td>
+        <td>
+            <img alt="ios default symbols - flutter_onscreen_keyboard"
+                src="https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/docs/ios-default-symbols.png?raw=true"
+                width="220">
+        </td>
+    </tr>
+</table>
 
 ## ✨ Features
 

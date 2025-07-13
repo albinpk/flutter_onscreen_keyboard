@@ -62,7 +62,6 @@ class TextKeyWidget extends StatelessWidget {
 
     return Container(
       margin: theme.margin,
-      padding: theme.padding,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: theme.borderRadius,
@@ -146,7 +145,6 @@ class ActionKeyWidget extends StatelessWidget {
 
     return Container(
       margin: theme.margin,
-      padding: theme.padding,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: theme.borderRadius,

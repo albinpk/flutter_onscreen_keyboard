@@ -179,14 +179,17 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   void _handleTexTextKeyDown(TextKey key) {
     if (activeTextField?.effectiveController case final controller?
         when controller.selection.isValid) {
+      final keyText = key.getText(secondary: _showSecondary);
       final newText = controller.text.replaceRange(
         controller.start,
         controller.end,
-        key.getText(secondary: _showSecondary),
+        keyText,
       );
       controller.value = TextEditingValue(
         text: newText,
-        selection: TextSelection.collapsed(offset: controller.start + 1),
+        selection: TextSelection.collapsed(
+          offset: controller.start + keyText.length,
+        ),
       );
     }
   }
@@ -202,27 +205,28 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
         case ActionKeyType.backspace:
           if (controller.text.isEmpty) return;
           String? newText;
-          if (!controller.isCollapsed) {
+          int? offset;
+          if (!controller.selection.isCollapsed) {
             newText = controller.text.replaceRange(
               controller.start,
               controller.end,
               '',
             );
+            offset = controller.start;
           } else if (controller.start > 0) {
-            newText = controller.text.replaceRange(
-              controller.start - 1,
-              controller.start,
-              '',
-            );
+            // handling emojis
+            final leftSide = controller.text
+                .substring(0, controller.start)
+                .characters
+                .toList();
+            final rightSide = controller.text.substring(controller.start);
+            offset = controller.start - leftSide.removeLast().length;
+            newText = leftSide.join() + rightSide;
           }
-          if (newText != null) {
+          if (newText != null && offset != null) {
             controller.value = TextEditingValue(
               text: newText,
-              selection: TextSelection.collapsed(
-                offset: controller.isCollapsed
-                    ? controller.start - 1
-                    : controller.start,
-              ),
+              selection: TextSelection.collapsed(offset: offset),
             );
           }
 
@@ -442,68 +446,80 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
 
                             // keyboard widget
                             final keyboard = TextFieldTapRegion(
-                              child: Builder(
-                                key: _keyboardKey,
-                                builder: (context) {
-                                  final colors = Theme.of(context).colorScheme;
-                                  final theme = context.theme;
-                                  final borderRadius =
-                                      theme.borderRadius ??
-                                      BorderRadius.circular(6);
-                                  return Material(
-                                    type: MaterialType.transparency,
-                                    child: Container(
-                                      width: widget.width?.call(context),
-                                      margin: theme.margin,
-                                      padding: theme.padding,
-                                      clipBehavior: Clip.hardEdge,
-                                      decoration: BoxDecoration(
-                                        color: theme.color,
-                                        borderRadius: borderRadius,
-                                        gradient: theme.gradient,
-                                        boxShadow:
-                                            theme.boxShadow ??
-                                            [
-                                              BoxShadow(
-                                                color: colors.shadow.fade(0.05),
-                                                spreadRadius: 5,
-                                                blurRadius: 5,
+                              // theme override for modes
+                              child: OnscreenKeyboardTheme(
+                                data:
+                                    _layout.modes[_mode]!.theme?.call(
+                                      context,
+                                    ) ??
+                                    context.theme,
+                                child: Builder(
+                                  key: _keyboardKey,
+                                  builder: (context) {
+                                    final colors = Theme.of(
+                                      context,
+                                    ).colorScheme;
+                                    final theme = context.theme;
+                                    final borderRadius =
+                                        theme.borderRadius ??
+                                        BorderRadius.circular(6);
+                                    return Material(
+                                      type: MaterialType.transparency,
+                                      child: Container(
+                                        width: widget.width?.call(context),
+                                        margin: theme.margin,
+                                        padding: theme.padding,
+                                        clipBehavior: Clip.hardEdge,
+                                        decoration: BoxDecoration(
+                                          color: theme.color,
+                                          borderRadius: borderRadius,
+                                          gradient: theme.gradient,
+                                          boxShadow:
+                                              theme.boxShadow ??
+                                              [
+                                                BoxShadow(
+                                                  color: colors.shadow.fade(
+                                                    0.05,
+                                                  ),
+                                                  spreadRadius: 5,
+                                                  blurRadius: 5,
+                                                ),
+                                              ],
+                                        ),
+                                        foregroundDecoration: BoxDecoration(
+                                          borderRadius: borderRadius,
+                                          border:
+                                              theme.border ??
+                                              Border.all(
+                                                color: colors.outline.fade(),
                                               ),
-                                            ],
-                                      ),
-                                      foregroundDecoration: BoxDecoration(
-                                        borderRadius: borderRadius,
-                                        border:
-                                            theme.border ??
-                                            Border.all(
-                                              color: colors.outline.fade(),
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            if (widget.showControlBar)
+                                              _ControlBar(
+                                                dragHandle: dragHandle,
+                                                actions: widget
+                                                    .buildControlBarActions
+                                                    ?.call(context),
+                                              ),
+                                            RawOnscreenKeyboard(
+                                              aspectRatio: widget.aspectRatio,
+                                              onKeyDown: _onKeyDown,
+                                              onKeyUp: _onKeyUp,
+                                              layout: _layout,
+                                              mode: _mode,
+                                              pressedActionKeys:
+                                                  _pressedActionKeys,
+                                              showSecondary: _showSecondary,
                                             ),
+                                          ],
+                                        ),
                                       ),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          if (widget.showControlBar)
-                                            _ControlBar(
-                                              dragHandle: dragHandle,
-                                              actions: widget
-                                                  .buildControlBarActions
-                                                  ?.call(context),
-                                            ),
-                                          RawOnscreenKeyboard(
-                                            aspectRatio: widget.aspectRatio,
-                                            onKeyDown: _onKeyDown,
-                                            onKeyUp: _onKeyUp,
-                                            layout: _layout,
-                                            mode: _mode,
-                                            pressedActionKeys:
-                                                _pressedActionKeys,
-                                            showSecondary: _showSecondary,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
                             );
 
@@ -630,10 +646,4 @@ class _OnscreenKeyboardProvider extends InheritedWidget {
   @override
   bool updateShouldNotify(_OnscreenKeyboardProvider oldWidget) =>
       oldWidget.state != state;
-}
-
-extension on TextEditingController {
-  int get start => selection.start;
-  int get end => selection.end;
-  bool get isCollapsed => selection.isCollapsed;
 }

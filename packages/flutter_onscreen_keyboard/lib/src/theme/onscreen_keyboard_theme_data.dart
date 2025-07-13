@@ -53,6 +53,33 @@ class OnscreenKeyboardThemeData {
   /// The background color of the control bar.
   final Color? controlBarColor;
 
+  /// Copies the current [OnscreenKeyboardThemeData] with the provided changes.
+  OnscreenKeyboardThemeData copyWith({
+    Color? color,
+    BoxBorder? border,
+    BorderRadiusGeometry? borderRadius,
+    List<BoxShadow>? boxShadow,
+    Gradient? gradient,
+    EdgeInsetsGeometry? margin,
+    EdgeInsetsGeometry? padding,
+    TextKeyThemeData? textKeyThemeData,
+    ActionKeyThemeData? actionKeyThemeData,
+    Color? controlBarColor,
+  }) {
+    return OnscreenKeyboardThemeData(
+      color: color ?? this.color,
+      border: border ?? this.border,
+      borderRadius: borderRadius ?? this.borderRadius,
+      boxShadow: boxShadow ?? this.boxShadow,
+      gradient: gradient ?? this.gradient,
+      margin: margin ?? this.margin,
+      padding: padding ?? this.padding,
+      textKeyThemeData: textKeyThemeData ?? this.textKeyThemeData,
+      actionKeyThemeData: actionKeyThemeData ?? this.actionKeyThemeData,
+      controlBarColor: controlBarColor ?? this.controlBarColor,
+    );
+  }
+
   // predefined themes
 
   /// Google Gboard theme.
@@ -193,6 +220,35 @@ class TextKeyThemeData extends KeyThemeData {
 
   /// The text style used for rendering key labels.
   final TextStyle? textStyle;
+
+  /// Copies the current [TextKeyThemeData] with the provided changes.
+  TextKeyThemeData copyWith({
+    Color? backgroundColor,
+    Color? foregroundColor,
+    EdgeInsetsGeometry? margin,
+    EdgeInsetsGeometry? padding,
+    bool? fitChild,
+    BorderRadiusGeometry? borderRadius,
+    BoxBorder? border,
+    double? iconSize,
+    List<BoxShadow>? boxShadow,
+    Gradient? gradient,
+    TextStyle? textStyle,
+  }) {
+    return TextKeyThemeData(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      foregroundColor: foregroundColor ?? this.foregroundColor,
+      margin: margin ?? this.margin,
+      padding: padding ?? this.padding,
+      fitChild: fitChild ?? this.fitChild,
+      borderRadius: borderRadius ?? this.borderRadius,
+      border: border ?? this.border,
+      iconSize: iconSize ?? this.iconSize,
+      boxShadow: boxShadow ?? this.boxShadow,
+      gradient: gradient ?? this.gradient,
+      textStyle: textStyle ?? this.textStyle,
+    );
+  }
 }
 
 /// Theme customization for [ActionKey] widgets.
@@ -218,4 +274,37 @@ class ActionKeyThemeData extends KeyThemeData {
 
   /// Text or icon color of the key when pressed.
   final Color? pressedForegroundColor;
+
+  /// Copies the current [ActionKeyThemeData] with the provided changes.
+  ActionKeyThemeData copyWith({
+    Color? backgroundColor,
+    Color? foregroundColor,
+    EdgeInsetsGeometry? margin,
+    EdgeInsetsGeometry? padding,
+    bool? fitChild,
+    BorderRadiusGeometry? borderRadius,
+    BoxBorder? border,
+    double? iconSize,
+    List<BoxShadow>? boxShadow,
+    Gradient? gradient,
+    Color? pressedBackgroundColor,
+    Color? pressedForegroundColor,
+  }) {
+    return ActionKeyThemeData(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      foregroundColor: foregroundColor ?? this.foregroundColor,
+      margin: margin ?? this.margin,
+      padding: padding ?? this.padding,
+      fitChild: fitChild ?? this.fitChild,
+      borderRadius: borderRadius ?? this.borderRadius,
+      border: border ?? this.border,
+      iconSize: iconSize ?? this.iconSize,
+      boxShadow: boxShadow ?? this.boxShadow,
+      gradient: gradient ?? this.gradient,
+      pressedBackgroundColor:
+          pressedBackgroundColor ?? this.pressedBackgroundColor,
+      pressedForegroundColor:
+          pressedForegroundColor ?? this.pressedForegroundColor,
+    );
+  }
 }

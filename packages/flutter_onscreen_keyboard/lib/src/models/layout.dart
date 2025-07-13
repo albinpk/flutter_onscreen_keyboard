@@ -51,6 +51,7 @@ class KeyboardMode {
   const KeyboardMode({
     required this.rows,
     this.verticalSpacing = 0,
+    this.theme,
   });
 
   /// The rows of keys displayed in this mode.
@@ -58,6 +59,9 @@ class KeyboardMode {
 
   /// The vertical spacing between rows.
   final double verticalSpacing;
+
+  /// The keyboard theme for this mode.
+  final OnscreenKeyboardThemeData Function(BuildContext context)? theme;
 }
 
 /// Represents a single row in a keyboard layout.

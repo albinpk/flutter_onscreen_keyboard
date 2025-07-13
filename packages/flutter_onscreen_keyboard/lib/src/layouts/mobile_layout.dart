@@ -21,6 +21,23 @@ class MobileKeyboardLayout extends KeyboardLayout {
     return {
       'alphabets': KeyboardMode(rows: _alphabetsMode),
       'symbols': KeyboardMode(rows: _symbolsMode, verticalSpacing: 20),
+      'emojis': KeyboardMode(
+        rows: _emojisMode,
+        theme: (context) {
+          final theme = context.theme;
+          return theme.copyWith(
+            actionKeyThemeData: theme.actionKeyThemeData.copyWith(
+              padding: const EdgeInsets.all(10),
+            ),
+            textKeyThemeData: theme.textKeyThemeData.copyWith(
+              backgroundColor: Colors.transparent,
+              boxShadow: [],
+              // fix for: https://github.com/flutter/flutter/issues/119623
+              padding: const EdgeInsets.only(left: 3),
+            ),
+          );
+        },
+      ),
     };
   }
 
@@ -171,6 +188,42 @@ class MobileKeyboardLayout extends KeyboardLayout {
           name: ActionKeyType.enter,
           child: Icon(Icons.keyboard_return_rounded),
           flex: 30,
+        ),
+      ],
+    ),
+  ];
+
+  /// Emoji keyboard layout.
+  List<KeyboardRow> get _emojisMode => [
+    ...const [
+      ['😂', '❤️', '😍', '😭', '😊', '🔥', '🤣', '👍', '🥰', '😘'],
+      ['😅', '🙏', '💕', '😭', '🤔', '😁', '🥲', '😎', '😢', '😋'],
+      ['👏', '😮', '😳', '🤗', '🎉', '💔', '😴', '🙄', '😡', '🤩'],
+    ].map(_buildRow),
+
+    KeyboardRow(
+      keys: [
+        ...['😬', '😐', '😇', '🤤', '🤪', '👀', '😷', '😌', '🙈'].map(
+          _buildKey,
+        ),
+        const OnscreenKeyboardKey.action(
+          name: ActionKeyType.backspace,
+          child: Icon(Icons.backspace_outlined),
+        ),
+      ],
+    ),
+
+    KeyboardRow(
+      keys: [
+        OnscreenKeyboardKey.action(
+          name: 'mode_switch',
+          child: const Icon(Icons.swap_horiz_rounded),
+          onTap: (context) => context.controller.switchMode(),
+        ),
+        ...['🌹', '🎂', '🤯', '🥺', '💀', '💩', '🫶', '😈'].map(_buildKey),
+        const OnscreenKeyboardKey.action(
+          name: ActionKeyType.enter,
+          child: Icon(Icons.keyboard_return_rounded),
         ),
       ],
     ),

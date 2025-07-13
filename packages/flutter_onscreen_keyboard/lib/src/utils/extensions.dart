@@ -35,3 +35,12 @@ extension LoggerExt<T> on T {
     return this;
   }
 }
+
+/// Extension on [TextEditingController] to easily access text selection.
+extension TextEditingControllerExt on TextEditingController {
+  /// Text selection start.
+  int get start => selection.start;
+
+  /// Text selection end.
+  int get end => selection.end;
+}

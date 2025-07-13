@@ -88,7 +88,9 @@ class OnscreenKeyboardThemeData {
     return OnscreenKeyboardThemeData(
       color: Color.lerp(color, Colors.white, 0.8),
       controlBarColor: Color.lerp(color, Colors.white, 0.8),
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 14),
+      boxShadow: [],
+      border: const Border.fromBorderSide(BorderSide.none),
       borderRadius: BorderRadius.zero,
       textKeyThemeData: TextKeyThemeData(
         backgroundColor: Colors.white,
@@ -112,7 +114,9 @@ class OnscreenKeyboardThemeData {
     return OnscreenKeyboardThemeData(
       color: const Color(0xFFD3D3D3),
       controlBarColor: const Color(0xFFD3D3D3),
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 14),
+      boxShadow: [],
+      border: const Border.fromBorderSide(BorderSide.none),
       borderRadius: BorderRadius.zero,
       textKeyThemeData: TextKeyThemeData(
         backgroundColor: Colors.white,

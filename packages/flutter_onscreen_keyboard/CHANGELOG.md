@@ -1,3 +1,7 @@
+## 0.3.0+1
+
+ - **DOCS**: add codcov badge in README.md. ([4f85b8ef](https://github.com/albinpk/flutter_onscreen_keyboard/commit/4f85b8ef593a243481dee1fb8da34fefe43802fe))
+
 ## 0.3.0
 
 > Note: This release has breaking changes.

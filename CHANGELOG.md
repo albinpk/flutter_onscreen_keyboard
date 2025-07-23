@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.3.0+1`](#flutter_onscreen_keyboard---v0301)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.3.0+1`
+
+ - **DOCS**: add codcov badge in README.md. ([4f85b8ef](https://github.com/albinpk/flutter_onscreen_keyboard/commit/4f85b8ef593a243481dee1fb8da34fefe43802fe))
+
+
 ## 2025-07-13
 
 ### Changes

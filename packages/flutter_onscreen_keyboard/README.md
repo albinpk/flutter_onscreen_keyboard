@@ -3,6 +3,7 @@
 A customizable and extensible on-screen virtual keyboard for Flutter applications. Ideal for desktop and touchscreen environments where physical keyboards are unavailable or limited.
 
 [![deploy](https://github.com/albinpk/flutter_onscreen_keyboard/actions/workflows/deploy.yml/badge.svg)](https://github.com/albinpk/flutter_onscreen_keyboard/actions/workflows/deploy.yml)
+[![codecov](https://codecov.io/gh/albinpk/flutter_onscreen_keyboard/graph/badge.svg?token=01VDBVBIR9)](https://codecov.io/gh/albinpk/flutter_onscreen_keyboard)
 [![Pub Version](https://img.shields.io/pub/v/flutter_onscreen_keyboard.svg)](https://pub.dev/packages/flutter_onscreen_keyboard)
 [![Pub Points](https://img.shields.io/pub/points/flutter_onscreen_keyboard)](https://pub.dev/packages/flutter_onscreen_keyboard/score)
 [![GitHub License](https://img.shields.io/github/license/albinpk/flutter_onscreen_keyboard)](https://github.com/albinpk/flutter_onscreen_keyboard/blob/main/LICENSE)

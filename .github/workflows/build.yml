@@ -35,15 +35,15 @@ jobs:
         run: flutter analyze
         working-directory: packages/flutter_onscreen_keyboard
 
-      #   - name: Flutter test
-      #     run: flutter test --coverage
-      #     working-directory: packages/flutter_onscreen_keyboard
+      - name: Flutter test
+        run: flutter test --coverage
+        working-directory: packages/flutter_onscreen_keyboard
 
-      #   - name: Upload coverage to codecov
-      #     uses: codecov/codecov-action@v4
-      #     with:
-      #       token: ${{ secrets.CODECOV_TOKEN }}
-      #       working-directory: packages/flutter_onscreen_keyboard
+      # - name: Upload coverage reports to Codecov
+      #   uses: codecov/codecov-action@v5
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     slug: albinpk/flutter_onscreen_keyboard
 
       - name: Publish - dry run
         run: flutter pub publish --dry-run

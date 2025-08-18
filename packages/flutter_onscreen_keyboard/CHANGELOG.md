@@ -1,3 +1,7 @@
+## 0.3.0+2
+
+ - **FIX**: update flutter sdk and dependencies. ([8894ea4d](https://github.com/albinpk/flutter_onscreen_keyboard/commit/8894ea4d86b10f732d0599d81f59fded5fda95a2))
+
 ## 0.3.0+1
 
  - **DOCS**: add codcov badge in README.md. ([4f85b8ef](https://github.com/albinpk/flutter_onscreen_keyboard/commit/4f85b8ef593a243481dee1fb8da34fefe43802fe))

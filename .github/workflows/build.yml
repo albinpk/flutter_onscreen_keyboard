@@ -23,6 +23,10 @@ jobs:
         # with:
         #   path: packages/flutter_onscreen_keyboard/.fvmrc
 
+      - name: Install dependencies (example)
+        run: flutter pub get
+        working-directory: packages/flutter_onscreen_keyboard/example
+
       - name: Install dependencies
         run: flutter pub get
         working-directory: packages/flutter_onscreen_keyboard

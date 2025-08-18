@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish:
-    uses: albinpk/flutter_cora/.github/workflows/publish.yml@a679fe7f6ef9fc998fafecec51d5c55a350f1a7b
+    uses: albinpk/actions/.github/workflows/pub_deploy.yml@8e2d19bf317141b1331079c63a9d57df865e1efe
     secrets: inherit
     with:
       working-directory: packages/flutter_onscreen_keyboard

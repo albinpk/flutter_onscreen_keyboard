@@ -107,6 +107,8 @@ class OnscreenKeyboardTextField extends StatefulWidget {
     this.canRequestFocus = true,
     this.spellCheckConfiguration,
     this.magnifierConfiguration,
+    this.hintLocales,
+    this.selectAllOnFocus,
   });
 
   /// Enables or disables the automatic onscreen keyboard behavior.
@@ -636,6 +638,12 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// default.
   final SpellCheckConfiguration? spellCheckConfiguration;
 
+  /// {@macro flutter.services.TextInputConfiguration.hintLocales}
+  final List<Locale>? hintLocales;
+
+  /// {@macro flutter.widgets.editableText.selectAllOnFocus}
+  final bool? selectAllOnFocus;
+
   static Widget _defaultContextMenuBuilder(
     BuildContext context,
     EditableTextState editableTextState,
@@ -785,6 +793,8 @@ class _OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField>
       scribbleEnabled: widget.scribbleEnabled,
       // ignore: deprecated_member_use, deprecated_member_use_from_same_package
       toolbarOptions: widget.toolbarOptions,
+      hintLocales: widget.hintLocales,
+      selectAllOnFocus: widget.selectAllOnFocus,
     );
   }
 }

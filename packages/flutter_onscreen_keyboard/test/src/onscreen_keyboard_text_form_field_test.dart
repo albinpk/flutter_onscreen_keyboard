@@ -4,7 +4,7 @@ import 'package:flutter_onscreen_keyboard/src/onscreen_keyboard.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('OnscreenKeyboardTextField', () {
+  group('OnscreenKeyboardTextFormField', () {
     late TextEditingController controller;
     late FocusNode focusNode;
 
@@ -22,12 +22,12 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           builder: OnscreenKeyboard.builder(width: (_) => 200),
-          home: const Scaffold(body: OnscreenKeyboardTextField()),
+          home: const Scaffold(body: OnscreenKeyboardTextFormField()),
         ),
       );
 
       expect(find.byType(RawOnscreenKeyboard), findsNothing);
-      await tester.tap(find.byType(OnscreenKeyboardTextField));
+      await tester.tap(find.byType(OnscreenKeyboardTextFormField));
       await tester.pumpAndSettle();
       expect(find.byType(RawOnscreenKeyboard), findsOneWidget);
     });
@@ -39,7 +39,7 @@ void main() {
           MaterialApp(
             builder: OnscreenKeyboard.builder(width: (_) => 200),
             home: const Scaffold(
-              body: OnscreenKeyboardTextField(
+              body: OnscreenKeyboardTextFormField(
                 keyboardType: TextInputType.emailAddress,
               ),
             ),
@@ -57,7 +57,7 @@ void main() {
           MaterialApp(
             builder: OnscreenKeyboard.builder(width: (_) => 200),
             home: const Scaffold(
-              body: OnscreenKeyboardTextField(
+              body: OnscreenKeyboardTextFormField(
                 enableOnscreenKeyboard: false,
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -76,13 +76,15 @@ void main() {
           MaterialApp(
             builder: OnscreenKeyboard.builder(width: (_) => 200),
             home: const Scaffold(
-              body: OnscreenKeyboardTextField(enableOnscreenKeyboard: false),
+              body: OnscreenKeyboardTextFormField(
+                enableOnscreenKeyboard: false,
+              ),
             ),
           ),
         );
 
         expect(find.byType(RawOnscreenKeyboard), findsNothing);
-        await tester.tap(find.byType(OnscreenKeyboardTextField));
+        await tester.tap(find.byType(OnscreenKeyboardTextFormField));
         await tester.pumpAndSettle();
         expect(find.byType(RawOnscreenKeyboard), findsNothing);
       },
@@ -96,7 +98,7 @@ void main() {
           MaterialApp(
             builder: OnscreenKeyboard.builder(width: (_) => 200),
             home: Scaffold(
-              body: OnscreenKeyboardTextField(
+              body: OnscreenKeyboardTextFormField(
                 key: key,
                 controller: controller,
                 focusNode: focusNode,

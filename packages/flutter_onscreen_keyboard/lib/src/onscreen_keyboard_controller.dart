@@ -23,17 +23,17 @@ abstract interface class OnscreenKeyboardController {
   /// Moves the keyboard to the bottom-center of the available screen space.
   void moveToBottom();
 
-  /// Attaches an [OnscreenKeyboardTextFieldState] to the keyboard,
+  /// Attaches an [OnscreenKeyboardFieldState] to the keyboard,
   /// making it the active input field for text input.
   ///
   /// > This will automatically detach any previously
   /// attached [OnscreenKeyboardTextField].
-  void attachTextField(OnscreenKeyboardTextFieldState state);
+  void attachTextField(OnscreenKeyboardFieldState state);
 
-  /// Detaches a previously attached [OnscreenKeyboardTextFieldState].
+  /// Detaches a previously attached [OnscreenKeyboardFieldState].
   ///
   /// If no [state] is provided, detaches the currently active one.
-  void detachTextField([OnscreenKeyboardTextFieldState? state]);
+  void detachTextField([OnscreenKeyboardFieldState? state]);
 
   /// Adds a listener to receive raw key down events from the keyboard.
   ///

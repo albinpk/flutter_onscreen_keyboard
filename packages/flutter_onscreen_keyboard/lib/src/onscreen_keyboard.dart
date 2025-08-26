@@ -12,7 +12,9 @@ import 'package:flutter_onscreen_keyboard/src/types.dart';
 import 'package:flutter_onscreen_keyboard/src/utils/extensions.dart';
 
 part 'onscreen_keyboard_controller.dart';
+part 'onscreen_keyboard_field_state.dart';
 part 'onscreen_keyboard_text_field.dart';
+part 'onscreen_keyboard_text_form_field.dart';
 
 /// A customizable on-screen keyboard widget.
 ///
@@ -177,7 +179,7 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   }
 
   void _handleTexTextKeyDown(TextKey key) {
-    if (activeTextField?.effectiveController case final controller?
+    if (activeTextField?.controller case final controller?
         when controller.selection.isValid) {
       final keyText = key.getText(secondary: _showSecondary);
       final newText = controller.text.replaceRange(
@@ -199,7 +201,7 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
       setState(() => _pressedActionKeys.add(key.name));
     }
 
-    if (activeTextField?.effectiveController case final controller?
+    if (activeTextField?.controller case final controller?
         when controller.selection.isValid) {
       switch (key.name) {
         case ActionKeyType.backspace:
@@ -244,9 +246,9 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
 
         case ActionKeyType.enter:
           if (!controller.selection.isValid) return;
-          if (activeTextField!.widget.maxLines == 1) {
+          if (activeTextField!.maxLines == 1) {
             // if a single line field
-            activeTextField!.effectiveFocusNode.unfocus();
+            activeTextField!.focusNode.unfocus();
             // close();
           } else {
             // if a multi line field
@@ -308,20 +310,20 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   void moveToBottom() => setAlignment(Alignment.bottomCenter);
 
   @override
-  void attachTextField(OnscreenKeyboardTextFieldState state) {
+  void attachTextField(OnscreenKeyboardFieldState state) {
     _activeTextField.value = state;
   }
 
   @override
-  void detachTextField([OnscreenKeyboardTextFieldState? state]) {
+  void detachTextField([OnscreenKeyboardFieldState? state]) {
     if (state == null || state == activeTextField) {
       _activeTextField.value = null;
     }
   }
 
-  final _activeTextField = ValueNotifier<OnscreenKeyboardTextFieldState?>(null);
+  final _activeTextField = ValueNotifier<OnscreenKeyboardFieldState?>(null);
 
-  OnscreenKeyboardTextFieldState? get activeTextField => _activeTextField.value;
+  OnscreenKeyboardFieldState? get activeTextField => _activeTextField.value;
 
   /// List of raw key down listeners.
   final _rawKeyDownListeners = ObserverList<OnscreenKeyboardListener>();

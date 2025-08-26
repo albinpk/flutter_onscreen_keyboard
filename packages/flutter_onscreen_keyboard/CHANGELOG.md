@@ -1,3 +1,10 @@
+## 0.4.0
+
+> Note: This release has breaking changes.
+
+ - **DOCS**: add `OnscreenKeyboardTextFormField` in readme. ([95ab04cf](https://github.com/albinpk/flutter_onscreen_keyboard/commit/95ab04cfc55e2badcac43f7d30b7c6f04f49addc))
+ - **BREAKING** **FEAT**: add `OnscreenKeyboardTextFormField` widget ([#20](https://github.com/albinpk/flutter_onscreen_keyboard/issues/20)). ([23d73ca4](https://github.com/albinpk/flutter_onscreen_keyboard/commit/23d73ca43c113d0f0687018c0fadfec89b925de4))
+
 ## 0.3.0+2
 
  - **FIX**: update flutter sdk and dependencies. ([8894ea4d](https://github.com/albinpk/flutter_onscreen_keyboard/commit/8894ea4d86b10f732d0599d81f59fded5fda95a2))

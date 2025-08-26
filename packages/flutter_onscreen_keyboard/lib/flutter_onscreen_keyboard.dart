@@ -16,6 +16,7 @@
 /// See also:
 /// - [RawOnscreenKeyboard] - a low-level keyboard widget
 /// - [OnscreenKeyboardTextField] - dedicated text field widget
+/// - [OnscreenKeyboardTextFormField] - dedicated text form field widget
 /// - [OnscreenKeyboardController] - interface for controlling the keyboard
 library;
 
@@ -23,6 +24,7 @@ import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart'
     show
         OnscreenKeyboardController,
         OnscreenKeyboardTextField,
+        OnscreenKeyboardTextFormField,
         RawOnscreenKeyboard;
 
 export 'src/layouts/layouts.dart';

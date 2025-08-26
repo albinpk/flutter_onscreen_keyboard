@@ -126,6 +126,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     maxLines: null,
                   ),
+
+                  // form field
+                  OnscreenKeyboardTextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Note',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
                 ],
               ),
             ),

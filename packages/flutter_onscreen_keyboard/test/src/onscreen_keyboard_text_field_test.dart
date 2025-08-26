@@ -33,6 +33,43 @@ void main() {
     });
 
     testWidgets(
+      'by default keyboardType should be "TextInputType.none"',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            builder: OnscreenKeyboard.builder(width: (_) => 200),
+            home: const Scaffold(
+              body: OnscreenKeyboardTextField(
+                keyboardType: TextInputType.emailAddress,
+              ),
+            ),
+          ),
+        );
+        final textField = tester.widget<TextField>(find.byType(TextField));
+        expect(textField.keyboardType, TextInputType.none);
+      },
+    );
+
+    testWidgets(
+      'keyboardType should be applied when "enableOnscreenKeyboard=false"',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            builder: OnscreenKeyboard.builder(width: (_) => 200),
+            home: const Scaffold(
+              body: OnscreenKeyboardTextField(
+                enableOnscreenKeyboard: false,
+                keyboardType: TextInputType.emailAddress,
+              ),
+            ),
+          ),
+        );
+        final textField = tester.widget<TextField>(find.byType(TextField));
+        expect(textField.keyboardType, TextInputType.emailAddress);
+      },
+    );
+
+    testWidgets(
       'should not open keyboard on focus if enableOnscreenKeyboard is false',
       (tester) async {
         await tester.pumpWidget(

@@ -219,6 +219,8 @@ class OnscreenKeyboardTextFormField extends StatefulWidget {
   final InputDecoration? decoration;
 
   /// {@macro flutter.widgets.editableText.keyboardType}
+  ///
+  /// IMPORTANT: This will be ignored if [enableOnscreenKeyboard] is true.
   final TextInputType? keyboardType;
 
   /// {@macro flutter.widgets.editableText.textCapitalization}
@@ -765,7 +767,10 @@ class _OnscreenKeyboardTextFormFieldState
       initialValue: widget.initialValue,
       forceErrorText: widget.forceErrorText,
       decoration: widget.decoration,
-      keyboardType: widget.keyboardType,
+      // prevent the keyboard from opening
+      keyboardType: widget.enableOnscreenKeyboard
+          ? TextInputType.none
+          : widget.keyboardType,
       textCapitalization: widget.textCapitalization,
       textInputAction: widget.textInputAction,
       style: widget.style,

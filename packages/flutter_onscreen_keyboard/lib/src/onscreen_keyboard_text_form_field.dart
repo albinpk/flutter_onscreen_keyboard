@@ -1,8 +1,9 @@
 part of 'onscreen_keyboard.dart';
 
-/// A specialized [TextField] widget that integrates with an [OnscreenKeyboard].
+/// A specialized [TextFormField] widget that integrates with
+/// an [OnscreenKeyboard].
 ///
-/// This widget behaves like a regular Flutter [TextField], but
+/// This widget behaves like a regular Flutter [TextFormField], but
 /// includes additional features to automatically attach and
 /// interact with an onscreen keyboard widget.
 ///
@@ -12,37 +13,39 @@ part of 'onscreen_keyboard.dart';
 /// - Registers itself with the [OnscreenKeyboardController] so key presses
 ///   are directly applied to this input.
 /// - Provides optional [TextEditingController] and [FocusNode] management
-/// if none are supplied.
+///   if none are supplied.
 /// - Visually highlights the field when it is the active
-/// onscreen keyboard target.
+///   onscreen keyboard target.
 ///
 /// ### Usage
 /// ```dart
-/// const OnscreenKeyboardTextField(
+/// const OnscreenKeyboardTextFormField(
 ///   decoration: InputDecoration(labelText: 'Enter Name'),
 /// );
 /// ```
 ///
 /// > Note: If [enableOnscreenKeyboard] is set to false, this widget
-/// will function as a regular [TextField].
-class OnscreenKeyboardTextField extends StatefulWidget {
-  /// Creates a new [OnscreenKeyboardTextField] widget.
-  const OnscreenKeyboardTextField({
+/// will function as a regular [TextFormField].
+class OnscreenKeyboardTextFormField extends StatefulWidget {
+  /// Creates a new [OnscreenKeyboardTextFormField] widget.
+  const OnscreenKeyboardTextFormField({
     super.key,
     this.enableOnscreenKeyboard = true,
     this.groupId = EditableText,
     this.controller,
+    this.initialValue,
     this.focusNode,
-    this.undoController,
+    this.forceErrorText,
     this.decoration = const InputDecoration(),
     this.keyboardType,
-    this.textInputAction,
     this.textCapitalization = TextCapitalization.none,
+    this.textInputAction,
     this.style,
     this.strutStyle,
+    this.textDirection,
     this.textAlign = TextAlign.start,
     this.textAlignVertical,
-    this.textDirection,
+    this.autofocus = false,
     this.readOnly = false,
     @Deprecated(
       'Use `contextMenuBuilder` instead. '
@@ -50,51 +53,60 @@ class OnscreenKeyboardTextField extends StatefulWidget {
     )
     this.toolbarOptions,
     this.showCursor,
-    this.autofocus = false,
-    this.statesController,
     this.obscuringCharacter = '•',
     this.obscureText = false,
     this.autocorrect = true,
     this.smartDashesType,
     this.smartQuotesType,
     this.enableSuggestions = true,
+    this.maxLengthEnforcement,
     this.maxLines = 1,
     this.minLines,
     this.expands = false,
     this.maxLength,
-    this.maxLengthEnforcement,
     this.onChanged,
+    this.onTap,
+    this.onTapAlwaysCalled = false,
+    this.onTapOutside,
+    this.onTapUpOutside,
     this.onEditingComplete,
-    this.onSubmitted,
-    this.onAppPrivateCommand,
+    this.onFieldSubmitted,
+    this.onSaved,
+    this.validator,
+    this.errorBuilder,
     this.inputFormatters,
     this.enabled,
     this.ignorePointers,
     this.cursorWidth = 2.0,
     this.cursorHeight,
     this.cursorRadius,
-    this.cursorOpacityAnimates,
     this.cursorColor,
     this.cursorErrorColor,
-    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
-    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
     this.keyboardAppearance,
     this.scrollPadding = const EdgeInsets.all(20),
-    this.dragStartBehavior = DragStartBehavior.start,
     this.enableInteractiveSelection,
+    this.selectAllOnFocus,
     this.selectionControls,
-    this.onTap,
-    this.onTapAlwaysCalled = false,
-    this.onTapOutside,
-    this.onTapUpOutside,
-    this.mouseCursor,
     this.buildCounter,
-    this.scrollController,
     this.scrollPhysics,
-    this.autofillHints = const <String>[],
-    this.contentInsertionConfiguration,
-    this.clipBehavior = Clip.hardEdge,
+    this.autofillHints,
+    this.autovalidateMode,
+    this.scrollController,
     this.restorationId,
+    this.enableIMEPersonalizedLearning = true,
+    this.mouseCursor,
+    this.contextMenuBuilder = _defaultContextMenuBuilder,
+    this.spellCheckConfiguration,
+    this.magnifierConfiguration,
+    this.undoController,
+    this.onAppPrivateCommand,
+    this.cursorOpacityAnimates,
+    this.selectionHeightStyle,
+    this.selectionWidthStyle,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.contentInsertionConfiguration,
+    this.statesController,
+    this.clipBehavior = Clip.hardEdge,
     @Deprecated(
       'Use `stylusHandwritingEnabled` instead. '
       'This feature was deprecated after v3.27.0-0.2.pre.',
@@ -102,11 +114,8 @@ class OnscreenKeyboardTextField extends StatefulWidget {
     this.scribbleEnabled = true,
     this.stylusHandwritingEnabled =
         EditableText.defaultStylusHandwritingEnabled,
-    this.enableIMEPersonalizedLearning = true,
-    this.contextMenuBuilder = _defaultContextMenuBuilder,
     this.canRequestFocus = true,
-    this.spellCheckConfiguration,
-    this.magnifierConfiguration,
+    this.hintLocales,
   });
 
   /// Enables or disables the automatic onscreen keyboard behavior.
@@ -116,33 +125,27 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   ///
   /// When true, the [keyboardType] will be ignored.
   ///
-  /// If set to false, this widget will function as a regular [TextField].
+  /// If set to false, this widget will function as a regular [TextFormField].
   /// Defaults to `true`.
   final bool enableOnscreenKeyboard;
-
-  /// The configuration for the magnifier of this text field.
-  ///
-  /// By default, builds a [CupertinoTextMagnifier] on iOS and [TextMagnifier]
-  /// on Android, and builds nothing on all other platforms. To suppress the
-  /// magnifier, consider passing [TextMagnifierConfiguration.disabled].
-  ///
-  /// {@macro flutter.widgets.magnifier.intro}
-  ///
-  /// {@tool dartpad}
-  /// This sample demonstrates how to customize the magnifier
-  /// that this text field uses.
-  ///
-  /// ** See code in examples/api/lib/widgets/text_magnifier/text_magnifier.0.dart **
-  /// {@end-tool}
-  final TextMagnifierConfiguration? magnifierConfiguration;
 
   /// {@macro flutter.widgets.editableText.groupId}
   final Object groupId;
 
   /// Controls the text being edited.
   ///
-  /// If null, this widget will create its own [TextEditingController].
+  /// If null, this widget will create its own [TextEditingController] and
+  /// initialize its [TextEditingController.text] with [initialValue].
   final TextEditingController? controller;
+
+  /// An optional value to initialize the form field to, or null otherwise.
+  ///
+  /// The `initialValue` affects the form field's state in two cases:
+  /// 1. When the form field is first built, `initialValue` determines
+  /// the field's initial state.
+  /// 2. When [FormFieldState.reset] is called (either directly or by calling
+  /// [FormFieldState.reset]), the form field is reset to this `initialValue`.
+  final String? initialValue;
 
   /// Defines the keyboard focus for this widget.
   ///
@@ -180,10 +183,31 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// obscuring. In this case requesting the focus again will not
   /// cause the focus to change, and will not make the keyboard visible.
   ///
-  /// This widget builds an [EditableText] and will ensure that the keyboard is
-  /// showing when it is tapped by calling
+  /// This widget builds an [EditableText] and will ensure that the
+  /// keyboard is showing when it is tapped by calling
   /// [EditableTextState.requestKeyboard()].
   final FocusNode? focusNode;
+
+  /// An optional property that forces the [FormFieldState] into an error state
+  /// by directly setting the [FormFieldState.errorText] property without
+  /// running the validator function.
+  ///
+  /// When the [forceErrorText] property is provided,
+  /// the [FormFieldState.errorText] will be set to the provided value,
+  /// causing the form field to be considered invalid and to display
+  /// the error message specified.
+  ///
+  /// When [validator] is provided, [forceErrorText] will override
+  /// any error that it returns. [validator] will not be called unless
+  /// [forceErrorText] is null.
+  ///
+  /// See also:
+  ///
+  /// * [InputDecoration.errorText], which is used to display error messages
+  /// in the text field's decoration without effecting the field's state.
+  /// When [forceErrorText] is not null, it will override
+  /// [InputDecoration.errorText] value.
+  final String? forceErrorText;
 
   /// The decoration to show around the text field.
   ///
@@ -195,37 +219,32 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   final InputDecoration? decoration;
 
   /// {@macro flutter.widgets.editableText.keyboardType}
-  ///
-  /// IMPORTANT: This will be ignored if [enableOnscreenKeyboard] is true.
   final TextInputType? keyboardType;
-
-  /// {@template flutter.widgets.TextField.textInputAction}
-  /// The type of action button to use for the keyboard.
-  ///
-  /// Defaults to [TextInputAction.newline] if [keyboardType] is
-  /// [TextInputType.multiline] and [TextInputAction.done] otherwise.
-  /// {@endtemplate}
-  final TextInputAction? textInputAction;
 
   /// {@macro flutter.widgets.editableText.textCapitalization}
   final TextCapitalization textCapitalization;
+
+  /// {@macro flutter.widgets.TextField.textInputAction}
+  final TextInputAction? textInputAction;
 
   /// The style to use for the text being edited.
   ///
   /// This text style is also used as the base style for the [decoration].
   ///
-  /// If null, [TextTheme.bodyLarge] will be used.
-  /// When the text field is disabled, [TextTheme.bodyLarge] with an
-  /// opacity of 0.38 will be used instead.
+  /// If null, [TextTheme.bodyLarge] will be used. When the text field
+  /// is disabled, [TextTheme.bodyLarge] with an opacity of 0.38 will
+  /// be used instead.
   ///
-  /// If null and [ThemeData.useMaterial3] is false,
-  /// [TextTheme.titleMedium] will be used. When the text field
-  /// is disabled, [TextTheme.titleMedium] with
-  /// [ThemeData.disabledColor] will be used instead.
+  /// If null and [ThemeData.useMaterial3] is false, [TextTheme.titleMedium]
+  /// will be used. When the text field is disabled, [TextTheme.titleMedium]
+  /// with [ThemeData.disabledColor] will be used instead.
   final TextStyle? style;
 
   /// {@macro flutter.widgets.editableText.strutStyle}
   final StrutStyle? strutStyle;
+
+  /// {@macro flutter.widgets.editableText.textDirection}
+  final TextDirection? textDirection;
 
   /// {@macro flutter.widgets.editableText.textAlign}
   final TextAlign textAlign;
@@ -233,33 +252,25 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// {@macro flutter.material.InputDecorator.textAlignVertical}
   final TextAlignVertical? textAlignVertical;
 
-  /// {@macro flutter.widgets.editableText.textDirection}
-  final TextDirection? textDirection;
-
   /// {@macro flutter.widgets.editableText.autofocus}
   final bool autofocus;
 
-  /// Represents the interactive "state" of this widget in terms of a set of
-  /// [WidgetState]s, including [WidgetState.disabled], [WidgetState.hovered],
-  /// [WidgetState.error], and [WidgetState.focused].
+  /// {@macro flutter.widgets.editableText.readOnly}
+  final bool readOnly;
+
+  /// Configuration of toolbar options.
   ///
-  /// Classes based on this one can provide their own
-  /// [WidgetStatesController] to which they've added listeners.
-  /// They can also update the controller's [WidgetStatesController.value]
-  /// however, this may only be done when it's safe to call
-  /// [State.setState], like in an event handler.
-  ///
-  /// The controller's [WidgetStatesController.value] represents the set of
-  /// states that a widget's visual properties, typically [WidgetStateProperty]
-  /// values, are resolved against. It is _not_ the intrinsic state of the
-  /// widget. The widget is responsible for ensuring that the controller's
-  /// [WidgetStatesController.value] tracks its intrinsic state. For example
-  /// one cannot request the keyboard focus for a widget by adding
-  /// [WidgetState.focused] to its controller. When the widget gains the or
-  /// loses the focus it will [WidgetStatesController.update] its
-  /// controller's [WidgetStatesController.value] and notify listeners
-  /// of the change.
-  final WidgetStatesController? statesController;
+  /// If not set, select all and paste will default to be enabled. Copy and cut
+  /// will be disabled if [obscureText] is true. If [readOnly] is true,
+  /// paste and cut will be disabled regardless.
+  @Deprecated(
+    'Use `contextMenuBuilder` instead. '
+    'This feature was deprecated after v3.3.0-0.5.pre.',
+  )
+  final ToolbarOptions? toolbarOptions;
+
+  /// {@macro flutter.widgets.editableText.showCursor}
+  final bool? showCursor;
 
   /// {@macro flutter.widgets.editableText.obscuringCharacter}
   final String obscuringCharacter;
@@ -279,6 +290,13 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// {@macro flutter.services.TextInputConfiguration.enableSuggestions}
   final bool enableSuggestions;
 
+  /// Determines how the [maxLength] limit should be enforced.
+  ///
+  /// {@macro flutter.services.textFormatter.effectiveMaxLengthEnforcement}
+  ///
+  /// {@macro flutter.services.textFormatter.maxLengthEnforcement}
+  final MaxLengthEnforcement? maxLengthEnforcement;
+
   /// {@macro flutter.widgets.editableText.maxLines}
   ///  * [expands], which determines whether the field should fill the height of
   ///    its parent.
@@ -291,27 +309,6 @@ class OnscreenKeyboardTextField extends StatefulWidget {
 
   /// {@macro flutter.widgets.editableText.expands}
   final bool expands;
-
-  /// {@macro flutter.widgets.editableText.readOnly}
-  final bool readOnly;
-
-  /// Configuration of toolbar options.
-  ///
-  /// If not set, select all and paste will default to be enabled. Copy and cut
-  /// will be disabled if [obscureText] is true. If [readOnly] is true,
-  /// paste and cut will be disabled regardless.
-  @Deprecated(
-    'Use `contextMenuBuilder` instead. '
-    'This feature was deprecated after v3.3.0-0.5.pre.',
-  )
-  final ToolbarOptions? toolbarOptions;
-
-  /// {@macro flutter.widgets.editableText.showCursor}
-  final bool? showCursor;
-
-  /// If [maxLength] is set to this value, only the "current input length"
-  /// part of the character counter is shown.
-  static const int noMaxLength = -1;
 
   /// The maximum number of characters (Unicode grapheme clusters) to allow in
   /// the text field.
@@ -327,14 +324,14 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// [MaxLengthEnforcement.none].
   ///
   /// The text field enforces the length with a
-  /// [LengthLimitingTextInputFormatter],
-  /// which is evaluated after the supplied [inputFormatters], if any.
+  /// [LengthLimitingTextInputFormatter], which is evaluated after the
+  /// supplied [inputFormatters], if any.
   ///
   /// This value must be either null, [TextField.noMaxLength], or
-  /// greater than 0.
-  /// If null (the default) then there is no limit to the number of characters
-  /// that can be entered. If set to [TextField.noMaxLength], then no limit will
-  /// be enforced, but the number of characters entered will still be displayed.
+  /// greater than 0. If null (the default) then there is no limit to the
+  /// number of characters that can be entered. If set to
+  /// [TextField.noMaxLength], then no limit will be enforced, but the number
+  /// of characters entered will still be displayed.
   ///
   /// Whitespace characters (e.g. newline, space, tab) are included in the
   /// character count.
@@ -347,34 +344,56 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// {@macro flutter.services.lengthLimitingTextInputFormatter.maxLength}
   final int? maxLength;
 
-  /// Determines how the [maxLength] limit should be enforced.
-  ///
-  /// {@macro flutter.services.textFormatter.effectiveMaxLengthEnforcement}
-  ///
-  /// {@macro flutter.services.textFormatter.maxLengthEnforcement}
-  final MaxLengthEnforcement? maxLengthEnforcement;
-
-  /// {@macro flutter.widgets.editableText.onChanged}
-  ///
-  /// See also:
-  ///
-  ///  * [inputFormatters], which are called before [onChanged]
-  ///    runs and can validate and change ("format") the input value.
-  ///  * [onEditingComplete], [onSubmitted]:
-  ///    which are more specialized input change notifications.
+  /// Called when the user initiates a change to the TextField's
+  /// value: when they have inserted or deleted text or reset the form.
   final ValueChanged<String>? onChanged;
+
+  /// {@macro flutter.material.textfield.onTap}
+  ///
+  /// If [onTapAlwaysCalled] is enabled, this will also be called
+  /// for consecutive taps.
+  final GestureTapCallback? onTap;
+
+  /// The configuration for the magnifier of this text field.
+  ///
+  /// By default, builds a [CupertinoTextMagnifier] on iOS and [TextMagnifier]
+  /// on Android, and builds nothing on all other platforms. To suppress the
+  /// magnifier, consider passing [TextMagnifierConfiguration.disabled].
+  ///
+  /// {@macro flutter.widgets.magnifier.intro}
+  ///
+  /// {@tool dartpad}
+  /// This sample demonstrates how to customize the magnifier that this text
+  /// field uses.
+  ///
+  /// ** See code in examples/api/lib/widgets/text_magnifier/text_magnifier.0.dart **
+  /// {@end-tool}
+  final TextMagnifierConfiguration? magnifierConfiguration;
+
+  /// Represents the interactive "state" of this widget in terms of a set of
+  /// [WidgetState]s, including [WidgetState.disabled], [WidgetState.hovered],
+  /// [WidgetState.error], and [WidgetState.focused].
+  ///
+  /// Classes based on this one can provide their own
+  /// [WidgetStatesController] to which they've added listeners.
+  /// They can also update the controller's [WidgetStatesController.value]
+  /// however, this may only be done when it's safe to call
+  /// [State.setState], like in an event handler.
+  ///
+  /// The controller's [WidgetStatesController.value] represents the set of
+  /// states that a widget's visual properties, typically [WidgetStateProperty]
+  /// values, are resolved against. It is _not_ the intrinsic state of
+  /// the widget.
+  /// The widget is responsible for ensuring that the controller's
+  /// [WidgetStatesController.value] tracks its intrinsic state. For example
+  /// one cannot request the keyboard focus for a widget by adding
+  /// [WidgetState.focused] to its controller. When the widget gains the or
+  /// loses the focus it will [WidgetStatesController.update] its controller's
+  /// [WidgetStatesController.value] and notify listeners of the change.
+  final WidgetStatesController? statesController;
 
   /// {@macro flutter.widgets.editableText.onEditingComplete}
   final VoidCallback? onEditingComplete;
-
-  /// {@macro flutter.widgets.editableText.onSubmitted}
-  ///
-  /// See also:
-  ///
-  ///  * [TextInputAction.next] and [TextInputAction.previous], which
-  ///    automatically shift the focus to the next/previous focusable item when
-  ///    the user is done editing.
-  final ValueChanged<String>? onSubmitted;
 
   /// {@macro flutter.widgets.editableText.onAppPrivateCommand}
   final AppPrivateCommandCallback? onAppPrivateCommand;
@@ -387,6 +406,27 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   ///
   /// If non-null this property overrides the [decoration]'s
   /// [InputDecoration.enabled] property.
+  ///
+  /// When a text field is disabled, all of its children widgets are also
+  /// disabled, including the [InputDecoration.suffixIcon]. If you need to keep
+  /// the suffix icon interactive while disabling the text field, consider using
+  /// [readOnly] and [enableInteractiveSelection] instead:
+  ///
+  /// ```dart
+  /// TextField(
+  ///   enabled: true,
+  ///   readOnly: true,
+  ///   enableInteractiveSelection: false,
+  ///   decoration: InputDecoration(
+  ///     suffixIcon: IconButton(
+  ///       onPressed: () {
+  ///         // This will work because the TextField is enabled
+  ///       },
+  ///       icon: const Icon(Icons.edit_outlined),
+  ///     ),
+  ///   ),
+  /// )
+  /// ```
   final bool? enabled;
 
   /// Determines whether this widget ignores pointer events.
@@ -428,12 +468,12 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// Controls how tall the selection highlight boxes are computed to be.
   ///
   /// See [ui.BoxHeightStyle] for details on available styles.
-  final ui.BoxHeightStyle selectionHeightStyle;
+  final ui.BoxHeightStyle? selectionHeightStyle;
 
   /// Controls how wide the selection highlight boxes are computed to be.
   ///
   /// See [ui.BoxWidthStyle] for details on available styles.
-  final ui.BoxWidthStyle selectionWidthStyle;
+  final ui.BoxWidthStyle? selectionWidthStyle;
 
   /// The appearance of the keyboard.
   ///
@@ -448,36 +488,14 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// {@macro flutter.widgets.editableText.enableInteractiveSelection}
   final bool? enableInteractiveSelection;
 
+  /// {@macro flutter.widgets.editableText.selectAllOnFocus}
+  final bool? selectAllOnFocus;
+
   /// {@macro flutter.widgets.editableText.selectionControls}
   final TextSelectionControls? selectionControls;
 
   /// {@macro flutter.widgets.scrollable.dragStartBehavior}
   final DragStartBehavior dragStartBehavior;
-
-  /// {@template flutter.material.textfield.onTap}
-  /// Called for the first tap in a series of taps.
-  ///
-  /// The text field builds a [GestureDetector] to handle input events like tap,
-  /// to trigger focus requests, to move the caret, adjust the selection, etc.
-  /// Handling some of those events by wrapping the text field with a competing
-  /// GestureDetector is problematic.
-  ///
-  /// To unconditionally handle taps, without interfering with the text field's
-  /// internal gesture detector, provide this callback.
-  ///
-  /// If the text field is created with [enabled] false, taps will not be
-  /// recognized.
-  ///
-  /// To be notified when the text field gains or loses the focus, provide a
-  /// [focusNode] and add a listener to that.
-  ///
-  /// To listen to arbitrary pointer events without competing with the
-  /// text field's internal gesture detector, use a [Listener].
-  /// {@endtemplate}
-  ///
-  /// If [onTapAlwaysCalled] is enabled, this will also be called for
-  /// consecutive taps.
-  final GestureTapCallback? onTap;
 
   /// Whether [onTap] should be called for every tap.
   ///
@@ -572,23 +590,7 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// Defaults to [Clip.hardEdge].
   final Clip clipBehavior;
 
-  /// {@template flutter.material.textfield.restorationId}
-  /// Restoration ID to save and restore the state of the text field.
-  ///
-  /// If non-null, the text field will persist and restore its current scroll
-  /// offset and - if no [controller] has been provided - the content of the
-  /// text field. If a [controller] has been provided, it is the responsibility
-  /// of the owner of that controller to persist and restore it, e.g. by using
-  /// a [RestorableTextEditingController].
-  ///
-  /// The state of this widget is persisted in a [RestorationBucket] claimed
-  /// from the surrounding [RestorationScope] using the provided restoration ID.
-  ///
-  /// See also:
-  ///
-  ///  * [RestorationManager], which explains how state restoration works in
-  ///    Flutter.
-  /// {@endtemplate}
+  /// {@macro flutter.material.textfield.restorationId}
   final String? restorationId;
 
   /// {@macro flutter.widgets.editableText.scribbleEnabled}
@@ -629,11 +631,57 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// {@macro flutter.widgets.undoHistory.controller}
   final UndoHistoryController? undoController;
 
+  /// {@macro flutter.services.TextInputConfiguration.hintLocales}
+  final List<Locale>? hintLocales;
+
+  /// {@macro flutter.widgets.editableText.onSubmitted}
+  ///
+  /// See also:
+  ///
+  ///  * [TextInputAction.next] and [TextInputAction.previous], which
+  ///    automatically shift the focus to the next/previous focusable item when
+  ///    the user is done editing.
+  final ValueChanged<String>? onFieldSubmitted;
+
+  /// An optional method to call with the final value when the form is saved
+  /// via [FormState.save].
+  final FormFieldSetter<String>? onSaved;
+
+  /// An optional method that validates an input. Returns an error string to
+  /// display if the input is invalid, or null otherwise.
+  ///
+  /// The returned value is exposed by the [FormFieldState.errorText] property.
+  /// The [TextFormField] uses this to override the [InputDecoration.errorText]
+  /// value.
+  ///
+  /// Alternating between error and normal state can cause the height of the
+  /// [TextFormField] to change if no other subtext decoration is set on the
+  /// field. To create a field whose height is fixed regardless of whether or
+  /// not an error is displayed, either wrap the  [TextFormField] in a fixed
+  /// height parent like [SizedBox], or set the [InputDecoration.helperText]
+  /// parameter to a space.
+  final FormFieldValidator<String>? validator;
+
+  /// Function that returns the widget representing the error to display.
+  ///
+  /// It is passed the form field validator error string as input.
+  /// The resulting widget is passed to [InputDecoration.error].
+  ///
+  /// If null, the validator error string is passed to
+  /// [InputDecoration.errorText].
+  final FormFieldErrorBuilder? errorBuilder;
+
+  /// Used to enable/disable this form field auto validation and update its
+  /// error text.
+  ///
+  /// {@macro flutter.widgets.FormField.autovalidateMode}
+  final AutovalidateMode? autovalidateMode;
+
   /// {@macro flutter.widgets.EditableText.spellCheckConfiguration}
   ///
-  /// If [SpellCheckConfiguration.misspelledTextStyle] is not specified in this
-  /// configuration, then [TextField.materialMisspelledTextStyle] is used by
-  /// default.
+  /// If [SpellCheckConfiguration.misspelledTextStyle] is not specified in
+  /// this configuration, then [TextField.materialMisspelledTextStyle] is
+  /// used by default.
   final SpellCheckConfiguration? spellCheckConfiguration;
 
   static Widget _defaultContextMenuBuilder(
@@ -652,12 +700,12 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   }
 
   @override
-  State<OnscreenKeyboardTextField> createState() =>
-      _OnscreenKeyboardTextFieldState();
+  State<OnscreenKeyboardTextFormField> createState() =>
+      _OnscreenKeyboardTextFormFieldState();
 }
 
-/// State for [OnscreenKeyboardTextField].
-class _OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField>
+class _OnscreenKeyboardTextFormFieldState
+    extends State<OnscreenKeyboardTextFormField>
     implements OnscreenKeyboardFieldState {
   /// The [TextEditingController] for the text field.
   TextEditingController get _effectiveController =>
@@ -710,81 +758,86 @@ class _OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField>
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      key: widget.key,
+      groupId: widget.groupId,
       controller: _effectiveController,
       focusNode: _effectiveFocusNode,
+      initialValue: widget.initialValue,
+      forceErrorText: widget.forceErrorText,
       decoration: widget.decoration,
-      autocorrect: widget.autocorrect,
-      autofillHints: widget.autofillHints,
-      autofocus: widget.autofocus,
-      buildCounter: widget.buildCounter,
-      contentInsertionConfiguration: widget.contentInsertionConfiguration,
-      contextMenuBuilder: widget.contextMenuBuilder,
-      cursorColor: widget.cursorColor,
-      cursorHeight: widget.cursorHeight,
-      cursorRadius: widget.cursorRadius,
-      cursorWidth: widget.cursorWidth,
-      dragStartBehavior: widget.dragStartBehavior,
-      enableInteractiveSelection: widget.enableInteractiveSelection,
-      enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
-      enableSuggestions: widget.enableSuggestions,
-      expands: widget.expands,
-      inputFormatters: widget.inputFormatters,
-      keyboardAppearance: widget.keyboardAppearance,
-      canRequestFocus: widget.canRequestFocus,
-      // prevent the keyboard from opening
-      keyboardType: widget.enableOnscreenKeyboard
-          ? TextInputType.none
-          : widget.keyboardType,
-      maxLines: widget.maxLines,
-      maxLength: widget.maxLength,
-      minLines: widget.minLines,
-      mouseCursor: widget.mouseCursor,
-      onEditingComplete: widget.onEditingComplete,
-      onSubmitted: widget.onSubmitted,
-      readOnly: widget.readOnly,
-      restorationId: widget.restorationId,
-      scrollPadding: widget.scrollPadding,
-      scrollPhysics: widget.scrollPhysics,
-      selectionControls: widget.selectionControls,
-      showCursor: widget.showCursor,
-      smartDashesType: widget.smartDashesType,
-      smartQuotesType: widget.smartQuotesType,
-      spellCheckConfiguration: widget.spellCheckConfiguration,
-      clipBehavior: widget.clipBehavior,
+      keyboardType: widget.keyboardType,
+      textCapitalization: widget.textCapitalization,
+      textInputAction: widget.textInputAction,
       style: widget.style,
-      cursorErrorColor: widget.cursorErrorColor,
-      cursorOpacityAnimates: widget.cursorOpacityAnimates,
       strutStyle: widget.strutStyle,
+      textDirection: widget.textDirection,
       textAlign: widget.textAlign,
       textAlignVertical: widget.textAlignVertical,
-      textCapitalization: widget.textCapitalization,
-      textDirection: widget.textDirection,
-      textInputAction: widget.textInputAction,
-      undoController: widget.undoController,
-      enabled: widget.enabled,
-      groupId: widget.groupId,
-      ignorePointers: widget.ignorePointers,
-      key: widget.key,
-      magnifierConfiguration: widget.magnifierConfiguration,
-      maxLengthEnforcement: widget.maxLengthEnforcement,
-      obscureText: widget.obscureText,
+      autofocus: widget.autofocus,
+      readOnly: widget.readOnly,
+      // ignore: deprecated_member_use, deprecated_member_use_from_same_package
+      toolbarOptions: widget.toolbarOptions,
+      showCursor: widget.showCursor,
       obscuringCharacter: widget.obscuringCharacter,
-      onAppPrivateCommand: widget.onAppPrivateCommand,
+      obscureText: widget.obscureText,
+      autocorrect: widget.autocorrect,
+      smartDashesType: widget.smartDashesType,
+      smartQuotesType: widget.smartQuotesType,
+      enableSuggestions: widget.enableSuggestions,
+      maxLengthEnforcement: widget.maxLengthEnforcement,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      expands: widget.expands,
+      maxLength: widget.maxLength,
       onChanged: widget.onChanged,
       onTap: widget.onTap,
       onTapAlwaysCalled: widget.onTapAlwaysCalled,
       onTapOutside: widget.onTapOutside,
       onTapUpOutside: widget.onTapUpOutside,
+      onEditingComplete: widget.onEditingComplete,
+      onFieldSubmitted: widget.onFieldSubmitted,
+      onSaved: widget.onSaved,
+      validator: widget.validator,
+      errorBuilder: widget.errorBuilder,
+      inputFormatters: widget.inputFormatters,
+      enabled: widget.enabled,
+      ignorePointers: widget.ignorePointers,
+      cursorWidth: widget.cursorWidth,
+      cursorHeight: widget.cursorHeight,
+      cursorRadius: widget.cursorRadius,
+      cursorColor: widget.cursorColor,
+      cursorErrorColor: widget.cursorErrorColor,
+      keyboardAppearance: widget.keyboardAppearance,
+      scrollPadding: widget.scrollPadding,
+      enableInteractiveSelection: widget.enableInteractiveSelection,
+      selectAllOnFocus: widget.selectAllOnFocus,
+      selectionControls: widget.selectionControls,
+      buildCounter: widget.buildCounter,
+      scrollPhysics: widget.scrollPhysics,
+      autofillHints: widget.autofillHints,
+      autovalidateMode: widget.autovalidateMode,
       scrollController: widget.scrollController,
+      restorationId: widget.restorationId,
+      enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+      mouseCursor: widget.mouseCursor,
+      contextMenuBuilder: widget.contextMenuBuilder,
+      spellCheckConfiguration: widget.spellCheckConfiguration,
+      magnifierConfiguration: widget.magnifierConfiguration,
+      undoController: widget.undoController,
+      onAppPrivateCommand: widget.onAppPrivateCommand,
+      cursorOpacityAnimates: widget.cursorOpacityAnimates,
       selectionHeightStyle: widget.selectionHeightStyle,
       selectionWidthStyle: widget.selectionWidthStyle,
+      dragStartBehavior: widget.dragStartBehavior,
+      contentInsertionConfiguration: widget.contentInsertionConfiguration,
       statesController: widget.statesController,
-      stylusHandwritingEnabled: widget.stylusHandwritingEnabled,
+      clipBehavior: widget.clipBehavior,
       // ignore: deprecated_member_use, deprecated_member_use_from_same_package
       scribbleEnabled: widget.scribbleEnabled,
-      // ignore: deprecated_member_use, deprecated_member_use_from_same_package
-      toolbarOptions: widget.toolbarOptions,
+      stylusHandwritingEnabled: widget.stylusHandwritingEnabled,
+      canRequestFocus: widget.canRequestFocus,
+      hintLocales: widget.hintLocales,
     );
   }
 }

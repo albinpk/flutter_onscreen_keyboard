@@ -32,6 +32,7 @@ export 'src/onscreen_keyboard.dart'
     show
         OnscreenKeyboard,
         OnscreenKeyboardController,
-        OnscreenKeyboardTextField;
+        OnscreenKeyboardTextField,
+        OnscreenKeyboardTextFormField;
 export 'src/raw_onscreen_keyboard.dart' show RawOnscreenKeyboard;
 export 'src/theme/onscreen_keyboard_theme_data.dart';

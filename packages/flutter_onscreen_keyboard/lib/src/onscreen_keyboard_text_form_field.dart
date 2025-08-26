@@ -759,7 +759,6 @@ class _OnscreenKeyboardTextFormFieldState
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      key: widget.key,
       groupId: widget.groupId,
       controller: _effectiveController,
       focusNode: _effectiveFocusNode,

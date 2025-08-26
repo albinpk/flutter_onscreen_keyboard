@@ -773,7 +773,6 @@ class _OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField>
       enabled: widget.enabled,
       groupId: widget.groupId,
       ignorePointers: widget.ignorePointers,
-      key: widget.key,
       magnifierConfiguration: widget.magnifierConfiguration,
       maxLengthEnforcement: widget.maxLengthEnforcement,
       obscureText: widget.obscureText,

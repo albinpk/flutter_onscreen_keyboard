@@ -11,4 +11,7 @@ abstract interface class OnscreenKeyboardFieldState {
 
   /// The maxLines property of the field.
   int? get maxLines;
+
+  /// The [List<TextInputFormatter>] associated with the field.
+  List<TextInputFormatter>? get inputFormatters;
 }

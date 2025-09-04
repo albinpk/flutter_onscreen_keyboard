@@ -759,6 +759,9 @@ class _OnscreenKeyboardTextFormFieldState
   int? get maxLines => widget.maxLines;
 
   @override
+  List<TextInputFormatter>? get inputFormatters => widget.inputFormatters;
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
       groupId: widget.groupId,

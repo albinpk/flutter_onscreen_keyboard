@@ -14,4 +14,7 @@ abstract interface class OnscreenKeyboardFieldState {
 
   /// The [List<TextInputFormatter>] associated with the field.
   List<TextInputFormatter>? get inputFormatters;
+
+  /// The [ValueChanged<String>] callback for text changes.
+  ValueChanged<String>? get onChanged;
 }

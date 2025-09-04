@@ -720,6 +720,9 @@ class _OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField>
   List<TextInputFormatter>? get inputFormatters => widget.inputFormatters;
 
   @override
+  ValueChanged<String>? get onChanged => widget.onChanged;
+
+  @override
   Widget build(BuildContext context) {
     return TextField(
       controller: _effectiveController,

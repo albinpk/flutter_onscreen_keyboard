@@ -216,6 +216,12 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
       if (newValue.text != controller.text ||
           newValue.selection != controller.selection) {
         controller.value = newValue;
+
+        // Call the onChanged callback if it exists and the text actually changed
+        if (newValue.text != currentText &&
+            activeTextField!.onChanged != null) {
+          activeTextField!.onChanged!(newValue.text);
+        }
       }
     }
   }
@@ -227,6 +233,8 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
 
     if (activeTextField?.controller case final controller?
         when controller.selection.isValid) {
+      final originalText = controller.text;
+
       switch (key.name) {
         case ActionKeyType.backspace:
           if (controller.text.isEmpty) return;
@@ -254,6 +262,11 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
               text: newText,
               selection: TextSelection.collapsed(offset: offset),
             );
+
+            // Call onChanged callback if text changed
+            if (newText != originalText && activeTextField!.onChanged != null) {
+              activeTextField!.onChanged!(newText);
+            }
           }
 
         case ActionKeyType.tab:
@@ -267,6 +280,11 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
             text: newText,
             selection: TextSelection.collapsed(offset: controller.start + 1),
           );
+
+          // Call onChanged callback if text changed
+          if (newText != originalText && activeTextField!.onChanged != null) {
+            activeTextField!.onChanged!(newText);
+          }
 
         case ActionKeyType.enter:
           if (!controller.selection.isValid) return;
@@ -285,6 +303,11 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
               text: newText,
               selection: TextSelection.collapsed(offset: controller.start + 1),
             );
+
+            // Call onChanged callback if text changed
+            if (newText != originalText && activeTextField!.onChanged != null) {
+              activeTextField!.onChanged!(newText);
+            }
           }
 
         case ActionKeyType.capslock:

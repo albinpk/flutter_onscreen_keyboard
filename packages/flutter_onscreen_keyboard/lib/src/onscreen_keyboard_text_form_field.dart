@@ -573,8 +573,8 @@ class OnscreenKeyboardTextFormField extends StatefulWidget {
   /// ```
   /// {@end-tool}
   ///
-  /// If buildCounter returns null, then no counter and no Semantics widget will be
-  /// created at all.
+  /// If buildCounter returns null, then no counter and no Semantics widget will
+  /// be created at all.
   final InputCounterWidgetBuilder? buildCounter;
 
   /// {@macro flutter.widgets.editableText.scrollPhysics}

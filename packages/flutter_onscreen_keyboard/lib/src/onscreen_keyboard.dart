@@ -12,11 +12,8 @@ import 'package:flutter_onscreen_keyboard/src/types.dart';
 import 'package:flutter_onscreen_keyboard/src/utils/extensions.dart';
 
 part 'onscreen_keyboard_controller.dart';
-
 part 'onscreen_keyboard_field_state.dart';
-
 part 'onscreen_keyboard_text_field.dart';
-
 part 'onscreen_keyboard_text_form_field.dart';
 
 /// A customizable on-screen keyboard widget.
@@ -217,7 +214,7 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
           newValue.selection != controller.selection) {
         controller.value = newValue;
 
-        // Call the onChanged callback if it exists and the text actually changed
+        // Call the onChanged callback if the text actually changed
         if (newValue.text != currentText &&
             activeTextField!.onChanged != null) {
           activeTextField!.onChanged!(newValue.text);

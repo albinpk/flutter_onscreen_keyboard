@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.4.0+1`](#flutter_onscreen_keyboard---v0401)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.4.0+1`
+
+ - **FIX**: TextInputFormatter is not applied to the edits of the onscreen_keyboard and onChanged is not triggered on changes thorugh the onscreen_keyboard ([#22](https://github.com/albinpk/flutter_onscreen_keyboard/issues/22)). ([9ea27c1d](https://github.com/albinpk/flutter_onscreen_keyboard/commit/9ea27c1ddf9dd93305fff1818ca1abd5995a37a0))
+
+
 ## 2025-08-26
 
 ### Changes

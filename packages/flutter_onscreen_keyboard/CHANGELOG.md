@@ -1,3 +1,7 @@
+## 0.4.0+1
+
+ - **FIX**: TextInputFormatter is not applied to the edits of the onscreen_keyboard and onChanged is not triggered on changes thorugh the onscreen_keyboard ([#22](https://github.com/albinpk/flutter_onscreen_keyboard/issues/22)). ([9ea27c1d](https://github.com/albinpk/flutter_onscreen_keyboard/commit/9ea27c1ddf9dd93305fff1818ca1abd5995a37a0))
+
 ## 0.4.0
 
 > Note: This release has breaking changes.

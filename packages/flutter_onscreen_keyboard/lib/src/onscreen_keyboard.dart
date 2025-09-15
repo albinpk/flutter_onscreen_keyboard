@@ -12,8 +12,11 @@ import 'package:flutter_onscreen_keyboard/src/types.dart';
 import 'package:flutter_onscreen_keyboard/src/utils/extensions.dart';
 
 part 'onscreen_keyboard_controller.dart';
+
 part 'onscreen_keyboard_field_state.dart';
+
 part 'onscreen_keyboard_text_field.dart';
+
 part 'onscreen_keyboard_text_form_field.dart';
 
 /// A customizable on-screen keyboard widget.
@@ -182,17 +185,44 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
     if (activeTextField?.controller case final controller?
         when controller.selection.isValid) {
       final keyText = key.getText(secondary: _showSecondary);
-      final newText = controller.text.replaceRange(
-        controller.start,
-        controller.end,
+      final currentText = controller.text;
+      final selection = controller.selection;
+
+      // Create the new text value by replacing the selected range
+      final newText = currentText.replaceRange(
+        selection.start,
+        selection.end,
         keyText,
       );
-      controller.value = TextEditingValue(
+
+      // Calculate the new cursor position
+      final newCursorPosition = selection.start + keyText.length;
+
+      // Create a new TextEditingValue with the proposed changes
+      var newValue = TextEditingValue(
         text: newText,
-        selection: TextSelection.collapsed(
-          offset: controller.start + keyText.length,
-        ),
+        selection: TextSelection.collapsed(offset: newCursorPosition),
       );
+
+      // Apply input formatters if they exist
+      if (activeTextField!.inputFormatters != null) {
+        final oldValue = controller.value;
+        for (final formatter in activeTextField!.inputFormatters!) {
+          newValue = formatter.formatEditUpdate(oldValue, newValue);
+        }
+      }
+
+      // Only update if the formatters didn't reject the change
+      if (newValue.text != controller.text ||
+          newValue.selection != controller.selection) {
+        controller.value = newValue;
+
+        // Call the onChanged callback if it exists and the text actually changed
+        if (newValue.text != currentText &&
+            activeTextField!.onChanged != null) {
+          activeTextField!.onChanged!(newValue.text);
+        }
+      }
     }
   }
 
@@ -203,6 +233,8 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
 
     if (activeTextField?.controller case final controller?
         when controller.selection.isValid) {
+      final originalText = controller.text;
+
       switch (key.name) {
         case ActionKeyType.backspace:
           if (controller.text.isEmpty) return;
@@ -230,6 +262,11 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
               text: newText,
               selection: TextSelection.collapsed(offset: offset),
             );
+
+            // Call onChanged callback if text changed
+            if (newText != originalText && activeTextField!.onChanged != null) {
+              activeTextField!.onChanged!(newText);
+            }
           }
 
         case ActionKeyType.tab:
@@ -243,6 +280,11 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
             text: newText,
             selection: TextSelection.collapsed(offset: controller.start + 1),
           );
+
+          // Call onChanged callback if text changed
+          if (newText != originalText && activeTextField!.onChanged != null) {
+            activeTextField!.onChanged!(newText);
+          }
 
         case ActionKeyType.enter:
           if (!controller.selection.isValid) return;
@@ -261,6 +303,11 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
               text: newText,
               selection: TextSelection.collapsed(offset: controller.start + 1),
             );
+
+            // Call onChanged callback if text changed
+            if (newText != originalText && activeTextField!.onChanged != null) {
+              activeTextField!.onChanged!(newText);
+            }
           }
 
         case ActionKeyType.capslock:

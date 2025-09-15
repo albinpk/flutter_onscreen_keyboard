@@ -717,6 +717,12 @@ class _OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField>
   int? get maxLines => widget.maxLines;
 
   @override
+  List<TextInputFormatter>? get inputFormatters => widget.inputFormatters;
+
+  @override
+  ValueChanged<String>? get onChanged => widget.onChanged;
+
+  @override
   Widget build(BuildContext context) {
     return TextField(
       controller: _effectiveController,

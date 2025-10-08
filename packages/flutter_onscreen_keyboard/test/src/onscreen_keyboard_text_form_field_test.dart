@@ -114,5 +114,52 @@ void main() {
         expect(state.maxLines, 3);
       },
     );
+
+    testWidgets(
+      'realtime validation',
+      (tester) async {
+        final key = GlobalKey<FormFieldState<String>>();
+        const errorText = 'Please enter some text';
+
+        await tester.pumpWidget(
+          MaterialApp(
+            builder: OnscreenKeyboard.builder(width: (_) => 200),
+            home: Scaffold(
+              body: OnscreenKeyboardTextFormField(
+                formFieldKey: key,
+                controller: controller,
+                focusNode: focusNode,
+                onChanged: (value) {
+                  key.currentState!.validate();
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return errorText;
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ),
+        );
+
+        final state = key.currentState!;
+        await tester.enterText(
+          find.byType(OnscreenKeyboardTextFormField),
+          'test',
+        );
+        await tester.pumpAndSettle();
+        expect(state.errorText, null);
+        expect(state.validate(), true);
+
+        await tester.enterText(
+          find.byType(OnscreenKeyboardTextFormField),
+          '',
+        );
+        await tester.pumpAndSettle();
+        expect(state.errorText, errorText);
+        expect(state.validate(), false);
+      },
+    );
   });
 }

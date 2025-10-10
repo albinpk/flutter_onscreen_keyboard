@@ -30,6 +30,7 @@ class OnscreenKeyboardTextFormField extends StatefulWidget {
   /// Creates a new [OnscreenKeyboardTextFormField] widget.
   const OnscreenKeyboardTextFormField({
     super.key,
+    this.formFieldKey,
     this.enableOnscreenKeyboard = true,
     this.groupId = EditableText,
     this.controller,
@@ -117,6 +118,13 @@ class OnscreenKeyboardTextFormField extends StatefulWidget {
     this.canRequestFocus = true,
     this.hintLocales,
   });
+
+  /// This key is used to identify the form field when it is attached to the
+  /// onscreen keyboard.
+  ///
+  /// If you want to access the form field from the onscreen keyboard, you can
+  /// use this key to get the [FormFieldState] of the form field.
+  final Key? formFieldKey;
 
   /// Enables or disables the automatic onscreen keyboard behavior.
   ///
@@ -767,6 +775,7 @@ class _OnscreenKeyboardTextFormFieldState
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      key: widget.formFieldKey,
       groupId: widget.groupId,
       controller: _effectiveController,
       focusNode: _effectiveFocusNode,

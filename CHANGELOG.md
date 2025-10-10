@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-10-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.4.1`](#flutter_onscreen_keyboard---v041)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.4.1`
+
+ - **FIX**: update sdk and dependencies. ([3da71fca](https://github.com/albinpk/flutter_onscreen_keyboard/commit/3da71fca135e7a2963298df9ea12101ce5ff6a9a))
+ - **FEAT**: add `formFieldKey` to the `OnscreenKeyboardTextFormField` widget ([#23](https://github.com/albinpk/flutter_onscreen_keyboard/issues/23)). ([50c42e45](https://github.com/albinpk/flutter_onscreen_keyboard/commit/50c42e450a701fbab717732dd57a07eecfa11b95))
+
+
 ## 2025-09-15
 
 ### Changes

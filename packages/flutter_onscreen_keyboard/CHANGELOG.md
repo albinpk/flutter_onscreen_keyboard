@@ -1,3 +1,8 @@
+## 0.4.1
+
+ - **FIX**: update sdk and dependencies. ([3da71fca](https://github.com/albinpk/flutter_onscreen_keyboard/commit/3da71fca135e7a2963298df9ea12101ce5ff6a9a))
+ - **FEAT**: add `formFieldKey` to the `OnscreenKeyboardTextFormField` widget ([#23](https://github.com/albinpk/flutter_onscreen_keyboard/issues/23)). ([50c42e45](https://github.com/albinpk/flutter_onscreen_keyboard/commit/50c42e450a701fbab717732dd57a07eecfa11b95))
+
 ## 0.4.0+1
 
  - **FIX**: TextInputFormatter is not applied to the edits of the onscreen_keyboard and onChanged is not triggered on changes thorugh the onscreen_keyboard ([#22](https://github.com/albinpk/flutter_onscreen_keyboard/issues/22)). ([9ea27c1d](https://github.com/albinpk/flutter_onscreen_keyboard/commit/9ea27c1ddf9dd93305fff1818ca1abd5995a37a0))

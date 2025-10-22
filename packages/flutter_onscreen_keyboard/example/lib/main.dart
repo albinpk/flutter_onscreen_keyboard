@@ -7,8 +7,21 @@ void main() {
   runApp(const App());
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  KeyboardLayout _selectedLayout = const MobileKeyboardLayout();
+
+  void _updateLayout(KeyboardLayout layout) {
+    setState(() {
+      _selectedLayout = layout;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +29,7 @@ class App extends StatelessWidget {
       // use OnscreenKeyboard.builder on MaterialApp.builder
       builder: OnscreenKeyboard.builder(
         width: (context) => MediaQuery.sizeOf(context).width / 2,
+        layout: (context) => _selectedLayout,
         // ...more options
       ),
 
@@ -28,7 +42,7 @@ class App extends StatelessWidget {
       //   // wrap with OnscreenKeyboard
       //   return OnscreenKeyboard(child: child!);
       // },
-      home: const HomeScreen(),
+      home: HomeScreen(onLayoutChange: _updateLayout),
       theme: ThemeData(
         inputDecorationTheme: InputDecorationTheme(
           border: const OutlineInputBorder(),
@@ -45,7 +59,9 @@ class App extends StatelessWidget {
 }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.onLayoutChange});
+
+  final void Function(KeyboardLayout layout) onLayoutChange;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -55,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late final keyboard = OnscreenKeyboard.of(context);
 
   final _formFieldKey = GlobalKey<FormFieldState<String>>();
+  String _selectedLanguage = 'English';
 
   @override
   void initState() {
@@ -78,6 +95,20 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _changeKeyboardLanguage(String language) {
+    setState(() {
+      _selectedLanguage = language;
+    });
+
+    final KeyboardLayout layout = switch (language) {
+      'Russian' => const RussianMobileKeyboardLayout(),
+      'Kazakh' => const KazakhMobileKeyboardLayout(),
+      _ => const MobileKeyboardLayout(), // English
+    };
+
+    widget.onLayoutChange(layout);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,6 +121,55 @@ class _HomeScreenState extends State<HomeScreen> {
                 spacing: 20,
                 children: [
                   const SizedBox(height: 10),
+
+                  // Language selector
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Keyboard Language',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          SegmentedButton<String>(
+                            segments: const [
+                              ButtonSegment(
+                                value: 'English',
+                                label: Text('EN'),
+                              ),
+                              ButtonSegment(
+                                value: 'Russian',
+                                label: Text('RU'),
+                              ),
+                              ButtonSegment(
+                                value: 'Kazakh',
+                                label: Text('KZ'),
+                              ),
+                            ],
+                            selected: {_selectedLanguage},
+                            onSelectionChanged: (Set<String> newSelection) {
+                              _changeKeyboardLanguage(newSelection.first);
+                            },
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Current: $_selectedLanguage',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
                   TextButton(
                     onPressed: () {
                       // open the keyboard from anywhere using

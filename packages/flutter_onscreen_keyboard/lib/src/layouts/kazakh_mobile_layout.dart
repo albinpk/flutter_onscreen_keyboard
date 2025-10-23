@@ -7,10 +7,10 @@ import 'package:flutter_onscreen_keyboard/src/utils/extensions.dart';
 /// with Kazakh keyboard layout.
 ///
 /// This layout features a compact design with support for multiple input modes,
-/// including alphabets (with 9 additional Kazakh letters: ә, і, ң, ғ, ү, ұ, қ, ө, һ)
-/// and symbols. It handles dynamic layout switching
-/// (e.g., switching between letters and symbols) using a
-/// `mode_switch` action key.
+/// including alphabets (with 9 additional Kazakh letters: ә, і, ң, ғ, ү, ұ, қ, ө, һ
+/// accessible via Shift on keys 1-9) and symbols.
+/// It handles dynamic layout switching (e.g., switching between letters and symbols)
+/// using a `mode_switch` action key.
 class KazakhMobileKeyboardLayout extends KeyboardLayout {
   /// Creates an instance of [KazakhMobileKeyboardLayout].
   const KazakhMobileKeyboardLayout();
@@ -44,18 +44,19 @@ class KazakhMobileKeyboardLayout extends KeyboardLayout {
   }
 
   /// Default alphabetic keyboard layout with Kazakh letters.
-  /// Includes standard ЙЦУКЕН layout plus 9 additional Kazakh letters.
+  /// Kazakh-specific letters (ә, і, ң, ғ, ү, ұ, қ, ө, һ) are accessible
+  /// via Shift on the number row (keys 1-9).
   List<KeyboardRow> get _alphabetsMode => [
     _buildRowWithSecondary([
-      ('1', '!'),
-      ('2', '"'),
-      ('3', '№'),
-      ('4', ';'),
-      ('5', '%'),
-      ('6', ':'),
-      ('7', '?'),
-      ('8', '*'),
-      ('9', '('),
+      ('1', 'ә'),
+      ('2', 'і'),
+      ('3', 'ң'),
+      ('4', 'ғ'),
+      ('5', 'ү'),
+      ('6', 'ұ'),
+      ('7', 'қ'),
+      ('8', 'ө'),
+      ('9', 'һ'),
       ('0', ')'),
     ]),
 
@@ -96,13 +97,6 @@ class KazakhMobileKeyboardLayout extends KeyboardLayout {
       ],
     ),
 
-    // Additional row with Kazakh-specific letters
-    KeyboardRow(
-      leading: const Expanded(flex: 10, child: SizedBox.shrink()),
-      keys: ['ә', 'і', 'ң', 'ғ', 'ү', 'ұ', 'қ', 'ө', 'һ'].map(_buildKey).toList(),
-      trailing: const Expanded(flex: 10, child: SizedBox.shrink()),
-    ),
-
     KeyboardRow(
       keys: [
         OnscreenKeyboardKey.action(
@@ -111,11 +105,15 @@ class KazakhMobileKeyboardLayout extends KeyboardLayout {
           onTap: (context) => context.controller.switchMode(),
           flex: 30,
         ),
-        const OnscreenKeyboardKey.text(primary: '/'),
+        const OnscreenKeyboardKey.action(
+          name: ActionKeyType.language,
+          child: Icon(Icons.language_rounded),
+          flex: 25,
+        ),
         const OnscreenKeyboardKey.text(
           primary: ' ',
           child: Icon(Icons.space_bar_rounded),
-          flex: 20 * 5,
+          flex: 20 * 4,
         ),
         const OnscreenKeyboardKey.text(primary: '.'),
         const OnscreenKeyboardKey.action(
@@ -189,11 +187,15 @@ class KazakhMobileKeyboardLayout extends KeyboardLayout {
           onTap: (context) => context.controller.switchMode(),
           flex: 30,
         ),
-        const OnscreenKeyboardKey.text(primary: ',', secondary: '<'),
+        const OnscreenKeyboardKey.action(
+          name: ActionKeyType.language,
+          child: Icon(Icons.language_rounded),
+          flex: 25,
+        ),
         const OnscreenKeyboardKey.text(
           primary: ' ',
           child: Icon(Icons.space_bar_rounded),
-          flex: 20 * 5,
+          flex: 20 * 4,
         ),
         const OnscreenKeyboardKey.text(primary: '.', secondary: '>'),
         const OnscreenKeyboardKey.action(
@@ -232,7 +234,11 @@ class KazakhMobileKeyboardLayout extends KeyboardLayout {
           child: const Icon(Icons.swap_horiz_rounded),
           onTap: (context) => context.controller.switchMode(),
         ),
-        ...['🌹', '🎂', '🤯', '🥺', '💀', '💩', '🫶', '😈'].map(_buildKey),
+        const OnscreenKeyboardKey.action(
+          name: ActionKeyType.language,
+          child: Icon(Icons.language_rounded),
+        ),
+        ...['🌹', '🎂', '🤯', '🥺', '💀', '💩', '🫶'].map(_buildKey),
         const OnscreenKeyboardKey.action(
           name: ActionKeyType.enter,
           child: Icon(Icons.keyboard_return_rounded),

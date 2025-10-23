@@ -99,11 +99,15 @@ class MobileKeyboardLayout extends KeyboardLayout {
           onTap: (context) => context.controller.switchMode(),
           flex: 30,
         ),
-        const OnscreenKeyboardKey.text(primary: '/'),
+        const OnscreenKeyboardKey.action(
+          name: ActionKeyType.language,
+          child: Icon(Icons.language_rounded),
+          flex: 25,
+        ),
         const OnscreenKeyboardKey.text(
           primary: ' ',
           child: Icon(Icons.space_bar_rounded),
-          flex: 20 * 5,
+          flex: 20 * 4,
         ),
         const OnscreenKeyboardKey.text(primary: '.'),
         const OnscreenKeyboardKey.action(
@@ -177,11 +181,15 @@ class MobileKeyboardLayout extends KeyboardLayout {
           onTap: (context) => context.controller.switchMode(),
           flex: 30,
         ),
-        const OnscreenKeyboardKey.text(primary: ',', secondary: '<'),
+        const OnscreenKeyboardKey.action(
+          name: ActionKeyType.language,
+          child: Icon(Icons.language_rounded),
+          flex: 25,
+        ),
         const OnscreenKeyboardKey.text(
           primary: ' ',
           child: Icon(Icons.space_bar_rounded),
-          flex: 20 * 5,
+          flex: 20 * 4,
         ),
         const OnscreenKeyboardKey.text(primary: '.', secondary: '>'),
         const OnscreenKeyboardKey.action(
@@ -220,7 +228,11 @@ class MobileKeyboardLayout extends KeyboardLayout {
           child: const Icon(Icons.swap_horiz_rounded),
           onTap: (context) => context.controller.switchMode(),
         ),
-        ...['🌹', '🎂', '🤯', '🥺', '💀', '💩', '🫶', '😈'].map(_buildKey),
+        const OnscreenKeyboardKey.action(
+          name: ActionKeyType.language,
+          child: Icon(Icons.language_rounded),
+        ),
+        ...['🌹', '🎂', '🤯', '🥺', '💀', '💩', '🫶'].map(_buildKey),
         const OnscreenKeyboardKey.action(
           name: ActionKeyType.enter,
           child: Icon(Icons.keyboard_return_rounded),

@@ -1,11 +1,15 @@
 import 'dart:developer';
+import 'dart:io' show Platform;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 
 void main() {
   runApp(const App());
 }
+
+enum KeyboardLanguage { english, russian, kazakh }
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -15,11 +19,37 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  KeyboardLayout _selectedLayout = const MobileKeyboardLayout();
+  KeyboardLanguage _currentLanguage = KeyboardLanguage.english;
 
-  void _updateLayout(KeyboardLayout layout) {
+  // Determine if we're on desktop or mobile
+  bool get _isDesktop {
+    if (kIsWeb) return false;
+    return Platform.isMacOS || Platform.isWindows || Platform.isLinux;
+  }
+
+  KeyboardLayout _getLayout() {
+    if (_isDesktop) {
+      return switch (_currentLanguage) {
+        KeyboardLanguage.english => const DesktopEnglishKeyboardLayout(),
+        KeyboardLanguage.russian => const DesktopRussianKeyboardLayout(),
+        KeyboardLanguage.kazakh => const DesktopKazakhKeyboardLayout(),
+      };
+    } else {
+      return switch (_currentLanguage) {
+        KeyboardLanguage.english => const MobileKeyboardLayout(),
+        KeyboardLanguage.russian => const RussianMobileKeyboardLayout(),
+        KeyboardLanguage.kazakh => const KazakhMobileKeyboardLayout(),
+      };
+    }
+  }
+
+  void _switchLanguage() {
     setState(() {
-      _selectedLayout = layout;
+      _currentLanguage = switch (_currentLanguage) {
+        KeyboardLanguage.english => KeyboardLanguage.russian,
+        KeyboardLanguage.russian => KeyboardLanguage.kazakh,
+        KeyboardLanguage.kazakh => KeyboardLanguage.english,
+      };
     });
   }
 
@@ -28,8 +58,9 @@ class _AppState extends State<App> {
     return MaterialApp(
       // use OnscreenKeyboard.builder on MaterialApp.builder
       builder: OnscreenKeyboard.builder(
+        key: ValueKey(_currentLanguage), // Force rebuild on language change
         width: (context) => MediaQuery.sizeOf(context).width / 2,
-        layout: (context) => _selectedLayout,
+        layout: (context) => _getLayout(),
         // ...more options
       ),
 
@@ -42,7 +73,11 @@ class _AppState extends State<App> {
       //   // wrap with OnscreenKeyboard
       //   return OnscreenKeyboard(child: child!);
       // },
-      home: HomeScreen(onLayoutChange: _updateLayout),
+      home: HomeScreen(
+        currentLanguage: _currentLanguage,
+        onLanguageSwitch: _switchLanguage,
+        isDesktop: _isDesktop,
+      ),
       theme: ThemeData(
         inputDecorationTheme: InputDecorationTheme(
           border: const OutlineInputBorder(),
@@ -59,9 +94,16 @@ class _AppState extends State<App> {
 }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.onLayoutChange});
+  const HomeScreen({
+    super.key,
+    required this.currentLanguage,
+    required this.onLanguageSwitch,
+    required this.isDesktop,
+  });
 
-  final void Function(KeyboardLayout layout) onLayoutChange;
+  final KeyboardLanguage currentLanguage;
+  final VoidCallback onLanguageSwitch;
+  final bool isDesktop;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -71,7 +113,6 @@ class _HomeScreenState extends State<HomeScreen> {
   late final keyboard = OnscreenKeyboard.of(context);
 
   final _formFieldKey = GlobalKey<FormFieldState<String>>();
-  String _selectedLanguage = 'English';
 
   @override
   void initState() {
@@ -92,21 +133,27 @@ class _HomeScreenState extends State<HomeScreen> {
         log('key: "$primary"');
       case ActionKey(:final name): // a action key: "shift", "backspace", etc.
         log('action: $name');
+        // Handle language switch
+        if (name == ActionKeyType.language) {
+          widget.onLanguageSwitch();
+        }
     }
   }
 
-  void _changeKeyboardLanguage(String language) {
-    setState(() {
-      _selectedLanguage = language;
-    });
-
-    final KeyboardLayout layout = switch (language) {
-      'Russian' => const RussianMobileKeyboardLayout(),
-      'Kazakh' => const KazakhMobileKeyboardLayout(),
-      _ => const MobileKeyboardLayout(), // English
+  String get _languageName {
+    return switch (widget.currentLanguage) {
+      KeyboardLanguage.english => 'English',
+      KeyboardLanguage.russian => 'Russian (Русский)',
+      KeyboardLanguage.kazakh => 'Kazakh (Қазақ)',
     };
+  }
 
-    widget.onLayoutChange(layout);
+  String get _languageEmoji {
+    return switch (widget.currentLanguage) {
+      KeyboardLanguage.english => '🇬🇧',
+      KeyboardLanguage.russian => '🇷🇺',
+      KeyboardLanguage.kazakh => '🇰🇿',
+    };
   }
 
   @override
@@ -122,48 +169,72 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   const SizedBox(height: 10),
 
-                  // Language selector
+                  // Language indicator
                   Card(
+                    color: Theme.of(context).colorScheme.primaryContainer,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Keyboard Language',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          SegmentedButton<String>(
-                            segments: const [
-                              ButtonSegment(
-                                value: 'English',
-                                label: Text('EN'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                _languageEmoji,
+                                style: const TextStyle(fontSize: 32),
                               ),
-                              ButtonSegment(
-                                value: 'Russian',
-                                label: Text('RU'),
-                              ),
-                              ButtonSegment(
-                                value: 'Kazakh',
-                                label: Text('KZ'),
+                              const SizedBox(width: 12),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Current Language',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimaryContainer,
+                                        ),
+                                  ),
+                                  Text(
+                                    _languageName,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimaryContainer,
+                                        ),
+                                  ),
+                                ],
                               ),
                             ],
-                            selected: {_selectedLanguage},
-                            onSelectionChanged: (Set<String> newSelection) {
-                              _changeKeyboardLanguage(newSelection.first);
-                            },
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Current: $_selectedLanguage',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
+                            widget.isDesktop ? 'Desktop Layout' : 'Mobile Layout',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                          const SizedBox(height: 8),
+                          const Divider(),
+                          const SizedBox(height: 4),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.language_rounded,
+                                size: 16,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                'Click 🌐 on keyboard to switch',
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
                           ),
                         ],
                       ),

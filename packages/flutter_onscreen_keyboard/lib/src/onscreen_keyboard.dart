@@ -426,18 +426,28 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   void didUpdateWidget(OnscreenKeyboard oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Check if layout changed
+    // Check if layout changed - compare by type AND instance
+    final oldLayout = oldWidget.layout ?? _getDefaultLayout();
     final newLayout = widget.layout ?? _getDefaultLayout();
-    if (oldWidget.layout.runtimeType != widget.layout.runtimeType ||
-        _layout.runtimeType != newLayout.runtimeType) {
-      // Layout changed - update and reset mode
+
+    // Debug prints to see what's being compared
+    print('didUpdateWidget: ${oldLayout.runtimeType} → ${newLayout.runtimeType}');
+    print('Are they different? ${oldLayout.runtimeType != newLayout.runtimeType}');
+    print('Old layout: $oldLayout');
+    print('New layout: $newLayout');
+
+    // Compare runtimeType (class) to detect language change
+    if (oldLayout.runtimeType != newLayout.runtimeType) {
+      print('Layout changed! Updating keyboard...');
       if (mounted && !_isDisposed) {
         setState(() {
           _layout = newLayout;
           _mode = _layout.modes.keys.first;
-          _pressedActionKeys.clear(); // Clear any pressed keys
+          _pressedActionKeys.clear();
         });
       }
+    } else {
+      print('Layout NOT changed (same runtimeType)');
     }
   }
 

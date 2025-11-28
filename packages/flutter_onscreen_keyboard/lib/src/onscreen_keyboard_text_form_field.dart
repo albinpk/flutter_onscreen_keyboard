@@ -117,7 +117,10 @@ class OnscreenKeyboardTextFormField extends StatefulWidget {
         EditableText.defaultStylusHandwritingEnabled,
     this.canRequestFocus = true,
     this.hintLocales,
-  });
+  }) : assert(
+         initialValue == null || controller == null,
+         'You should not provide both an initialValue and a controller',
+       );
 
   /// This key is used to identify the form field when it is attached to the
   /// onscreen keyboard.
@@ -719,7 +722,8 @@ class _OnscreenKeyboardTextFormFieldState
     implements OnscreenKeyboardFieldState {
   /// The [TextEditingController] for the text field.
   TextEditingController get _effectiveController =>
-      widget.controller ?? (_controller ??= TextEditingController());
+      widget.controller ??
+      (_controller ??= TextEditingController(text: widget.initialValue));
   TextEditingController? _controller;
 
   /// The [FocusNode] for the text field.
@@ -779,7 +783,6 @@ class _OnscreenKeyboardTextFormFieldState
       groupId: widget.groupId,
       controller: _effectiveController,
       focusNode: _effectiveFocusNode,
-      initialValue: widget.initialValue,
       forceErrorText: widget.forceErrorText,
       decoration: widget.decoration,
       // prevent the keyboard from opening

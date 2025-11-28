@@ -1,1 +1,3 @@
-packages/flutter_onscreen_keyboard/.fvmrc
+{
+  "flutter": "3.38.3"
+}

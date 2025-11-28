@@ -1,3 +1,8 @@
+## 0.4.1+1
+
+ - **FIX**: update dependencies. ([e050f326](https://github.com/albinpk/flutter_onscreen_keyboard/commit/e050f3269175e7cdf58862a6ec24aad6e44c06f1))
+ - **FIX**: handle `initialValue` in `OnscreenKeyboardTextFormField` ([#26](https://github.com/albinpk/flutter_onscreen_keyboard/issues/26)). ([9123884e](https://github.com/albinpk/flutter_onscreen_keyboard/commit/9123884e71888ab9ea0107b21e472e4ba985d350))
+
 ## 0.4.1
 
  - **FIX**: update sdk and dependencies. ([3da71fca](https://github.com/albinpk/flutter_onscreen_keyboard/commit/3da71fca135e7a2963298df9ea12101ce5ff6a9a))

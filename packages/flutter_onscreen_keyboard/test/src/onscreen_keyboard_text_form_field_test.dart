@@ -161,5 +161,46 @@ void main() {
         expect(state.validate(), false);
       },
     );
+
+    test(
+      'should throw assertion error if '
+      'initialValue and controller are provided',
+      () {
+        expect(
+          () => OnscreenKeyboardTextFormField(
+            initialValue: 'initial',
+            controller: TextEditingController(),
+          ),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is AssertionError &&
+                  e.message ==
+                      // ignore: lines_longer_than_80_chars
+                      'Should not provide both an initialValue and a controller',
+            ),
+          ),
+        );
+      },
+    );
+
+    testWidgets(
+      'initialValue in OnscreenKeyboardTextFormField',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            builder: OnscreenKeyboard.builder(width: (_) => 200),
+            home: const Scaffold(
+              body: OnscreenKeyboardTextFormField(
+                initialValue: 'initial value',
+              ),
+            ),
+          ),
+        );
+
+        await tester.pumpAndSettle();
+        expect(find.text('initial value'), findsOneWidget);
+      },
+    );
   });
 }

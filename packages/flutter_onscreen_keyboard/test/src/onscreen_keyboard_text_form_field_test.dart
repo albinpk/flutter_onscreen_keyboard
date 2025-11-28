@@ -163,7 +163,8 @@ void main() {
     );
 
     test(
-      'should throw assertion error if initialValue and controller are provided',
+      'should throw assertion error if '
+      'initialValue and controller are provided',
       () {
         expect(
           () => OnscreenKeyboardTextFormField(
@@ -175,7 +176,8 @@ void main() {
               (e) =>
                   e is AssertionError &&
                   e.message ==
-                      'You should not provide both an initialValue and a controller',
+                      // ignore: lines_longer_than_80_chars
+                      'Should not provide both an initialValue and a controller',
             ),
           ),
         );

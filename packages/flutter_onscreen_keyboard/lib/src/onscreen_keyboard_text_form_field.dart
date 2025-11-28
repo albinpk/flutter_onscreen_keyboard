@@ -119,7 +119,7 @@ class OnscreenKeyboardTextFormField extends StatefulWidget {
     this.hintLocales,
   }) : assert(
          initialValue == null || controller == null,
-         'You should not provide both an initialValue and a controller',
+         'Should not provide both an initialValue and a controller',
        );
 
   /// This key is used to identify the form field when it is attached to the

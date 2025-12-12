@@ -7,6 +7,7 @@ environment:
 
 workspace:
   - packages/flutter_onscreen_keyboard
+  - packages/flutter_onscreen_keyboard/example
 
 dev_dependencies:
   melos: ^7.0.0

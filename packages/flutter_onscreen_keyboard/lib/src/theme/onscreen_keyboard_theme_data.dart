@@ -21,6 +21,7 @@ class OnscreenKeyboardThemeData {
     this.textKeyThemeData = const TextKeyThemeData(),
     this.actionKeyThemeData = const ActionKeyThemeData(),
     this.controlBarColor,
+    this.useSafeArea,
   });
 
   /// The background color of the keyboard.
@@ -53,6 +54,9 @@ class OnscreenKeyboardThemeData {
   /// The background color of the control bar.
   final Color? controlBarColor;
 
+  /// Whether to wrap the keyboard in a [SafeArea] widget. Defaults to `true`.
+  final bool? useSafeArea;
+
   /// Copies the current [OnscreenKeyboardThemeData] with the provided changes.
   OnscreenKeyboardThemeData copyWith({
     Color? color,
@@ -65,6 +69,7 @@ class OnscreenKeyboardThemeData {
     TextKeyThemeData? textKeyThemeData,
     ActionKeyThemeData? actionKeyThemeData,
     Color? controlBarColor,
+    bool? useSafeArea,
   }) {
     return OnscreenKeyboardThemeData(
       color: color ?? this.color,
@@ -77,6 +82,7 @@ class OnscreenKeyboardThemeData {
       textKeyThemeData: textKeyThemeData ?? this.textKeyThemeData,
       actionKeyThemeData: actionKeyThemeData ?? this.actionKeyThemeData,
       controlBarColor: controlBarColor ?? this.controlBarColor,
+      useSafeArea: useSafeArea ?? this.useSafeArea,
     );
   }
 

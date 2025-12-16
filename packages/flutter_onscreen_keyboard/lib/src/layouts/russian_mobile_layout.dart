@@ -3,15 +3,16 @@ import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 import 'package:flutter_onscreen_keyboard/src/constants/action_key_type.dart';
 import 'package:flutter_onscreen_keyboard/src/utils/extensions.dart';
 
-/// A predefined [KeyboardLayout] implementation optimized for mobile devices.
+/// A predefined [KeyboardLayout] implementation optimized for mobile devices
+/// with Russian (ЙЦУКЕН) keyboard layout.
 ///
 /// This layout features a compact design with support for multiple input modes,
 /// including alphabets and symbols. It handles dynamic layout switching
 /// (e.g., switching between letters and symbols) using a
 /// `mode_switch` action key.
-class MobileKeyboardLayout extends KeyboardLayout {
-  /// Creates an instance of [MobileKeyboardLayout].
-  const MobileKeyboardLayout();
+class RussianMobileKeyboardLayout extends KeyboardLayout {
+  /// Creates an instance of [RussianMobileKeyboardLayout].
+  const RussianMobileKeyboardLayout();
 
   @override
   double get aspectRatio => 4 / 3;
@@ -41,35 +42,37 @@ class MobileKeyboardLayout extends KeyboardLayout {
     };
   }
 
-  /// Default alphabetic keyboard layout with support for symbol alternates.
+  /// Default alphabetic keyboard layout with Russian ЙЦУКЕН layout.
   List<KeyboardRow> get _alphabetsMode => [
     _buildRowWithSecondary([
       ('1', '!'),
-      ('2', '@'),
-      ('3', '#'),
-      ('4', r'$'),
+      ('2', '"'),
+      ('3', '№'),
+      ('4', ';'),
       ('5', '%'),
-      ('6', '^'),
-      ('7', '&'),
+      ('6', ':'),
+      ('7', '?'),
       ('8', '*'),
       ('9', '('),
       ('0', ')'),
     ]),
 
-    _buildRow(['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']),
+    _buildRow(['й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ']),
 
     KeyboardRow(
       leading: const Expanded(flex: 10, child: SizedBox.shrink()),
       keys: [
-        'a',
-        's',
-        'd',
-        'f',
-        'g',
-        'h',
-        'j',
-        'k',
-        'l',
+        'ф',
+        'ы',
+        'в',
+        'а',
+        'п',
+        'р',
+        'о',
+        'л',
+        'д',
+        'ж',
+        'э',
       ].map(_buildKey).toList(),
       trailing: const Expanded(flex: 10, child: SizedBox.shrink()),
     ),
@@ -82,7 +85,7 @@ class MobileKeyboardLayout extends KeyboardLayout {
           flex: 30,
           canHold: true,
         ),
-        ...['z', 'x', 'c', 'v', 'b', 'n', 'm'].map(_buildKey),
+        ...['я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю'].map(_buildKey),
         const OnscreenKeyboardKey.action(
           name: ActionKeyType.backspace,
           child: Icon(Icons.backspace_outlined),

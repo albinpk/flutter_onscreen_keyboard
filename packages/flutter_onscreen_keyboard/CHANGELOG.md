@@ -1,3 +1,7 @@
+## 0.4.2+1
+
+ - **FIX**: upgrade sdk and dependencies. ([e3534cae](https://github.com/albinpk/flutter_onscreen_keyboard/commit/e3534caed3fa087a7e0e211eaad37188ee94e42b))
+
 ## 0.4.2
 
  - **FEAT**: add `useSafeArea` to `OnscreenKeyboardThemeData` ([#28](https://github.com/albinpk/flutter_onscreen_keyboard/issues/28)). ([dd1ea873](https://github.com/albinpk/flutter_onscreen_keyboard/commit/dd1ea873cb4c8442a1923a649815988dee619d88))

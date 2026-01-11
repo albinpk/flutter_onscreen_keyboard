@@ -1,0 +1,51 @@
+name: Publish to pub.dev
+
+on:
+    push:
+        tags:
+            - "flutter_onscreen_keyboard-v[0-9]+.[0-9]+.[0-9]+*"
+
+jobs:
+    build_and_test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+            - name: Setup Flutter SDK
+              uses: kuhnroyal/flutter-fvm-config-action/setup@v3
+            - name: Install dependencies
+              run: flutter pub get
+              working-directory: packages/flutter_onscreen_keyboard
+
+            - name: Check code format
+              run: dart format --set-exit-if-changed .
+              working-directory: packages/flutter_onscreen_keyboard
+
+            - name: Analyze
+              run: flutter analyze
+              working-directory: packages/flutter_onscreen_keyboard
+
+            - name: Flutter test
+              run: flutter test --coverage
+              working-directory: packages/flutter_onscreen_keyboard
+
+            - name: Upload coverage to codecov
+              uses: codecov/codecov-action@v4
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}
+                  working-directory: packages/flutter_onscreen_keyboard
+
+            - name: Publish - dry run
+              run: flutter pub publish --dry-run
+              working-directory: packages/flutter_onscreen_keyboard
+
+    # Publish using the reusable workflow from dart-lang.
+    publish:
+        needs: build_and_test
+        if: ${{ needs.build_and_test.result == 'success' }}
+        permissions:
+            id-token: write # Required for authentication using OIDC
+        uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+        with:
+            environment: pub.dev
+            working-directory: packages/flutter_onscreen_keyboard

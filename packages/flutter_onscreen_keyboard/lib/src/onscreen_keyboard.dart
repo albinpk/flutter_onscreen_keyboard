@@ -407,6 +407,22 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
     setState(() => _mode = modes[(i + 1) % modes.length]);
   }
 
+  @override
+  void setModeNamed(String modeName) {
+    if (_mode == modeName) return;
+
+    if (_layout.modes.containsKey(modeName)) {
+      setState(() {
+        _mode = modeName;
+      });
+    } else {
+      debugPrint(
+        "OnScreenKeyboard: Keyboard mode '$modeName' "
+        'not found on the KeyboardLayout.',
+      );
+    }
+  }
+
   final GlobalKey _keyboardKey = GlobalKey();
 
   /// Alignment of the keyboard

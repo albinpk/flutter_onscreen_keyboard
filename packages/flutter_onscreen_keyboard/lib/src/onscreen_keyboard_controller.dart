@@ -49,4 +49,9 @@ abstract interface class OnscreenKeyboardController {
   /// Calling this method switches the current mode to the next one,
   /// wrapping around to the first mode when the end is reached.
   void switchMode();
+
+  /// Sets the keyboard mode to the one specified by [modeName].
+  ///
+  /// The [modeName] must exist in the current [KeyboardLayout.modes].
+  void setModeNamed(String modeName);
 }

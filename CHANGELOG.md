@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-02-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_onscreen_keyboard` - `v0.4.3`](#flutter_onscreen_keyboard---v043)
+ - [`example` - `v0.2.0+2`](#example---v0202)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `example` - `v0.2.0+2`
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.4.3`
+
+ - **FIX**: remove unnecessary type annotation. ([adffb8ac](https://github.com/albinpk/flutter_onscreen_keyboard/commit/adffb8ac00c66952eb2871966fe9b5e09d1fdf12))
+ - **FEAT**: implementation of `setModeNamed` to specify keyboard modes ([#29](https://github.com/albinpk/flutter_onscreen_keyboard/issues/29)). ([87308d69](https://github.com/albinpk/flutter_onscreen_keyboard/commit/87308d69a53e79af5f8dfc056c2861b4dd139d39))
+
+
 ## 2026-01-11
 
 ### Changes

@@ -1,3 +1,8 @@
+## 0.4.3
+
+ - **FIX**: remove unnecessary type annotation. ([adffb8ac](https://github.com/albinpk/flutter_onscreen_keyboard/commit/adffb8ac00c66952eb2871966fe9b5e09d1fdf12))
+ - **FEAT**: implementation of `setModeNamed` to specify keyboard modes ([#29](https://github.com/albinpk/flutter_onscreen_keyboard/issues/29)). ([87308d69](https://github.com/albinpk/flutter_onscreen_keyboard/commit/87308d69a53e79af5f8dfc056c2861b4dd139d39))
+
 ## 0.4.2+1
 
  - **FIX**: upgrade sdk and dependencies. ([e3534cae](https://github.com/albinpk/flutter_onscreen_keyboard/commit/e3534caed3fa087a7e0e211eaad37188ee94e42b))

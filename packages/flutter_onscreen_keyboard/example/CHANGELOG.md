@@ -1,3 +1,7 @@
+## 0.2.0+2
+
+ - Update a dependency to the latest release.
+
 ## 0.2.0+1
 
  - **FIX**: upgrade sdk and dependencies. ([e3534cae](https://github.com/albinpk/flutter_onscreen_keyboard/commit/e3534caed3fa087a7e0e211eaad37188ee94e42b))

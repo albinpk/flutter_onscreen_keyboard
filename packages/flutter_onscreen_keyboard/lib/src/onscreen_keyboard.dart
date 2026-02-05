@@ -112,7 +112,7 @@ class OnscreenKeyboard extends StatefulWidget {
     Widget? dragHandle,
     double? aspectRatio,
     ActionsBuilder? buildControlBarActions,
-  }) => (BuildContext context, Widget? child) {
+  }) => (context, child) {
     return OnscreenKeyboard(
       theme: theme,
       layout: layout,

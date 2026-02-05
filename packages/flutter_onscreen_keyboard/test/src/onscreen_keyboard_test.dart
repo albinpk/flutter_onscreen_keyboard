@@ -177,5 +177,102 @@ void main() {
         },
       );
     });
+
+    group('layout modes', () {
+      testWidgets(
+        'switchMode()',
+        (tester) async {
+          const modes = ['a', 'b', 'c'];
+          await tester.pumpWidget(
+            MaterialApp(
+              home: const Scaffold(),
+              builder: OnscreenKeyboard.builder(
+                width: (_) => 200,
+                layout: KeyboardLayout.custom(
+                  aspectRatio: 1,
+                  modes: {
+                    for (final mode in modes)
+                      mode: KeyboardMode(
+                        rows: [
+                          KeyboardRow(
+                            keys: [
+                              OnscreenKeyboardKey.text(
+                                primary: mode.toUpperCase(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                  },
+                ),
+              ),
+            ),
+          );
+
+          final controller = OnscreenKeyboard.of(
+            tester.element(find.byType(Scaffold)),
+          )..open();
+
+          await tester.pumpAndSettle();
+
+          // Should cycle through modes
+          for (final mode in modes) {
+            expect(find.text(mode.toUpperCase()), findsOneWidget);
+            controller.switchMode();
+            await tester.pumpAndSettle();
+          }
+
+          // Should cycle back to first mode
+          expect(find.text(modes.first.toUpperCase()), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'setModeNamed()',
+        (tester) async {
+          const modes = ['a', 'b', 'c'];
+          await tester.pumpWidget(
+            MaterialApp(
+              home: const Scaffold(),
+              builder: OnscreenKeyboard.builder(
+                width: (_) => 200,
+                layout: KeyboardLayout.custom(
+                  aspectRatio: 1,
+                  modes: {
+                    for (final mode in modes)
+                      mode: KeyboardMode(
+                        rows: [
+                          KeyboardRow(
+                            keys: [
+                              OnscreenKeyboardKey.text(
+                                primary: mode.toUpperCase(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                  },
+                ),
+              ),
+            ),
+          );
+
+          final controller = OnscreenKeyboard.of(
+            tester.element(find.byType(Scaffold)),
+          )..open();
+          await tester.pumpAndSettle();
+
+          expect(find.text('A'), findsOneWidget);
+
+          controller.setModeNamed('c');
+          await tester.pumpAndSettle();
+          expect(find.text('C'), findsOneWidget);
+
+          controller.setModeNamed('a');
+          await tester.pumpAndSettle();
+          expect(find.text('A'), findsOneWidget);
+        },
+      );
+    });
   });
 }

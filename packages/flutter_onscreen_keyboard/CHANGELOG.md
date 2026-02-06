@@ -1,3 +1,7 @@
+## 0.4.3+1
+
+ - **DOCS**: add examples for custom keyboard layouts in `README.md`. ([6dc556cf](https://github.com/albinpk/flutter_onscreen_keyboard/commit/6dc556cf99374ae99e98535b033472bba6a12041))
+
 ## 0.4.3
 
  - **FIX**: remove unnecessary type annotation. ([adffb8ac](https://github.com/albinpk/flutter_onscreen_keyboard/commit/adffb8ac00c66952eb2871966fe9b5e09d1fdf12))

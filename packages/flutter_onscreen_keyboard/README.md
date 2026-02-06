@@ -65,6 +65,12 @@ dependencies:
   flutter_onscreen_keyboard: ^0.4.3
 ```
 
+Or run the command:
+
+```
+flutter pub add flutter_onscreen_keyboard
+```
+
 ---
 
 ## 🧪 Usage
@@ -274,6 +280,79 @@ final theme = OnscreenKeyboardThemeData(
     // gradient: ..,
     // padding: ..,
   ),
+);
+```
+
+### Custom Layout
+
+#### Quick Layout Using `KeyboardLayout.custom`
+
+Use this approach when you want a simple, inline layout definition without creating a new class.
+
+```dart
+const layout = KeyboardLayout.custom(
+  aspectRatio: 1,
+  modes: {
+    'alphabet': KeyboardMode(
+      rows: [
+        KeyboardRow(
+          keys: [
+            OnscreenKeyboardKey.text(primary: 'A'),
+            OnscreenKeyboardKey.text(primary: 'B'),
+          ],
+        ),
+        KeyboardRow(
+          keys: [
+            OnscreenKeyboardKey.text(primary: 'C'),
+            OnscreenKeyboardKey.text(primary: 'D'),
+          ],
+        ),
+      ],
+    ),
+  },
+);
+
+const OnscreenKeyboard(
+  layout: layout,
+  child: child,
+);
+```
+
+#### Custom Layout by Extending `KeyboardLayout`
+
+Use this approach for more complex or reusable layouts, especially when supporting multiple modes.
+
+```dart
+class MyLayout extends KeyboardLayout {
+  const MyLayout();
+
+  @override
+  double get aspectRatio => 1;
+
+  @override
+  Map<String, KeyboardMode> get modes => const {
+    'alphabet': KeyboardMode(
+      rows: [
+        KeyboardRow(
+          keys: [
+            OnscreenKeyboardKey.text(primary: 'A'),
+            OnscreenKeyboardKey.text(primary: 'B'),
+          ],
+        ),
+        KeyboardRow(
+          keys: [
+            OnscreenKeyboardKey.text(primary: 'C'),
+            OnscreenKeyboardKey.text(primary: 'D'),
+          ],
+        ),
+      ],
+    ),
+  };
+}
+
+const OnscreenKeyboard(
+  layout: MyLayout(),
+  child: child,
 );
 ```
 

@@ -1,3 +1,7 @@
+## 0.4.3+2
+
+ - **DOCS**: add `setModeNamed` usage example to `README.md`. ([b3e122f6](https://github.com/albinpk/flutter_onscreen_keyboard/commit/b3e122f6a4c707f7335491ff2d22b7b6d19381d3))
+
 ## 0.4.3+1
 
  - **DOCS**: add examples for custom keyboard layouts in `README.md`. ([6dc556cf](https://github.com/albinpk/flutter_onscreen_keyboard/commit/6dc556cf99374ae99e98535b033472bba6a12041))

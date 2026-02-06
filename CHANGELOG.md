@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_onscreen_keyboard` - `v0.4.3+2`](#flutter_onscreen_keyboard---v0432)
+
+---
+
+#### `flutter_onscreen_keyboard` - `v0.4.3+2`
+
+ - **DOCS**: add `setModeNamed` usage example to `README.md`. ([b3e122f6](https://github.com/albinpk/flutter_onscreen_keyboard/commit/b3e122f6a4c707f7335491ff2d22b7b6d19381d3))
+
+
+## 2026-02-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_onscreen_keyboard` - `v0.4.3+1`](#flutter_onscreen_keyboard---v0431)
 
 ---

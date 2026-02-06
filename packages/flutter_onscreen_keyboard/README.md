@@ -144,13 +144,25 @@ keyboardController.close(); // close the keyboard
 
 ### 🔄 Switch Keyboard Modes
 
-You can define multiple modes in your `KeyboardLayout` (e.g., "alphanumeric", "symbols") and switch between them using the controller:
+You can define multiple modes in your `KeyboardLayout` (for example: `"alphabet"`, `"symbols"`, `"emojis"`) and switch between them using the keyboard controller.
+
+#### Cycle Through Modes
 
 ```dart
 keyboardController.switchMode();
 ```
 
-The keyboard will cycle through modes in the order they are defined in your layout.
+This cycles through the available modes in the order they are defined in the layout.
+
+#### Switch to a Specific Mode
+
+```dart
+keyboardController.setModeNamed('symbols');
+```
+
+Use `setModeNamed` when you want to jump directly to a specific mode.
+
+> If the given mode name does not exist in the layout, the call is safely ignored.
 
 ---
 

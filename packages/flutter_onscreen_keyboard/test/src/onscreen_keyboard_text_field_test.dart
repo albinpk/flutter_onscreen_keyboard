@@ -113,7 +113,7 @@ void main() {
       },
     );
     testWidgets(
-      'should switch to defaultMode when focused',
+      'should switch to onscreenKeyboardMode when focused',
       (tester) async {
         await tester.pumpWidget(
           MaterialApp(
@@ -123,7 +123,7 @@ void main() {
             ),
             home: const Scaffold(
               body: OnscreenKeyboardTextField(
-                defaultMode: 'symbols',
+                onscreenKeyboardMode: 'symbols',
               ),
             ),
           ),

@@ -156,6 +156,9 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
 
   final _pressedActionKeys = <String>{};
 
+  /// Flag to track if the widget has been disposed.
+  bool _isDisposed = false;
+
   void _onKeyDown(OnscreenKeyboardKey key) {
     switch (key) {
       case TextKey():
@@ -224,7 +227,7 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   }
 
   void _handleActionKeyDown(ActionKey key) {
-    if (!key.canHold) {
+    if (!key.canHold && mounted && !_isDisposed) {
       setState(() => _pressedActionKeys.add(key.name));
     }
 
@@ -327,19 +330,31 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
 
   /// Safely call [setState] after the current frame.
   void _safeSetState(VoidCallback fn) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(fn));
+    if (mounted && !_isDisposed) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && !_isDisposed) {
+          setState(fn);
+        }
+      });
+    }
   }
 
   /// Whether the keyboard is currently visible.
   bool _visible = false;
 
   @override
-  void open() => setState(() => _visible = true);
+  void open() {
+    if (mounted && !_isDisposed) {
+      setState(() => _visible = true);
+    }
+  }
 
   @override
   void close() {
     detachTextField();
-    setState(() => _visible = false);
+    if (mounted && !_isDisposed) {
+      setState(() => _visible = false);
+    }
   }
 
   @override
@@ -393,18 +408,56 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
   };
 
   /// The resolved layout used by the keyboard.
-  late final KeyboardLayout _layout = widget.layout ?? _getDefaultLayout();
+  late KeyboardLayout _layout;
 
   /// The current active keyboard mode (e.g., "alphabetic", "symbols").
   ///
   /// This determines which layout mode from [KeyboardLayout.modes] is used.
-  late String _mode = _layout.modes.keys.first;
+  late String _mode;
+
+  @override
+  void initState() {
+    super.initState();
+    _layout = widget.layout ?? _getDefaultLayout();
+    _mode = _layout.modes.keys.first;
+  }
+
+  @override
+  void didUpdateWidget(OnscreenKeyboard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Check if layout changed - compare by type AND instance
+    final oldLayout = oldWidget.layout ?? _getDefaultLayout();
+    final newLayout = widget.layout ?? _getDefaultLayout();
+
+    // Debug prints to see what's being compared
+    print('didUpdateWidget: ${oldLayout.runtimeType} → ${newLayout.runtimeType}');
+    print('Are they different? ${oldLayout.runtimeType != newLayout.runtimeType}');
+    print('Old layout: $oldLayout');
+    print('New layout: $newLayout');
+
+    // Compare runtimeType (class) to detect language change
+    if (oldLayout.runtimeType != newLayout.runtimeType) {
+      print('Layout changed! Updating keyboard...');
+      if (mounted && !_isDisposed) {
+        setState(() {
+          _layout = newLayout;
+          _mode = _layout.modes.keys.first;
+          _pressedActionKeys.clear();
+        });
+      }
+    } else {
+      print('Layout NOT changed (same runtimeType)');
+    }
+  }
 
   @override
   void switchMode() {
     final modes = _layout.modes.keys.toList();
     final i = modes.indexOf(_mode);
-    setState(() => _mode = modes[(i + 1) % modes.length]);
+    if (mounted && !_isDisposed) {
+      setState(() => _mode = modes[(i + 1) % modes.length]);
+    }
   }
 
   @override
@@ -433,6 +486,7 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
 
   @override
   void dispose() {
+    _isDisposed = true;
     _alignListener.dispose();
     _draggingListener.dispose();
     super.dispose();

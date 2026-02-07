@@ -12,9 +12,7 @@ import 'package:flutter_onscreen_keyboard/flutter_onscreen_keyboard.dart';
 /// own layout without needing to extend this class directly.
 abstract class KeyboardLayout {
   /// Creates a keyboard layout.
-  const KeyboardLayout({
-    this.defaultMode = 'default',
-  });
+  const KeyboardLayout();
 
   /// Creates a custom keyboard layout with multiple modes.
   ///
@@ -25,7 +23,6 @@ abstract class KeyboardLayout {
   const factory KeyboardLayout.custom({
     required double aspectRatio,
     required Map<String, KeyboardMode> modes,
-    String defaultMode,
   }) = _CustomKeyboardLayout;
 
   /// {@template keyboardLayout.aspectRatio}
@@ -40,11 +37,6 @@ abstract class KeyboardLayout {
   /// Each mode (e.g., `'letters'`, `'symbols'`, `'numbers'`) defines the
   /// structure of the keyboard when that mode is active.
   Map<String, KeyboardMode> get modes;
-
-  /// The default [KeyboardMode] name for this layout.
-  ///
-  /// If not specified, it defaults to 'default'.
-  final String defaultMode;
 }
 
 /// Represents a single layout mode in the keyboard.
@@ -104,7 +96,6 @@ class _CustomKeyboardLayout extends KeyboardLayout {
   const _CustomKeyboardLayout({
     required this.aspectRatio,
     required this.modes,
-    super.defaultMode,
   });
 
   @override

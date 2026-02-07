@@ -761,7 +761,8 @@ class _OnscreenKeyboardTextFormFieldState
   void _onFocusChanged() {
     if (!widget.enableOnscreenKeyboard) return;
     if (_effectiveFocusNode.hasPrimaryFocus) {
-      final mode = widget.defaultMode ?? _keyboard.layout.defaultMode;
+      final mode =
+          widget.defaultMode ?? _keyboard.layout.modes.entries.first.key;
 
       _keyboard
         ..attachTextField(this)

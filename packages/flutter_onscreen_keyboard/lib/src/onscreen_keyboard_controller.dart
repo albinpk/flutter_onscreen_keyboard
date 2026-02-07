@@ -12,6 +12,9 @@ abstract interface class OnscreenKeyboardController {
   /// Closes the onscreen keyboard.
   void close();
 
+  /// The current layout of the onscreen keyboard.
+  KeyboardLayout get layout;
+
   /// Sets the alignment of the onscreen keyboard.
   ///
   /// [alignment] defines where the keyboard should appear in the app.

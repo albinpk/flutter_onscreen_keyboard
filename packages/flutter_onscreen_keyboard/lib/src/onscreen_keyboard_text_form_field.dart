@@ -32,6 +32,7 @@ class OnscreenKeyboardTextFormField extends StatefulWidget {
     super.key,
     this.formFieldKey,
     this.enableOnscreenKeyboard = true,
+    this.defaultMode,
     this.groupId = EditableText,
     this.controller,
     this.initialValue,
@@ -139,6 +140,13 @@ class OnscreenKeyboardTextFormField extends StatefulWidget {
   /// If set to false, this widget will function as a regular [TextFormField].
   /// Defaults to `true`.
   final bool enableOnscreenKeyboard;
+
+  /// Changes the [KeyboardMode] to the one specified on [defaultMode]
+  /// when the [OnscreenKeyboardTextFormField] is selected.
+  ///
+  /// If none is specified the keyboard will use the default mode
+  /// specified on the layout.
+  final String? defaultMode;
 
   /// {@macro flutter.widgets.editableText.groupId}
   final Object groupId;
@@ -753,8 +761,11 @@ class _OnscreenKeyboardTextFormFieldState
   void _onFocusChanged() {
     if (!widget.enableOnscreenKeyboard) return;
     if (_effectiveFocusNode.hasPrimaryFocus) {
+      final mode = widget.defaultMode ?? _keyboard.layout.defaultMode;
+
       _keyboard
         ..attachTextField(this)
+        ..setModeNamed(mode)
         ..open();
     } else {
       _keyboard.close();

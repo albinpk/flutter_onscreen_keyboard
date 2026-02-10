@@ -156,6 +156,9 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
 
   final _pressedActionKeys = <String>{};
 
+  @override
+  KeyboardLayout get layout => _layout;
+
   void _onKeyDown(OnscreenKeyboardKey key) {
     switch (key) {
       case TextKey():

@@ -202,5 +202,35 @@ void main() {
         expect(find.text('initial value'), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'should switch to onscreenKeyboardMode when focused',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            builder: OnscreenKeyboard.builder(
+              width: (_) => 200,
+              layout: const MobileKeyboardLayout(),
+            ),
+            home: const Scaffold(
+              body: OnscreenKeyboardTextFormField(
+                onscreenKeyboardMode: 'symbols',
+              ),
+            ),
+          ),
+        );
+
+        await tester.tap(find.byType(OnscreenKeyboardTextFormField));
+        await tester.pumpAndSettle();
+
+        // Check if the keyboard is in symbols mode by
+        // finding a key unique to that mode.
+        // '@' is the primary character of a key in symbols mode, but secondary
+        //  in alphabets mode.
+        expect(find.text('@'), findsOneWidget);
+        // 'q' is in the alphabets mode, so it should not be found
+        expect(find.text('q'), findsNothing);
+      },
+    );
   });
 }

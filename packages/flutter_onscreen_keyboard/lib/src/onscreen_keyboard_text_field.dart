@@ -30,6 +30,7 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   const OnscreenKeyboardTextField({
     super.key,
     this.enableOnscreenKeyboard = true,
+    this.onscreenKeyboardMode,
     this.groupId = EditableText,
     this.controller,
     this.focusNode,
@@ -121,6 +122,13 @@ class OnscreenKeyboardTextField extends StatefulWidget {
   /// If set to false, this widget will function as a regular [TextField].
   /// Defaults to `true`.
   final bool enableOnscreenKeyboard;
+
+  /// Changes the [KeyboardMode] to the one specified on [onscreenKeyboardMode]
+  /// when the [OnscreenKeyboardTextFormField] is selected.
+  ///
+  /// If none is specified the keyboard will use the first mode
+  /// specified on the layout mode list.
+  final String? onscreenKeyboardMode;
 
   /// The configuration for the magnifier of this text field.
   ///
@@ -699,8 +707,13 @@ class _OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField>
   void _onFocusChanged() {
     if (!widget.enableOnscreenKeyboard) return;
     if (_effectiveFocusNode.hasPrimaryFocus) {
+      final mode =
+          widget.onscreenKeyboardMode ??
+          _keyboard.layout.modes.entries.first.key;
+
       _keyboard
         ..attachTextField(this)
+        ..setModeNamed(mode)
         ..open();
     } else {
       _keyboard.close();

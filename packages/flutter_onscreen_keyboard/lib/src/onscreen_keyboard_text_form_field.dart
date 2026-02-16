@@ -103,8 +103,8 @@ class OnscreenKeyboardTextFormField extends StatefulWidget {
     this.undoController,
     this.onAppPrivateCommand,
     this.cursorOpacityAnimates,
-    this.selectionHeightStyle,
-    this.selectionWidthStyle,
+    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
+    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
     this.dragStartBehavior = DragStartBehavior.start,
     this.contentInsertionConfiguration,
     this.statesController,
@@ -489,12 +489,12 @@ class OnscreenKeyboardTextFormField extends StatefulWidget {
   /// Controls how tall the selection highlight boxes are computed to be.
   ///
   /// See [ui.BoxHeightStyle] for details on available styles.
-  final ui.BoxHeightStyle? selectionHeightStyle;
+  final ui.BoxHeightStyle selectionHeightStyle;
 
   /// Controls how wide the selection highlight boxes are computed to be.
   ///
   /// See [ui.BoxWidthStyle] for details on available styles.
-  final ui.BoxWidthStyle? selectionWidthStyle;
+  final ui.BoxWidthStyle selectionWidthStyle;
 
   /// The appearance of the keyboard.
   ///
@@ -846,7 +846,7 @@ class _OnscreenKeyboardTextFormFieldState
       keyboardAppearance: widget.keyboardAppearance,
       scrollPadding: widget.scrollPadding,
       enableInteractiveSelection: widget.enableInteractiveSelection,
-      selectAllOnFocus: widget.selectAllOnFocus,
+      // selectAllOnFocus: widget.selectAllOnFocus,
       selectionControls: widget.selectionControls,
       buildCounter: widget.buildCounter,
       scrollPhysics: widget.scrollPhysics,
@@ -872,7 +872,7 @@ class _OnscreenKeyboardTextFormFieldState
       scribbleEnabled: widget.scribbleEnabled,
       stylusHandwritingEnabled: widget.stylusHandwritingEnabled,
       canRequestFocus: widget.canRequestFocus,
-      hintLocales: widget.hintLocales,
+      // hintLocales: widget.hintLocales,
     );
   }
 }

@@ -811,8 +811,8 @@ class _OnscreenKeyboardTextFieldState extends State<OnscreenKeyboardTextField>
       scribbleEnabled: widget.scribbleEnabled,
       // ignore: deprecated_member_use, deprecated_member_use_from_same_package
       toolbarOptions: widget.toolbarOptions,
-      hintLocales: widget.hintLocales,
-      selectAllOnFocus: widget.selectAllOnFocus,
+      // hintLocales: widget.hintLocales,
+      // selectAllOnFocus: widget.selectAllOnFocus,
     );
   }
 }

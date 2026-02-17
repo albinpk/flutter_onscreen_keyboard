@@ -93,7 +93,7 @@ return MaterialApp(
 ```dart
 return MaterialApp(
   builder: (context, child) {
-    // your other codes
+    // your other code
     // child = ...
 
     // wrap with OnscreenKeyboard
@@ -113,7 +113,8 @@ You can place the `OnscreenKeyboardTextField` widget anywhere in your app. It wi
 @override
 Widget build(BuildContext context) {
   return const OnscreenKeyboardTextField(
-    // enableOnscreenKeyboard: false, // default to true
+    // enableOnscreenKeyboard: false,    // default to true
+    // onscreenKeyboardMode: 'your-key', // default to first mode in layout
   ),
 }
 ```

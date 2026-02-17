@@ -23,8 +23,11 @@ part of 'onscreen_keyboard.dart';
 /// );
 /// ```
 ///
-/// > Note: If [enableOnscreenKeyboard] is set to false, this widget
-/// will function as a regular [TextField].
+/// ### Onscreen Keyboard Specific Options
+///
+/// - [enableOnscreenKeyboard]: If set to false, this widget
+///   will function as a regular [TextField].
+/// - [onscreenKeyboardMode]: Initial keyboard mode.
 class OnscreenKeyboardTextField extends StatefulWidget {
   /// Creates a new [OnscreenKeyboardTextField] widget.
   const OnscreenKeyboardTextField({

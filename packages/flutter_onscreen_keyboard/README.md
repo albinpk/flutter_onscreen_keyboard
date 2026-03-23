@@ -62,7 +62,7 @@ Add the package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_onscreen_keyboard: ^0.4.4
+  flutter_onscreen_keyboard: ^0.4.5
 ```
 
 Or run the command:

@@ -1,3 +1,7 @@
+## 0.4.5
+
+ - **test**: add more tests
+
 ## 0.4.4
 
  - **FEAT**: add `onscreenKeyboardMode` to text fields for initial keyboard layout ([#30](https://github.com/albinpk/flutter_onscreen_keyboard/issues/30)). ([b7ebfd54](https://github.com/albinpk/flutter_onscreen_keyboard/commit/b7ebfd54ebea1b6dd5aa3251886ea7c13339ecf6))
